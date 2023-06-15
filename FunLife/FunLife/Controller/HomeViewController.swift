@@ -19,8 +19,10 @@ class HomeViewController: UIViewController {          //: BaseViewController
     
     // NavBar + 按鈕設置
     func setNavigation() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .add, target: self, action: nil
-        )
+        
+        let settingSButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: nil)
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        
+        navigationItem.rightBarButtonItems = [settingSButton, addButton]
     }
 }
