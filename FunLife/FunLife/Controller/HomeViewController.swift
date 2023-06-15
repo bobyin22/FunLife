@@ -13,6 +13,14 @@ class HomeViewController: UIViewController {          //: BaseViewController
         super.viewDidLoad()
         
         view.backgroundColor = .systemOrange
+        
+        setNavigation()
     }
     
+    // NavBar + 按鈕設置
+    func setNavigation() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add, target: self, action: nil
+        )
+    }
 }

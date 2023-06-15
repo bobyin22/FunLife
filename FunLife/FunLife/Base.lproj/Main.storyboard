@@ -57,7 +57,7 @@
             </objects>
             <point key="canvasLocation" x="950" y="887"/>
         </scene>
-        <!--Home View Controller-->
+        <!--加入-->
         <scene sceneID="LIk-oX-fcx">
             <objects>
                 <viewController id="HPj-pt-yee" customClass="HomeViewController" customModule="FunLife" customModuleProvider="target" sceneMemberID="viewController">
@@ -67,7 +67,7 @@
                         <viewLayoutGuide key="safeArea" id="MIf-Ua-nGF"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="NiY-mk-7Ya"/>
+                    <navigationItem key="navigationItem" title="加入" id="qqA-bb-jwV"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xEh-lt-ei5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
