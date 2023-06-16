@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class HomeViewController: UIViewController {          //: BaseViewController
 
@@ -19,7 +20,8 @@ class HomeViewController: UIViewController {          //: BaseViewController
     var label: UILabel! // 測試
     var counter = 0
     var timer: Timer?
-    
+    let soundID = SystemSoundID(kSystemSoundID_Vibrate)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray
@@ -29,6 +31,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
         setupTimer()
         setupTask()
         setupFlipLabel()
+        
     }
     
     func startTimer() {
@@ -80,10 +83,12 @@ class HomeViewController: UIViewController {          //: BaseViewController
             print("現在是正面", counter)
             stopTimer()
             alertMsg()
+            AudioServicesPlaySystemSound(soundID)
         case .faceDown:
             oriString = "FaceDown"
             print("現在是反面", counter)
             startTimer()
+            AudioServicesPlaySystemSound(soundID)
         case .portrait:
             oriString = "Portrait"
             stopTimer()
