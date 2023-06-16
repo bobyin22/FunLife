@@ -11,22 +11,81 @@ class HomeViewController: UIViewController {          //: BaseViewController
 
     let circleView = UIView()           // 圓形View
     let circleTimerLabel = UILabel()    // 計時時間Label
-    let circleDateLabel = UILabel()    // 計時時間Label
+    let circleDateLabel = UILabel()    // 計時日期Label
     let circleTaskLabel = UILabel()    // 任務Label
     var settingSButton = UIBarButtonItem()
     var addButton = UIBarButtonItem()
     
+    var label: UILabel! // 測試
+    var counter = 50
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .systemGray
-        
         setupNavigation()
         setupCircleUI()
         setupDate()
         setupTimer()
         setupTask()
+        setupFlipLabel()
         
+        check()
+    }
+    
+    func check() {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] _ in
+            circleTimerLabel.text = "\(self.counter)"
+        }
+    }
+    
+    func setupFlipLabel() {
+        label = UILabel(frame: CGRect(x: 140, y: 450, width: 200, height: 50))
+        // label.center = view.center
+        // label.textAlignment = .center
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 24)
+        view.addSubview(label)
+        
+        // 使用 NotificationCenter 監聽裝置方向變化的通知 UIDevice.orientationDidChangeNotification。
+        // 一旦收到該通知，就會調用 orientationChanged 方法
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(orientationChanged),
+                                               name: UIDevice.orientationDidChangeNotification,
+                                               object: nil)
+    }
+    
+    @objc func orientationChanged() {
+        // orientationChanged 方法中，獲取當前裝置的方向 orientation
+        let orientation = UIDevice.current.orientation
+        
+        // 目前沒有字
+        var oriString: String = ""
+        
+        switch orientation {
+        case .landscapeLeft:
+            oriString = "LandscapeLeft"
+        case .landscapeRight:
+            oriString = "LandscapeRight"
+        case .faceUp:
+            oriString = "FaceUp"
+            print("現在是正面", counter)
+            counter -= 1
+        case .faceDown:
+            oriString = "FaceDown"
+            print("現在是反面", counter)
+            counter -= 1
+        case .portrait:
+            oriString = "Portrait"
+        case .portraitUpsideDown:
+            oriString = "PortraitUpsideDown"
+        default:
+            oriString = "Unknown"
+        }
+        label.text = oriString
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
     // 建立 NavBar +按鈕 與 設定按鈕
@@ -86,13 +145,13 @@ class HomeViewController: UIViewController {          //: BaseViewController
     // 建立倒數計時器Label
     func setupTimer() {
         view.addSubview(circleTimerLabel)
-        circleTimerLabel.text = "00:00:00"
+        circleTimerLabel.text = "\(counter)"
         circleTimerLabel.font = UIFont(name: "Helvetica", size: 50)
         circleTimerLabel.backgroundColor = .systemRed
         circleTimerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             circleTimerLabel.topAnchor.constraint(equalTo: circleDateLabel.bottomAnchor, constant: 10),
-            circleTimerLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -95)
+            circleTimerLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -35)
         ])
     }
     
