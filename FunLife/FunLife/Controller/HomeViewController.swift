@@ -17,7 +17,8 @@ class HomeViewController: UIViewController {          //: BaseViewController
     var addButton = UIBarButtonItem()
     
     var label: UILabel! // 測試
-    var counter = 50
+    var counter = 0
+    var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,16 +29,22 @@ class HomeViewController: UIViewController {          //: BaseViewController
         setupTimer()
         setupTask()
         setupFlipLabel()
-        
-        check()
     }
     
-    func check() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [self] _ in
-            circleTimerLabel.text = "\(self.counter)"
+    func startTimer() {
+        // 開始計時器
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            self?.counter += 1
+            self?.circleTimerLabel.text = "\(self?.counter ?? 0)"
         }
     }
-    
+
+    func stopTimer() {
+        // 停止計時器
+        timer?.invalidate()
+        timer = nil
+    }
+        
     func setupFlipLabel() {
         label = UILabel(frame: CGRect(x: 140, y: 450, width: 200, height: 50))
         // label.center = view.center
@@ -64,24 +71,41 @@ class HomeViewController: UIViewController {          //: BaseViewController
         switch orientation {
         case .landscapeLeft:
             oriString = "LandscapeLeft"
+            stopTimer()
         case .landscapeRight:
             oriString = "LandscapeRight"
+            stopTimer()
         case .faceUp:
             oriString = "FaceUp"
             print("現在是正面", counter)
-            counter -= 1
+            stopTimer()
+            alertMsg()
         case .faceDown:
             oriString = "FaceDown"
             print("現在是反面", counter)
-            counter -= 1
+            startTimer()
         case .portrait:
             oriString = "Portrait"
+            stopTimer()
         case .portraitUpsideDown:
             oriString = "PortraitUpsideDown"
+            stopTimer()
         default:
             oriString = "Unknown"
+            stopTimer()
         }
         label.text = oriString
+    }
+    
+    // 提示框
+    func alertMsg () {
+        let alert = UIAlertController(title: "計時停止", message: "你翻面了，專注暫停", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"),
+                                      style: .default,
+                                      handler: { _ in
+        NSLog("The \"OK\" alert occured.")
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -151,7 +175,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
         circleTimerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             circleTimerLabel.topAnchor.constraint(equalTo: circleDateLabel.bottomAnchor, constant: 10),
-            circleTimerLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -35)
+            circleTimerLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -18)
         ])
     }
     
