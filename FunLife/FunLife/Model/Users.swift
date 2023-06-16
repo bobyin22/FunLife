@@ -14,5 +14,6 @@ import FirebaseFirestoreSwift
 
 struct Users: Codable, Identifiable {
     @DocumentID var id: String?
-    let timer: String
+    let user: String
+    var timer: String
 }

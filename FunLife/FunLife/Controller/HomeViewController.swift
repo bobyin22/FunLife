@@ -16,17 +16,17 @@ import FirebaseFirestoreSwift
 class HomeViewController: UIViewController {          //: BaseViewController
     var structArray = [Users]()
 
-    let circleView = UIView()           // 圓形View
-    let circleTimerLabel = UILabel()    // 計時時間Label
-    let circleDateLabel = UILabel()    // 計時日期Label
-    let circleTaskLabel = UILabel()    // 任務Label
-    var settingSButton = UIBarButtonItem()
-    var addButton = UIBarButtonItem()
+    let circleView = UIView()               // 圓形View
+    let circleTimerLabel = UILabel()        // 計時時間Label
+    let circleDateLabel = UILabel()         // 計時日期Label
+    let circleTaskLabel = UILabel()         // 任務Label
+    var settingSButton = UIBarButtonItem()  // 設定  按鈕
+    var addButton = UIBarButtonItem()       // 加任務 按鈕
     
-    var label: UILabel! // 測試
-    var counter = 0
-    var timer: Timer?
-    let soundID = SystemSoundID(kSystemSoundID_Vibrate)
+    var label: UILabel!                     // 測試Label
+    var counter = 0                         // 計時
+    var timer: Timer?                                       // 方便後面用timer
+    let soundID = SystemSoundID(kSystemSoundID_Vibrate)     // 聲音
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,10 +42,32 @@ class HomeViewController: UIViewController {          //: BaseViewController
 //        fetchAPI()
     }
     
+    func modifyUser(counter: Int) {
+        let db = Firestore.firestore()
+        let documentReference = db.collection("users").document("Bob")
+        documentReference.getDocument { document, error in
+            
+            guard let document,
+                  document.exists,
+                  var user = try? document.data(as: Users.self)
+            else {
+                print("XXX")
+                return
+            }
+            user.timer = "\(self.counter)"
+            do {
+                try documentReference.setData(from: user)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
     func createUser(counter: Int) {
         let db = Firestore.firestore()
         
-        let user = Users(timer: "\(counter)")
+        let user = Users(user: "bob", timer: "\(counter)")
+        // Users(timer: "\(counter)", user: "bob")
         do {
             let documentReference = try db.collection("users").addDocument(from: user)
             print("1", documentReference.documentID)
@@ -70,6 +92,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
         }
     }
     
+    // 開始計時
     func startTimer() {
         // 開始計時器
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
@@ -79,12 +102,14 @@ class HomeViewController: UIViewController {          //: BaseViewController
         }
     }
 
+    // 停止計時
     func stopTimer() {
         // 停止計時器
         timer?.invalidate()
         timer = nil
     }
-        
+    
+    // 顯示目前翻面的Label
     func setupFlipLabel() {
         label = UILabel(frame: CGRect(x: 140, y: 450, width: 200, height: 50))
         // label.center = view.center
@@ -101,6 +126,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
                                                object: nil)
     }
     
+    // 偵測目前翻面狀態
     @objc func orientationChanged() {
         // orientationChanged 方法中，獲取當前裝置的方向 orientation
         let orientation = UIDevice.current.orientation
@@ -121,7 +147,8 @@ class HomeViewController: UIViewController {          //: BaseViewController
             stopTimer()
             alertMsg()
             // AudioServicesPlaySystemSound(soundID)
-            createUser(counter: counter)
+            // createUser(counter: counter)
+            modifyUser(counter: counter)
         case .faceDown:
             oriString = "FaceDown"
             print("現在是反面", counter)
