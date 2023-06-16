@@ -6,4 +6,10 @@ target 'FunLife' do
   use_frameworks!
 
   # Pods for FunLife
+  pod 'FirebaseCore', '9.0'
+  pod 'FirebaseAuth', '9.0'
+  pod 'FirebaseFirestore', '9.0'
+  pod 'FirebaseStorage', '9.0'
+  pod 'FirebaseDatabase', '9.0'
+  pod 'FirebaseFirestoreSwift', '9.0'
 end

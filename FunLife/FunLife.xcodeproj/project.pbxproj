@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E3D8D20EE631C81AEAC6530 /* Pods_FunLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDD65060761FD46356DD5941 /* Pods_FunLife.framework */; };
 		A808A9082A39CCC300237AD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9072A39CCC300237AD7 /* AppDelegate.swift */; };
 		A808A90A2A39CCC300237AD7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9092A39CCC300237AD7 /* SceneDelegate.swift */; };
 		A808A90F2A39CCC300237AD7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A808A90D2A39CCC300237AD7 /* Main.storyboard */; };
@@ -17,9 +18,13 @@
 		A808A9282A3BCEE600237AD7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9272A3BCEE600237AD7 /* SettingViewController.swift */; };
 		A808A92A2A3BD14A00237AD7 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9292A3BD14A00237AD7 /* SettingTableViewCell.swift */; };
 		A808A92C2A3C0FDA00237AD7 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A92B2A3C0FDA00237AD7 /* AddTaskViewController.swift */; };
+		A808A9562A3C693200237AD7 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9552A3C693200237AD7 /* Users.swift */; };
+		A808A9582A3C9AFB00237AD7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A808A9572A3C9AFB00237AD7 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		54458245F1A42E52319D0FA9 /* Pods-FunLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunLife.debug.xcconfig"; path = "Target Support Files/Pods-FunLife/Pods-FunLife.debug.xcconfig"; sourceTree = "<group>"; };
+		725D3A52CF6B4BF808496703 /* Pods-FunLife.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunLife.release.xcconfig"; path = "Target Support Files/Pods-FunLife/Pods-FunLife.release.xcconfig"; sourceTree = "<group>"; };
 		A808A9042A39CCC300237AD7 /* FunLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A808A9072A39CCC300237AD7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A808A9092A39CCC300237AD7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,6 +37,9 @@
 		A808A9272A3BCEE600237AD7 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		A808A9292A3BD14A00237AD7 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		A808A92B2A3C0FDA00237AD7 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
+		A808A9552A3C693200237AD7 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		A808A9572A3C9AFB00237AD7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DDD65060761FD46356DD5941 /* Pods_FunLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,17 +47,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E3D8D20EE631C81AEAC6530 /* Pods_FunLife.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D8122D5FBA178A698CD236F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DDD65060761FD46356DD5941 /* Pods_FunLife.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A808A8FB2A39CCC300237AD7 = {
 			isa = PBXGroup;
 			children = (
 				A808A9062A39CCC300237AD7 /* FunLife */,
 				A808A9052A39CCC300237AD7 /* Products */,
+				BBBB1F696B776909A2AD1CD7 /* Pods */,
+				2D8122D5FBA178A698CD236F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,6 +92,7 @@
 				A808A9102A39CCC400237AD7 /* Assets.xcassets */,
 				A808A9122A39CCC400237AD7 /* LaunchScreen.storyboard */,
 				A808A9152A39CCC400237AD7 /* Info.plist */,
+				A808A9572A3C9AFB00237AD7 /* GoogleService-Info.plist */,
 			);
 			path = FunLife;
 			sourceTree = "<group>";
@@ -95,6 +115,7 @@
 		A808A9212A3AC31700237AD7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A808A9552A3C693200237AD7 /* Users.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -111,6 +132,15 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		BBBB1F696B776909A2AD1CD7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				54458245F1A42E52319D0FA9 /* Pods-FunLife.debug.xcconfig */,
+				725D3A52CF6B4BF808496703 /* Pods-FunLife.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -118,10 +148,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A808A9182A39CCC400237AD7 /* Build configuration list for PBXNativeTarget "FunLife" */;
 			buildPhases = (
+				22A2D547C3C10321D7107CB7 /* [CP] Check Pods Manifest.lock */,
 				A808A9002A39CCC300237AD7 /* Sources */,
 				A808A9012A39CCC300237AD7 /* Frameworks */,
 				A808A9022A39CCC300237AD7 /* Resources */,
 				A808A91C2A3AA4CC00237AD7 /* ShellScript */,
+				F09B3351C7D65BC919FDDDBE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -173,12 +205,35 @@
 				A808A9142A39CCC400237AD7 /* LaunchScreen.storyboard in Resources */,
 				A808A9112A39CCC400237AD7 /* Assets.xcassets in Resources */,
 				A808A90F2A39CCC300237AD7 /* Main.storyboard in Resources */,
+				A808A9582A3C9AFB00237AD7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		22A2D547C3C10321D7107CB7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FunLife-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		A808A91C2A3AA4CC00237AD7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -197,6 +252,23 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		F09B3351C7D65BC919FDDDBE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FunLife/Pods-FunLife-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FunLife/Pods-FunLife-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FunLife/Pods-FunLife-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -204,6 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A808A9562A3C693200237AD7 /* Users.swift in Sources */,
 				A808A92A2A3BD14A00237AD7 /* SettingTableViewCell.swift in Sources */,
 				A808A9282A3BCEE600237AD7 /* SettingViewController.swift in Sources */,
 				A808A9262A3AC38000237AD7 /* HomeViewController.swift in Sources */,
@@ -352,6 +425,7 @@
 		};
 		A808A9192A39CCC400237AD7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 54458245F1A42E52319D0FA9 /* Pods-FunLife.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -381,6 +455,7 @@
 		};
 		A808A91A2A39CCC400237AD7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 725D3A52CF6B4BF808496703 /* Pods-FunLife.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

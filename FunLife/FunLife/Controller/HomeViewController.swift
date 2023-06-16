@@ -7,8 +7,14 @@
 
 import UIKit
 import AVFoundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+
+// import FirebaseStorage
+// import FirebaseAuth
 
 class HomeViewController: UIViewController {          //: BaseViewController
+    var structArray = [Users]()
 
     let circleView = UIView()           // 圓形View
     let circleTimerLabel = UILabel()    // 計時時間Label
@@ -32,6 +38,36 @@ class HomeViewController: UIViewController {          //: BaseViewController
         setupTask()
         setupFlipLabel()
         
+        createUser()
+        fetchAPI()
+    }
+    
+    func createUser() {
+        let db = Firestore.firestore()
+        
+        let user = Users(timer: "30")
+        do {
+            let documentReference = try db.collection("users").addDocument(from: user)
+            print("1", documentReference.documentID)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func fetchAPI() {
+        // 抓取firebase的資料並顯示在畫面上
+        let db = Firestore.firestore()
+        db.collection("users").getDocuments { snapshot, error in
+            
+            guard let snapshot else { return }
+            print("snapshot", snapshot)
+            // 把所有資料傳給變數
+            let users = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)
+            }
+            
+            print("api資料是", users)
+            print("api資料數量", users.count)
+        }
     }
     
     func startTimer() {
@@ -83,7 +119,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
             print("現在是正面", counter)
             stopTimer()
             alertMsg()
-            AudioServicesPlaySystemSound(soundID)
+            // AudioServicesPlaySystemSound(soundID)
         case .faceDown:
             oriString = "FaceDown"
             print("現在是反面", counter)
