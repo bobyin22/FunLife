@@ -38,14 +38,14 @@ class HomeViewController: UIViewController {          //: BaseViewController
         setupTask()
         setupFlipLabel()
         
-        createUser()
-        fetchAPI()
+//        createUser()
+//        fetchAPI()
     }
     
-    func createUser() {
+    func createUser(counter: Int) {
         let db = Firestore.firestore()
         
-        let user = Users(timer: "30")
+        let user = Users(timer: "\(counter)")
         do {
             let documentReference = try db.collection("users").addDocument(from: user)
             print("1", documentReference.documentID)
@@ -75,6 +75,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             self?.counter += 1
             self?.circleTimerLabel.text = "\(self?.counter ?? 0)"
+            print("目前計時", self?.counter)
         }
     }
 
@@ -120,6 +121,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
             stopTimer()
             alertMsg()
             // AudioServicesPlaySystemSound(soundID)
+            createUser(counter: counter)
         case .faceDown:
             oriString = "FaceDown"
             print("現在是反面", counter)
