@@ -14,6 +14,9 @@
 		A808A9142A39CCC400237AD7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A808A9122A39CCC400237AD7 /* LaunchScreen.storyboard */; };
 		A808A9202A3AC2B200237AD7 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A91F2A3AC2B200237AD7 /* BaseViewController.swift */; };
 		A808A9262A3AC38000237AD7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9252A3AC38000237AD7 /* HomeViewController.swift */; };
+		A808A9282A3BCEE600237AD7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9272A3BCEE600237AD7 /* SettingViewController.swift */; };
+		A808A92A2A3BD14A00237AD7 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9292A3BD14A00237AD7 /* SettingTableViewCell.swift */; };
+		A808A92C2A3C0FDA00237AD7 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A92B2A3C0FDA00237AD7 /* AddTaskViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		A808A9152A39CCC400237AD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A808A91F2A3AC2B200237AD7 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		A808A9252A3AC38000237AD7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		A808A9272A3BCEE600237AD7 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		A808A9292A3BD14A00237AD7 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		A808A92B2A3C0FDA00237AD7 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +104,9 @@
 			children = (
 				A808A91E2A3AC28A00237AD7 /* Base */,
 				A808A9252A3AC38000237AD7 /* HomeViewController.swift */,
+				A808A9272A3BCEE600237AD7 /* SettingViewController.swift */,
+				A808A9292A3BD14A00237AD7 /* SettingTableViewCell.swift */,
+				A808A92B2A3C0FDA00237AD7 /* AddTaskViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -195,10 +204,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A808A92A2A3BD14A00237AD7 /* SettingTableViewCell.swift in Sources */,
+				A808A9282A3BCEE600237AD7 /* SettingViewController.swift in Sources */,
 				A808A9262A3AC38000237AD7 /* HomeViewController.swift in Sources */,
 				A808A9202A3AC2B200237AD7 /* BaseViewController.swift in Sources */,
 				A808A9082A39CCC300237AD7 /* AppDelegate.swift in Sources */,
 				A808A90A2A39CCC300237AD7 /* SceneDelegate.swift in Sources */,
+				A808A92C2A3C0FDA00237AD7 /* AddTaskViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

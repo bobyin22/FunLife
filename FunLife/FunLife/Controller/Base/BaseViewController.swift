@@ -28,9 +28,8 @@ class BaseViewController: UIViewController {
         NSLayoutConstraint.activate([
             circleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: -200),
             circleView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: -150),
-            //circle.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -75),
             circleView.heightAnchor.constraint(equalToConstant: 300),
-            circleView.widthAnchor.constraint(equalToConstant: 300),
+            circleView.widthAnchor.constraint(equalToConstant: 300)
         ])
         
         circleView.layer.borderColor = UIColor.black.cgColor

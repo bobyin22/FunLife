@@ -57,7 +57,7 @@
             </objects>
             <point key="canvasLocation" x="950" y="887"/>
         </scene>
-        <!--加入-->
+        <!--Timer-->
         <scene sceneID="LIk-oX-fcx">
             <objects>
                 <viewController id="HPj-pt-yee" customClass="HomeViewController" customModule="FunLife" customModuleProvider="target" sceneMemberID="viewController">
@@ -67,7 +67,7 @@
                         <viewLayoutGuide key="safeArea" id="MIf-Ua-nGF"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="加入" id="qqA-bb-jwV"/>
+                    <navigationItem key="navigationItem" title="Timer" id="qqA-bb-jwV"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xEh-lt-ei5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -102,24 +102,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="937" y="1758"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="5Nl-iA-nu9">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zNj-AI-bVO" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MoU-6e-QKC">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="GXt-eA-lpG"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Dg5-oR-PzX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="137" y="1758"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IYi-uJ-DYa">

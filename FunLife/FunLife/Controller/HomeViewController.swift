@@ -9,8 +9,12 @@ import UIKit
 
 class HomeViewController: UIViewController {          //: BaseViewController
 
-    let circleView = UIView()           // 圓形
-    let circleTimerLabel = UILabel()    // 計時時間
+    let circleView = UIView()           // 圓形View
+    let circleTimerLabel = UILabel()    // 計時時間Label
+    let circleDateLabel = UILabel()    // 計時時間Label
+    let circleTaskLabel = UILabel()    // 任務Label
+    var settingSButton = UIBarButtonItem()
+    var addButton = UIBarButtonItem()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,14 +23,29 @@ class HomeViewController: UIViewController {          //: BaseViewController
         
         setupNavigation()
         setupCircleUI()
+        setupDate()
         setupTimer()
+        setupTask()
+        
     }
     
-    // NavBar + 按鈕設置
+    // 建立 NavBar +按鈕 與 設定按鈕
     func setupNavigation() {
-        let settingSButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: nil)
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        settingSButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(navToSettingVC))
+        addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(navToAddTaskVC))
         navigationItem.rightBarButtonItems = [settingSButton, addButton]    // 兩個按鈕
+    }
+    
+    // 點擊Nav進入跳轉設定頁面VC
+    @objc func navToSettingVC() {
+        let settingVC = SettingViewController()
+        navigationController?.pushViewController(settingVC, animated: true)
+    }
+    
+    // 點擊Nav進入跳轉新增任務頁面VC
+    @objc func navToAddTaskVC() {
+        let addTaskVC = AddTaskViewController()
+        navigationController?.pushViewController(addTaskVC, animated: true)
     }
     
     // 建立圓形View
@@ -37,9 +56,8 @@ class HomeViewController: UIViewController {          //: BaseViewController
         NSLayoutConstraint.activate([
             circleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: -200),
             circleView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: -150),
-            //circle.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -75),
             circleView.heightAnchor.constraint(equalToConstant: 300),
-            circleView.widthAnchor.constraint(equalToConstant: 300),
+            circleView.widthAnchor.constraint(equalToConstant: 300)
         ])
         
         circleView.layer.borderColor = UIColor.black.cgColor
@@ -52,7 +70,20 @@ class HomeViewController: UIViewController {          //: BaseViewController
         circleView.layer.masksToBounds = false
     }
     
-    // 建立倒數計時器
+    // 建立日期Label
+    func setupDate() {
+        view.addSubview(circleDateLabel)
+        circleDateLabel.text = "2023.06.13.Tue"
+        circleDateLabel.font = UIFont(name: "Helvetica", size: 20)
+        circleDateLabel.backgroundColor = .systemRed
+        circleDateLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            circleDateLabel.topAnchor.constraint(equalTo: circleView.topAnchor, constant: 70),
+            circleDateLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -70)
+        ])
+    }
+    
+    // 建立倒數計時器Label
     func setupTimer() {
         view.addSubview(circleTimerLabel)
         circleTimerLabel.text = "00:00:00"
@@ -60,8 +91,21 @@ class HomeViewController: UIViewController {          //: BaseViewController
         circleTimerLabel.backgroundColor = .systemRed
         circleTimerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            circleTimerLabel.topAnchor.constraint(equalTo: circleView.topAnchor, constant: 130),
-            circleTimerLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -95),
+            circleTimerLabel.topAnchor.constraint(equalTo: circleDateLabel.bottomAnchor, constant: 10),
+            circleTimerLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -95)
+        ])
+    }
+    
+    // 建立任務Label
+    func setupTask() {
+        view.addSubview(circleTaskLabel)
+        circleTaskLabel.text = "線性代數"
+        circleTaskLabel.font = UIFont(name: "Helvetica", size: 20)
+        circleTaskLabel.backgroundColor = .systemRed
+        circleTaskLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            circleTaskLabel.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
+            circleTaskLabel.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -40)
         ])
     }
 }
