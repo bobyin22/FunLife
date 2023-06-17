@@ -27,7 +27,8 @@ class HomeViewController: UIViewController {          //: BaseViewController
     var counter = 0                         // 計時
     var timer: Timer?                                       // 方便後面用timer
     let soundID = SystemSoundID(kSystemSoundID_Vibrate)     // 聲音
-
+    let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray
@@ -43,7 +44,6 @@ class HomeViewController: UIViewController {          //: BaseViewController
     }
     
     func modifyUser(counter: Int) {
-        let db = Firestore.firestore()
         let documentReference = db.collection("users").document("Bob")
         documentReference.getDocument { document, error in
             
@@ -64,8 +64,6 @@ class HomeViewController: UIViewController {          //: BaseViewController
     }
     
     func createUser(counter: Int) {
-        let db = Firestore.firestore()
-        
         let user = Users(user: "bob", timer: "\(counter)")
         // Users(timer: "\(counter)", user: "bob")
         do {
@@ -78,9 +76,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
     
     func fetchAPI() {
         // 抓取firebase的資料並顯示在畫面上
-        let db = Firestore.firestore()
         db.collection("users").getDocuments { snapshot, error in
-            
             guard let snapshot else { return }
             print("snapshot", snapshot)
             // 把所有資料傳給變數

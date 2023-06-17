@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 class AddTaskViewController: UIViewController {
 
@@ -13,6 +15,7 @@ class AddTaskViewController: UIViewController {
     let addTaskTextField = UITextField()
     let cancelTaskButton = UIButton()
     let saveTaskButton = UIButton()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,6 +82,47 @@ class AddTaskViewController: UIViewController {
             saveTaskButton.heightAnchor.constraint(equalToConstant: 50),
             saveTaskButton.widthAnchor.constraint(equalToConstant: 150)
         ])
+        saveTaskButton.addTarget(self, action: #selector(saveTaskToFirebase), for: .touchUpInside)
     }
+    
+    @objc func saveTaskToFirebase() {
+        print("印出", addTaskTextField.text)
+        createUser()
+    }
+    
+    func createUser() {
+        let task = ["timer": "0", "user": "包伯"]
+        let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
+        
+        let bobDocumentRef = db.collection("users").document("Bob")
+        let task3CollectionRef = bobDocumentRef.collection(addTaskTextField.text ?? "沒輸入")
+        
+        task3CollectionRef.document("0617").setData(task) { error in
+            if let error = error {
+                print("Error creating task: \(error)")
+            } else {
+                print("Task created successfully")
+            }
+        }
+        
+//        db.collection("users").document("Bob").collection(addTaskTextField.text ?? "0").addDocument(data: task) { error in
+//            if let error = error {
+//                print("Error creating task: \(error)")
+//            } else {
+//                print("Task created successfully")
+//            }
+//        }
+        
+        }
+        
+//        let user = Users(user: "joy", timer: "\("XXX")")
+//        // Users(timer: "\(counter)", user: "bob")
+//        do {
+//            let documentReference = try db.collection("users").addDocument(from: user)
+//            print("1", documentReference.documentID)
+//        } catch {
+//            print(error)
+//        }
+//    }
     
 }
