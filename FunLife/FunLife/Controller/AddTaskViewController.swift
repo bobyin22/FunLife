@@ -10,12 +10,12 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class AddTaskViewController: UIViewController {
-
+    
     let addTaskLabel = UILabel()
     let addTaskTextField = UITextField()
     let cancelTaskButton = UIButton()
     let saveTaskButton = UIButton()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,24 +105,8 @@ class AddTaskViewController: UIViewController {
             }
         }
         
-//        db.collection("users").document("Bob").collection(addTaskTextField.text ?? "0").addDocument(data: task) { error in
-//            if let error = error {
-//                print("Error creating task: \(error)")
-//            } else {
-//                print("Task created successfully")
-//            }
-//        }
         
-        }
-        
-//        let user = Users(user: "joy", timer: "\("XXX")")
-//        // Users(timer: "\(counter)", user: "bob")
-//        do {
-//            let documentReference = try db.collection("users").addDocument(from: user)
-//            print("1", documentReference.documentID)
-//        } catch {
-//            print(error)
-//        }
-//    }
+    }
+    
     
 }

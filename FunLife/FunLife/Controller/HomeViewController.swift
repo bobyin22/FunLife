@@ -43,6 +43,13 @@ class HomeViewController: UIViewController {          //: BaseViewController
 //        fetchAPI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // 這裡應該要獲取Firebase 裡面添加的任務
+    }
+    
+    
     func modifyUser(counter: Int) {
         let documentReference = db.collection("users").document("Bob")
         documentReference.getDocument { document, error in
