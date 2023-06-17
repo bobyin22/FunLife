@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import IQKeyboardManager
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
