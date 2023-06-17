@@ -20,6 +20,8 @@
 		A808A92C2A3C0FDA00237AD7 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A92B2A3C0FDA00237AD7 /* AddTaskViewController.swift */; };
 		A808A9562A3C693200237AD7 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9552A3C693200237AD7 /* Users.swift */; };
 		A808A9582A3C9AFB00237AD7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A808A9572A3C9AFB00237AD7 /* GoogleService-Info.plist */; };
+		A808A95A2A3D96C000237AD7 /* DayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9592A3D96C000237AD7 /* DayViewController.swift */; };
+		A808A95C2A3D9DC900237AD7 /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A95B2A3D9DC900237AD7 /* DayTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		A808A92B2A3C0FDA00237AD7 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 		A808A9552A3C693200237AD7 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		A808A9572A3C9AFB00237AD7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A808A9592A3D96C000237AD7 /* DayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewController.swift; sourceTree = "<group>"; };
+		A808A95B2A3D9DC900237AD7 /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		DDD65060761FD46356DD5941 /* Pods_FunLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -100,6 +104,8 @@
 		A808A91D2A3AC26500237AD7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A808A9292A3BD14A00237AD7 /* SettingTableViewCell.swift */,
+				A808A95B2A3D9DC900237AD7 /* DayTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -125,8 +131,8 @@
 			children = (
 				A808A91E2A3AC28A00237AD7 /* Base */,
 				A808A9252A3AC38000237AD7 /* HomeViewController.swift */,
+				A808A9592A3D96C000237AD7 /* DayViewController.swift */,
 				A808A9272A3BCEE600237AD7 /* SettingViewController.swift */,
-				A808A9292A3BD14A00237AD7 /* SettingTableViewCell.swift */,
 				A808A92B2A3C0FDA00237AD7 /* AddTaskViewController.swift */,
 			);
 			path = Controller;
@@ -278,12 +284,14 @@
 			files = (
 				A808A9562A3C693200237AD7 /* Users.swift in Sources */,
 				A808A92A2A3BD14A00237AD7 /* SettingTableViewCell.swift in Sources */,
+				A808A95C2A3D9DC900237AD7 /* DayTableViewCell.swift in Sources */,
 				A808A9282A3BCEE600237AD7 /* SettingViewController.swift in Sources */,
 				A808A9262A3AC38000237AD7 /* HomeViewController.swift in Sources */,
 				A808A9202A3AC2B200237AD7 /* BaseViewController.swift in Sources */,
 				A808A9082A39CCC300237AD7 /* AppDelegate.swift in Sources */,
 				A808A90A2A39CCC300237AD7 /* SceneDelegate.swift in Sources */,
 				A808A92C2A3C0FDA00237AD7 /* AddTaskViewController.swift in Sources */,
+				A808A95A2A3D96C000237AD7 /* DayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

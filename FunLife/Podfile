@@ -12,4 +12,5 @@ target 'FunLife' do
   pod 'FirebaseStorage', '9.0'
   pod 'FirebaseDatabase', '9.0'
   pod 'FirebaseFirestoreSwift', '9.0'
+  pod 'FSCalendar'
 end
