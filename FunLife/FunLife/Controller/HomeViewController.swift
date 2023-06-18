@@ -29,6 +29,8 @@ class HomeViewController: UIViewController {          //: BaseViewController
     let soundID = SystemSoundID(kSystemSoundID_Vibrate)     // 聲音
     let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
     
+    let addTaskVC = AddTaskViewController()                 // 把VC變數拉出來，讓後面可以 .點
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray
@@ -41,14 +43,19 @@ class HomeViewController: UIViewController {          //: BaseViewController
         
 //        createUser()
 //        fetchAPI()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         // 這裡應該要獲取Firebase 裡面添加的任務
+        
+//        let usersCollectionRef = db.collection("Users")
+//        let bobDocRef = usersCollectionRef.document("Bob")
+//
+//        print(db.collection("users").document("Bob").collection(addTaskVC.titleTask.text ?? "0"))
+        circleTaskLabel.text = addTaskVC.titleTask.text // 每次切回主畫面，會抓到剛剛輸入的新任務
     }
-    
     
     func modifyUser(counter: Int) {
         let documentReference = db.collection("users").document("Bob")
@@ -131,6 +138,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
     
     // 偵測目前翻面狀態
     @objc func orientationChanged() {
+        
         // orientationChanged 方法中，獲取當前裝置的方向 orientation
         let orientation = UIDevice.current.orientation
         
@@ -200,7 +208,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
     
     // 點擊Nav進入跳轉新增任務頁面VC
     @objc func navToAddTaskVC() {
-        let addTaskVC = AddTaskViewController()
+        // let addTaskVC = AddTaskViewController()
         navigationController?.pushViewController(addTaskVC, animated: true)
     }
     
@@ -229,14 +237,29 @@ class HomeViewController: UIViewController {          //: BaseViewController
     // 建立日期Label
     func setupDate() {
         view.addSubview(circleDateLabel)
-        circleDateLabel.text = "2023.06.13.Tue"
         circleDateLabel.font = UIFont(name: "Helvetica", size: 20)
         circleDateLabel.backgroundColor = .systemRed
         circleDateLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             circleDateLabel.topAnchor.constraint(equalTo: circleView.topAnchor, constant: 70),
-            circleDateLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -70)
+            circleDateLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -80)
         ])
+        
+        let today = Date()
+
+        let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
+        let year = dateComponents.year!
+        let month = dateComponents.month!
+        let day = dateComponents.day!
+
+        let weekday = Calendar.current.component(.weekday, from: today)
+        let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
+
+
+        print("\(year).\(month).\(day).\(weekdayString)")
+        
+        circleDateLabel.text = "\(year).\(month).\(day).\(weekdayString)" // "2023.06.13.Tue"
+
     }
     
     // 建立倒數計時器Label

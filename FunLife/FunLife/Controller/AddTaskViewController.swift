@@ -17,6 +17,7 @@ class AddTaskViewController: UIViewController {
     let cancelTaskButton = UIButton()
     let saveTaskButton = UIButton()
     
+    var titleTask = UILabel()   // 用來接住輸入的textField
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,6 +90,8 @@ class AddTaskViewController: UIViewController {
     @objc func saveTaskToFirebase() {
         print("印出", addTaskTextField.text)
         createUser()
+        
+        titleTask.text = addTaskTextField.text  // 把輸入的TextField 給變數
     }
     
     func createUser() {
@@ -96,9 +99,23 @@ class AddTaskViewController: UIViewController {
         let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
         
         let bobDocumentRef = db.collection("users").document("Bob")
-        let task3CollectionRef = bobDocumentRef.collection(addTaskTextField.text ?? "沒輸入")
+        let nextTaskCollectionRef = bobDocumentRef.collection(addTaskTextField.text ?? "沒輸入")
         
-        task3CollectionRef.document("0617").setData(task) { error in
+        let today = Date()
+
+        let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
+        let year = dateComponents.year!
+        let month = dateComponents.month!
+        let day = dateComponents.day!
+
+        let weekday = Calendar.current.component(.weekday, from: today)
+        let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
+
+        // print("\(year).\(month).\(day).\(weekdayString)")
+        
+        // circleDateLabel.text = "\(year).\(month).\(day).\(weekdayString)" // "2023.06.13.Tue"
+        
+        nextTaskCollectionRef.document("\(month).\(day)").setData(task) { error in
             if let error = error {
                 print("Error creating task: \(error)")
             } else {
@@ -106,8 +123,5 @@ class AddTaskViewController: UIViewController {
             }
         }
         
-        
     }
-    
-    
 }
