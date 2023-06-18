@@ -101,6 +101,8 @@ class AddTaskViewController: UIViewController {
         let bobDocumentRef = db.collection("users").document("Bob")
         let nextTaskCollectionRef = bobDocumentRef.collection(addTaskTextField.text ?? "沒輸入")
         
+        
+        // 把日期功能補在這
         let today = Date()
 
         let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
@@ -122,6 +124,5 @@ class AddTaskViewController: UIViewController {
                 print("Task created successfully")
             }
         }
-        
     }
 }

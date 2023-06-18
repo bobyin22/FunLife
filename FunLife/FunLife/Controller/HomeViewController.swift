@@ -58,7 +58,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
     }
     
     func modifyUser(counter: Int) {
-        let documentReference = db.collection("users").document("Bob")
+        let documentReference = db.collection("users").document("Bob").collection("任務3").document("6.18")
         documentReference.getDocument { document, error in
             
             guard let document,
