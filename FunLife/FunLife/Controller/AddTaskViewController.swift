@@ -17,7 +17,7 @@ class AddTaskViewController: UIViewController {
     let cancelTaskButton = UIButton()
     let saveTaskButton = UIButton()
     
-    var titleTask = UILabel()   // 用來接住輸入的textField
+    var titleTaskLabel = UILabel()   // MARK: 用來接住輸入的textField
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +26,11 @@ class AddTaskViewController: UIViewController {
         setupAddTaskTextField()
         setupCancelTaskButton()
         setupSaveTaskButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        addTaskTextField.text = ""
     }
     
     func setupAddTaskLabel() {
@@ -89,20 +94,14 @@ class AddTaskViewController: UIViewController {
     
     @objc func saveTaskToFirebase() {
         print("印出", addTaskTextField.text)
-        createUser()
+        createNewTask()
         
-        titleTask.text = addTaskTextField.text  // 把輸入的TextField 給變數
+        titleTaskLabel.text = addTaskTextField.text  // 把輸入的TextField 給變數
     }
     
-    func createUser() {
-        let task = ["timer": "0", "user": "包伯"]
-        let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
+    func createNewTask() {
         
-        let bobDocumentRef = db.collection("users").document("Bob")
-        let nextTaskCollectionRef = bobDocumentRef.collection(addTaskTextField.text ?? "沒輸入")
-        
-        
-        // 把日期功能補在這
+        // MARK: 把日期功能補在這
         let today = Date()
 
         let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
@@ -112,12 +111,14 @@ class AddTaskViewController: UIViewController {
 
         let weekday = Calendar.current.component(.weekday, from: today)
         let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
-
-        // print("\(year).\(month).\(day).\(weekdayString)")
         
-        // circleDateLabel.text = "\(year).\(month).\(day).\(weekdayString)" // "2023.06.13.Tue"
+        let task = ["timer": "0", "user": "包伯"]
+        let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
         
-        nextTaskCollectionRef.document("\(month).\(day)").setData(task) { error in
+        let bobDocumentRef = db.collection("users").document("Bob")
+        let nextTaskCollectionRef = bobDocumentRef.collection("\(month).\(day)" ?? "沒輸入")
+        
+        nextTaskCollectionRef.document(addTaskTextField.text ?? "沒輸入").setData(task) { error in
             if let error = error {
                 print("Error creating task: \(error)")
             } else {

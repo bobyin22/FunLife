@@ -10,9 +10,6 @@ import AVFoundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-// import FirebaseStorage
-// import FirebaseAuth
-
 class HomeViewController: UIViewController {          //: BaseViewController
     var structArray = [Users]()
 
@@ -48,19 +45,28 @@ class HomeViewController: UIViewController {          //: BaseViewController
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // 這裡應該要獲取Firebase 裡面添加的任務
-        
-//        let usersCollectionRef = db.collection("Users")
-//        let bobDocRef = usersCollectionRef.document("Bob")
-//
-//        print(db.collection("users").document("Bob").collection(addTaskVC.titleTask.text ?? "0"))
-        circleTaskLabel.text = addTaskVC.titleTask.text // 每次切回主畫面，會抓到剛剛輸入的新任務
+        circleTaskLabel.text = addTaskVC.titleTaskLabel.text // 每次切回主畫面，會抓到剛剛輸入的新任務
+        circleTimerLabel.text = "0"
+        counter = 0
     }
     
     func modifyUser(counter: Int) {
-        let documentReference = db.collection("users").document("Bob").collection("任務3").document("6.18")
+        
+        let today = Date()
+
+        let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
+        let year = dateComponents.year!
+        let month = dateComponents.month!
+        let day = dateComponents.day!
+
+        let weekday = Calendar.current.component(.weekday, from: today)
+        let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
+        
+        let documentReference = db.collection("users").document("Bob").collection("\(month).\(day)").document(addTaskVC.titleTaskLabel.text ?? "沒接到")
         documentReference.getDocument { document, error in
             
+            // "\(month).\(day)"
+            // addTaskVC.titleTaskLabel.text
             guard let document,
                   document.exists,
                   var user = try? document.data(as: Users.self)
@@ -102,7 +108,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
         }
     }
     
-    // 開始計時
+    // MARK: 開始計時
     func startTimer() {
         // 開始計時器
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
@@ -112,14 +118,14 @@ class HomeViewController: UIViewController {          //: BaseViewController
         }
     }
 
-    // 停止計時
+    // MARK: 停止計時
     func stopTimer() {
         // 停止計時器
         timer?.invalidate()
         timer = nil
     }
     
-    // 顯示目前翻面的Label
+    // MARK: 顯示目前翻面的Label
     func setupFlipLabel() {
         label = UILabel(frame: CGRect(x: 140, y: 450, width: 200, height: 50))
         // label.center = view.center
@@ -136,7 +142,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
                                                object: nil)
     }
     
-    // 偵測目前翻面狀態
+    // MARK: 偵測目前翻面狀態
     @objc func orientationChanged() {
         
         // orientationChanged 方法中，獲取當前裝置的方向 orientation
@@ -178,7 +184,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
         label.text = oriString
     }
     
-    // 提示框
+    // MARK: 提示框
     func alertMsg () {
         let alert = UIAlertController(title: "計時停止", message: "你翻面了，專注暫停", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"),
@@ -193,26 +199,26 @@ class HomeViewController: UIViewController {          //: BaseViewController
         super.didReceiveMemoryWarning()
     }
     
-    // 建立 NavBar +按鈕 與 設定按鈕
+    // MARK: 建立 NavBar +按鈕 與 設定按鈕
     func setupNavigation() {
         settingSButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(navToSettingVC))
         addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(navToAddTaskVC))
         navigationItem.rightBarButtonItems = [settingSButton, addButton]    // 兩個按鈕
     }
     
-    // 點擊Nav進入跳轉設定頁面VC
+    // MARK: 點擊Nav進入跳轉設定頁面VC
     @objc func navToSettingVC() {
         let settingVC = SettingViewController()
         navigationController?.pushViewController(settingVC, animated: true)
     }
     
-    // 點擊Nav進入跳轉新增任務頁面VC
+    // MARK: 點擊Nav進入跳轉新增任務頁面VC
     @objc func navToAddTaskVC() {
         // let addTaskVC = AddTaskViewController()
         navigationController?.pushViewController(addTaskVC, animated: true)
     }
     
-    // 建立圓形View
+    // MARK: 建立圓形View
     func setupCircleUI() {
         view.addSubview(circleView)
         circleView.backgroundColor = .systemYellow
@@ -234,7 +240,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
         circleView.layer.masksToBounds = false
     }
     
-    // 建立日期Label
+    // MARK: 建立日期Label
     func setupDate() {
         view.addSubview(circleDateLabel)
         circleDateLabel.font = UIFont(name: "Helvetica", size: 20)
@@ -251,18 +257,16 @@ class HomeViewController: UIViewController {          //: BaseViewController
         let year = dateComponents.year!
         let month = dateComponents.month!
         let day = dateComponents.day!
-
+        
         let weekday = Calendar.current.component(.weekday, from: today)
         let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
-
-
+        
         print("\(year).\(month).\(day).\(weekdayString)")
         
         circleDateLabel.text = "\(year).\(month).\(day).\(weekdayString)" // "2023.06.13.Tue"
-
     }
     
-    // 建立倒數計時器Label
+    // MARK: 建立倒數計時器Label
     func setupTimer() {
         view.addSubview(circleTimerLabel)
         circleTimerLabel.text = "\(counter)"
@@ -275,7 +279,7 @@ class HomeViewController: UIViewController {          //: BaseViewController
         ])
     }
     
-    // 建立任務Label
+    // MARK: 建立任務Label
     func setupTask() {
         view.addSubview(circleTaskLabel)
         circleTaskLabel.text = "線性代數"
