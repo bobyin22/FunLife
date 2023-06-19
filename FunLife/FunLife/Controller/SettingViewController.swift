@@ -10,8 +10,8 @@ import UIKit
 class SettingViewController: UIViewController {
 
     let myTableView = UITableView()
-    let settingIconArray = ["person", "link", "phone.bubble.left.fill", "music.note", "network"]
-    let settingTitleArray = ["管理我的資訊", "邀請朋友", "震動", "鈴聲", "登出"]
+    let settingIconArray = ["person", "link", "phone.bubble.left.fill", "music.note", "network"]    // MARK: 設定頁的圖像
+    let settingTitleArray = ["管理我的資訊", "邀請朋友", "震動", "鈴聲", "登出"]                          // MARK: 設定頁的內容
     
     override func viewDidLoad() {
         super.viewDidLoad()

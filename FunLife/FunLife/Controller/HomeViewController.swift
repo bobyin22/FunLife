@@ -10,20 +10,20 @@ import AVFoundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class HomeViewController: UIViewController {          //: BaseViewController
-    var structArray = [Users]()
+class HomeViewController: UIViewController {          //: BaseViewController    原本有用base目前沒用
+    var structArray = [Users]()             // 目前沒用到
 
-    let circleView = UIView()               // 圓形View
-    let circleTimerLabel = UILabel()        // 計時時間Label
-    let circleDateLabel = UILabel()         // 計時日期Label
-    let circleTaskLabel = UILabel()         // 任務Label
-    var settingSButton = UIBarButtonItem()  // 設定  按鈕
-    var addButton = UIBarButtonItem()       // 加任務 按鈕
+    let circleView = UIView()               // UI圓形View
+    let circleTimerLabel = UILabel()        // UI計時時間Label
+    let circleDateLabel = UILabel()         // UI計時日期Label
+    let circleTaskLabel = UILabel()         // UI任務Label
+    var settingSButton = UIBarButtonItem()  // UI設定  按鈕
+    var addButton = UIBarButtonItem()       // UI加任務 按鈕
     
-    var label: UILabel!                     // 測試Label
+    var label: UILabel!                     // UI測試Label
     var counter = 0                         // 計時
     var timer: Timer?                                       // 方便後面用timer
-    let soundID = SystemSoundID(kSystemSoundID_Vibrate)     // 聲音
+    let soundID = SystemSoundID(kSystemSoundID_Vibrate)     // 震動
     let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
     
     let addTaskVC = AddTaskViewController()                 // 把VC變數拉出來，讓後面可以 .點
@@ -40,9 +40,9 @@ class HomeViewController: UIViewController {          //: BaseViewController
         
 //        createUser()
 //        fetchAPI()
-        
     }
     
+    // MARK: 讓每次點擊tab會顯示
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         circleTaskLabel.text = addTaskVC.titleTaskLabel.text // 每次切回主畫面，會抓到剛剛輸入的新任務
@@ -50,26 +50,25 @@ class HomeViewController: UIViewController {          //: BaseViewController
         counter = 0
     }
     
+    // MARK: 每次翻轉後要更新秒數
     func modifyUser(counter: Int) {
         
         let today = Date()
 
         let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-        let year = dateComponents.year!
+//        let year = dateComponents.year!
         let month = dateComponents.month!
         let day = dateComponents.day!
 
-        let weekday = Calendar.current.component(.weekday, from: today)
-        let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
+//        let weekday = Calendar.current.component(.weekday, from: today)
+//        let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
         
         let documentReference = db.collection("users").document("Bob").collection("\(month).\(day)").document(addTaskVC.titleTaskLabel.text ?? "沒接到")
         documentReference.getDocument { document, error in
             
-            // "\(month).\(day)"
-            // addTaskVC.titleTaskLabel.text
             guard let document,
                   document.exists,
-                  var user = try? document.data(as: Users.self)
+                  var user = try? document.data(as: Users.self)     // MARK: 這裡就有用到自定義的struct資料結構
             else {
                 print("XXX")
                 return
@@ -83,30 +82,32 @@ class HomeViewController: UIViewController {          //: BaseViewController
         }
     }
     
-    func createUser(counter: Int) {
-        let user = Users(user: "bob", timer: "\(counter)")
-        // Users(timer: "\(counter)", user: "bob")
-        do {
-            let documentReference = try db.collection("users").addDocument(from: user)
-            print("1", documentReference.documentID)
-        } catch {
-            print(error)
-        }
-    }
-    
-    func fetchAPI() {
-        // 抓取firebase的資料並顯示在畫面上
-        db.collection("users").getDocuments { snapshot, error in
-            guard let snapshot else { return }
-            print("snapshot", snapshot)
-            // 把所有資料傳給變數
-            let users = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)
-            }
-            
-            print("api資料是", users)
-            print("api資料數量", users.count)
-        }
-    }
+//    // MARK: 目前沒有用
+//    func createUser(counter: Int) {
+//        let user = Users(user: "bob", timer: "\(counter)")
+//        // Users(timer: "\(counter)", user: "bob")
+//        do {
+//            let documentReference = try db.collection("users").addDocument(from: user)
+//            print("1", documentReference.documentID)
+//        } catch {
+//            print(error)
+//        }
+//    }
+//
+//    // MARK: 目前沒有用
+//    func fetchAPI() {
+//        // 抓取firebase的資料並顯示在畫面上
+//        db.collection("users").getDocuments { snapshot, error in
+//            guard let snapshot else { return }
+//            print("snapshot", snapshot)
+//            // 把所有資料傳給變數
+//            let users = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)
+//            }
+//
+//            print("api資料是", users)
+//            print("api資料數量", users.count)
+//        }
+//    }
     
     // MARK: 開始計時
     func startTimer() {

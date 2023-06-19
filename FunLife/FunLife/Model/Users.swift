@@ -12,6 +12,8 @@ import FirebaseFirestoreSwift
 // import FirebaseStorage
 // import FirebaseAuth
 
+
+// MARK: 自定義類別 在建立任務時會顯示
 struct Users: Codable, Identifiable {
     @DocumentID var id: String?
     let user: String

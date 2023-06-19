@@ -18,16 +18,23 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     
     let myTableView = UITableView()
     
+    // MARK: 假資料圖
     let settingIconArray = ["list.bullet.clipboard.fill",
                             "list.bullet.clipboard.fill",
                             "list.bullet.clipboard.fill",
                             "list.bullet.clipboard.fill",
                             "list.bullet.clipboard.fill"]
     
+    // MARK: 假資料任務
     let settingTitleArray = ["任務1", "任務2", "任務3", "任務4", "任務5"]
     
+    // MARK: firebase的任務文字
     var taskFirebaseArray: [String] = [""]
     
+    // MARK: firebase的任務秒數
+    var taskFirebaseTimeArray: [String] = [""]
+    
+    // MARK: 先建立字串到時候給firebase用
     var dayString = ""
     var monthString = ""
     
@@ -47,6 +54,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         myTableView.estimatedRowHeight = UITableView.automaticDimension
     }
     
+    // MARK: 設定第三方套件日曆View尺寸
     func setupCalendar() {
         calendar = FSCalendar(frame: CGRect(x: 0.0, y: 90.0, width: self.view.frame.size.width, height: 300.0))
         calendar.scrollDirection = .vertical
@@ -69,15 +77,14 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         
         print("Day: \(dayString)")
         print("Month: \(monthString)")
-        // 點擊任何 顯示18號任務
-        // 如果點擊是18號 抓取18號的任務數量當作幾個row
-        //              顯示18號的各別任務在 Label上
         
         self.fetchAPI()
     }
     
+    // MARK: 點擊日期時要fetch的資料
     func fetchAPI() {
         taskFirebaseArray.removeAll()
+        taskFirebaseTimeArray.removeAll()
         
         let today = Date()
         
@@ -96,7 +103,12 @@ class DayViewController: UIViewController, FSCalendarDelegate {
             var indexNumber = 0
             
             for index in userDayTask {
+                print("index",index)
+                print("userDayTask",userDayTask)
                 self.taskFirebaseArray.append(userDayTask[indexNumber].id!)
+                
+                self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer)
+                print("幾秒",userDayTask[indexNumber].timer)
                 indexNumber += 1
             }
             
@@ -104,6 +116,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         }
     }
     
+    // MARK: 建置自訂義的tableView尺寸
     func setupMyTableView() {
         view.addSubview(myTableView)
         myTableView.backgroundColor = .systemGreen
@@ -119,10 +132,12 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     
 }
 
+// MARK: 寫入自定義tableView的指派工作
 extension DayViewController: UITableViewDelegate {
     
 }
 
+// MARK: 寫入自定義tableView的資料
 extension DayViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -138,9 +153,8 @@ extension DayViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
-        // cell.settingInfo.text = settingTitleArray[indexPath.row]
         cell.settingInfo.text = taskFirebaseArray[indexPath.row]
+        cell.settingTime.text = taskFirebaseTimeArray[indexPath.row]
         
         return cell
     }

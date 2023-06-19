@@ -16,8 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        FirebaseApp.configure()
-        IQKeyboardManager.shared().isEnabled = true
+        FirebaseApp.configure()                         // MARK: 加入第三方套件Firebase
+        IQKeyboardManager.shared().isEnabled = true     // MARK: 加入第三方套件IQKeyboard
         
         return true
     }

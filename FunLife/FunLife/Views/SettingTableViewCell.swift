@@ -7,18 +7,19 @@
 
 import UIKit
 
+// MARK: 設定頁Cell
 class SettingTableViewCell: UITableViewCell {
 
-    var settingIcon = UIButton()
-    var settingInfo = UILabel()
+    var settingIcon = UIButton()    // MARK: UI圖示
+    var settingInfo = UILabel()     // MARK: UI文字
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupSettingIcon()
-        setupSettingInfo()
+        setupSettingIcon()          // MARK: 建立圖
+        setupSettingInfo()          // MARK: 建立文字
     }
     
-    // 建立
+    // MARK: 設定頁Cell 圖示UI位置
     func setupSettingIcon() {
         contentView.addSubview(settingIcon)
         settingIcon.setImage(UIImage(systemName: "person"), for: .normal)
@@ -31,6 +32,7 @@ class SettingTableViewCell: UITableViewCell {
         ])
     }
     
+    // MARK: 設定頁Cell 文字UI位置
     func setupSettingInfo() {
         contentView.addSubview(settingInfo)
         settingInfo.text = "XXX"
@@ -44,6 +46,7 @@ class SettingTableViewCell: UITableViewCell {
         
     }
     
+    // MARK: 需要寫上
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -55,7 +58,6 @@ class SettingTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
 

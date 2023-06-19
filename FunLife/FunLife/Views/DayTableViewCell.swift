@@ -9,19 +9,34 @@ import UIKit
 
 class DayTableViewCell: UITableViewCell {
 
-    var settingIcon = UIButton()
-    var settingInfo = UILabel()
+    var settingIcon = UIButton()    // MARK: UI任務照片
+    var settingInfo = UILabel()     // MARK: UI任務文字
+    var settingTime = UILabel()     // MARK: UI任務秒數
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupSettingIcon()
         setupSettingInfo()
+        setupSettingTime()
     }
     
-    // 建立
+    // MARK: 建立秒數
+    func setupSettingTime() {
+        contentView.addSubview(settingTime)
+        settingTime.text = "X秒"
+        settingTime.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            settingTime.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            settingTime.leadingAnchor.constraint(equalTo: settingInfo.trailingAnchor, constant: 20),
+            settingTime.heightAnchor.constraint(equalToConstant: 30),
+            settingTime.widthAnchor.constraint(equalToConstant: 150)
+        ])
+    }
+    
+    // MARK: 建立照片
     func setupSettingIcon() {
         contentView.addSubview(settingIcon)
-        settingIcon.setImage(UIImage(systemName: "person"), for: .normal)
+        settingIcon.setImage(UIImage(systemName: "doc.plaintext"), for: .normal)
         settingIcon.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             settingIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
@@ -31,6 +46,7 @@ class DayTableViewCell: UITableViewCell {
         ])
     }
     
+    // MARK: 建立任務
     func setupSettingInfo() {
         contentView.addSubview(settingInfo)
         settingInfo.text = "XXX"
@@ -41,9 +57,9 @@ class DayTableViewCell: UITableViewCell {
             settingInfo.heightAnchor.constraint(equalToConstant: 30),
             settingInfo.widthAnchor.constraint(equalToConstant: 150)
         ])
-        
     }
     
+    // MARK: 需要寫上
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

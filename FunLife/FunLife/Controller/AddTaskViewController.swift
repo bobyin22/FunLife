@@ -12,12 +12,12 @@ import FirebaseFirestoreSwift
 
 class AddTaskViewController: UIViewController {
     
-    let addTaskLabel = UILabel()
-    let addTaskTextField = UITextField()
-    let cancelTaskButton = UIButton()
-    let saveTaskButton = UIButton()
+    let addTaskLabel = UILabel()            // MARK: UI標題
+    let addTaskTextField = UITextField()    // MARK: UI輸入欄
+    let cancelTaskButton = UIButton()       // MARK: UI取消按鈕
+    let saveTaskButton = UIButton()         // MARK: UI儲存按鈕
     
-    var titleTaskLabel = UILabel()   // MARK: 用來接住輸入的textField
+    var titleTaskLabel = UILabel()          // MARK: 用來接住輸入的textField，給HomeVC顯示用
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +28,13 @@ class AddTaskViewController: UIViewController {
         setupSaveTaskButton()
     }
     
+    // MARK: 切回Tab時顯示
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addTaskTextField.text = ""
     }
     
+    // MARK: UI標題
     func setupAddTaskLabel() {
         view.addSubview(addTaskLabel)
         addTaskLabel.backgroundColor = .systemRed
@@ -46,6 +48,7 @@ class AddTaskViewController: UIViewController {
         ])
     }
     
+    // MARK: UI輸入欄
     func setupAddTaskTextField() {
         view.addSubview(addTaskTextField)
         addTaskTextField.backgroundColor = .systemRed
@@ -63,6 +66,7 @@ class AddTaskViewController: UIViewController {
         ])
     }
     
+    // MARK: UI取消按鈕
     func setupCancelTaskButton() {
         view.addSubview(cancelTaskButton)
         cancelTaskButton.setTitle("取消", for: .normal)
@@ -77,6 +81,7 @@ class AddTaskViewController: UIViewController {
         ])
     }
     
+    // MARK: UI儲存按鈕
     func setupSaveTaskButton() {
         view.addSubview(saveTaskButton)
         saveTaskButton.setTitle("儲存", for: .normal)
@@ -92,6 +97,7 @@ class AddTaskViewController: UIViewController {
         saveTaskButton.addTarget(self, action: #selector(saveTaskToFirebase), for: .touchUpInside)
     }
     
+    // MARK: UI儲存按鈕的objc要執行的事情(讓HomeVC知道新增任務)
     @objc func saveTaskToFirebase() {
         print("印出", addTaskTextField.text)
         createNewTask()
@@ -99,8 +105,8 @@ class AddTaskViewController: UIViewController {
         titleTaskLabel.text = addTaskTextField.text  // 把輸入的TextField 給變數
     }
     
+    // MARK: 把新任務傳至firebase
     func createNewTask() {
-        
         // MARK: 把日期功能補在這
         let today = Date()
 
