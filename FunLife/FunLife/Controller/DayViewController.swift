@@ -11,7 +11,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class DayViewController: UIViewController, FSCalendarDelegate {
-    
+        
     var calendar: FSCalendar!
     
     var formatter = DateFormatter()
@@ -38,6 +38,8 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     var dayString = ""
     var monthString = ""
     
+    var sumTime = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCalendar()
@@ -52,6 +54,8 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         
         myTableView.rowHeight = UITableView.automaticDimension
         myTableView.estimatedRowHeight = UITableView.automaticDimension
+        
+        // sumTime = sumTimer()
     }
     
     // MARK: 設定第三方套件日曆View尺寸
@@ -83,6 +87,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     
     // MARK: 點擊日期時要fetch的資料
     func fetchAPI() {
+        sumTime = 0
         taskFirebaseArray.removeAll()
         taskFirebaseTimeArray.removeAll()
         
@@ -98,29 +103,30 @@ class DayViewController: UIViewController, FSCalendarDelegate {
             }
             print("snapshot", snapshot)
             
-            let userDayTask = snapshot.documents.compactMap{ snapshot in try? snapshot.data(as: Users.self)}
+            let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
             
             var indexNumber = 0
             
             for index in userDayTask {
-                print("index",index)
-                print("userDayTask",userDayTask)
-                self.taskFirebaseArray.append(userDayTask[indexNumber].id!)
+                self.taskFirebaseArray.append(userDayTask[indexNumber].id!)       // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
+                self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
                 
-                self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer)
-                print("幾秒",userDayTask[indexNumber].timer)
+                self.sumTime += Int(userDayTask[indexNumber].timer) ?? 0
+                print(self.sumTime)
                 indexNumber += 1
             }
             
             self.myTableView.reloadData()
         }
+        
+        // sumTime = sumTimer()
     }
     
     // MARK: 建置自訂義的tableView尺寸
     func setupMyTableView() {
         view.addSubview(myTableView)
-        myTableView.backgroundColor = .systemGreen
-        myTableView.backgroundColor = .systemYellow
+        // myTableView.backgroundColor = .systemGreen
+        // myTableView.backgroundColor = .systemYellow
         myTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             myTableView.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 10),
@@ -129,6 +135,32 @@ class DayViewController: UIViewController, FSCalendarDelegate {
             myTableView.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
+    
+//    func sumTimer() -> Int {
+//
+//        let db = Firestore.firestore()
+//
+//        db.collection("users").document("Bob").collection("\(monthString).\(dayString)").getDocuments { snapshot, error in
+//            guard let snapshot else {
+//                return
+//            }
+//            print("snapshot99", snapshot)
+//
+//            let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
+//
+//            var indexNumber = 0
+//
+//            for index in userDayTask {
+//                self.sumTime += Int(userDayTask[indexNumber].timer) ?? 0
+//                print(self.sumTime)
+//                indexNumber += 1
+//            }
+//
+//            print("嘿嘿", self.sumTime)
+//        }
+//
+//        return sumTime
+//    }
     
 }
 
@@ -139,6 +171,10 @@ extension DayViewController: UITableViewDelegate {
 
 // MARK: 寫入自定義tableView的資料
 extension DayViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        "本日專注累計\(sumTime)"
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return taskFirebaseArray.count

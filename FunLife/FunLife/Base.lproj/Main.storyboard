@@ -25,21 +25,21 @@
             </objects>
             <point key="canvasLocation" x="1863.3587786259541" y="-561.26760563380287"/>
         </scene>
-        <!--View Controller-->
+        <!--Month-->
         <scene sceneID="1kQ-lg-QUK">
             <objects>
-                <viewController id="KoH-18-Gf5" sceneMemberID="viewController">
+                <viewController id="KoH-18-Gf5" customClass="MonthViewController" customModule="FunLife" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Bd-wX-0Kc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="uW2-0N-yVc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="chart.bar.fill" catalog="system" id="YZO-MZ-0JS"/>
+                    <navigationItem key="navigationItem" title="Month" id="XMW-Kx-3UN"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bPS-5M-ArA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="937" y="158"/>
+            <point key="canvasLocation" x="1863.3587786259541" y="157.74647887323945"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Bop-Ee-ZDK">
@@ -85,7 +85,7 @@
                     <connections>
                         <segue destination="HJE-2v-4DX" kind="relationship" relationship="viewControllers" id="jtY-dY-HWt"/>
                         <segue destination="Bu7-bb-rnM" kind="relationship" relationship="viewControllers" id="30s-T2-UqF"/>
-                        <segue destination="KoH-18-Gf5" kind="relationship" relationship="viewControllers" id="WFb-22-jnj"/>
+                        <segue destination="RgW-ps-1Kd" kind="relationship" relationship="viewControllers" id="WFb-22-jnj"/>
                         <segue destination="iWX-51-BAJ" kind="relationship" relationship="viewControllers" id="GVi-fn-knj"/>
                     </connections>
                 </tabBarController>
@@ -140,6 +140,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dHm-Vj-isK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="936.64122137404581" y="-561.26760563380287"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="YcR-xa-Icr">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RgW-ps-1Kd" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="chart.bar.fill" catalog="system" id="YZO-MZ-0JS"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mrX-rp-d2b">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="KoH-18-Gf5" kind="relationship" relationship="rootViewController" id="lxg-Qw-G0p"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="woe-J2-pPr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="936.64122137404581" y="157.74647887323945"/>
         </scene>
     </scenes>
     <resources>

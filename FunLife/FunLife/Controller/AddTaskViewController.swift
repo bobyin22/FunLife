@@ -115,8 +115,8 @@ class AddTaskViewController: UIViewController {
         let month = dateComponents.month!
         let day = dateComponents.day!
 
-        let weekday = Calendar.current.component(.weekday, from: today)
-        let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
+        // let weekday = Calendar.current.component(.weekday, from: today)
+        // let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
         
         let task = ["timer": "0", "user": "包伯"]
         let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
