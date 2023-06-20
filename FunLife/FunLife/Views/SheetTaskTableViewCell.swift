@@ -11,6 +11,7 @@ class SheetTaskTableViewCell: UITableViewCell {
 
     var settingIcon = UIButton()    // MARK: UI圖示
     var settingInfo = UILabel()     // MARK: UI文字
+    var settingTime = UILabel()     // MARK: UI任務秒數
     
     // MARK: 程式碼寫在這
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -18,6 +19,20 @@ class SheetTaskTableViewCell: UITableViewCell {
         
         setupSettingIcon()
         setupSettingInfo()
+        setupSettingTime()
+    }
+    
+    // MARK: 建立秒數
+    func setupSettingTime() {
+        contentView.addSubview(settingTime)
+        settingTime.text = "X秒"
+        settingTime.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            settingTime.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            settingTime.leadingAnchor.constraint(equalTo: settingInfo.trailingAnchor, constant: 20),
+            settingTime.heightAnchor.constraint(equalToConstant: 30),
+            settingTime.widthAnchor.constraint(equalToConstant: 150)
+        ])
     }
     
     // MARK: 建立照片

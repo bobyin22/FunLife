@@ -12,12 +12,10 @@ import FirebaseFirestoreSwift
 
 // 4️⃣ 遵從我們定義的protocol
 class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
-    
-    
     //: BaseViewController    原本有用base目前沒用
     
     // 5️⃣建立實體
-    var sheetTaskVC: SheetTaskViewController?
+    // var sheetTaskVC: SheetTaskViewController?
     
     var structArray = [Users]()             // 目前沒用到
 
@@ -47,18 +45,20 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         setupFlipLabel()
         
 //        // 6️⃣ 當作是自己
-        guard let sheetTaskVC = sheetTaskVC else { return }
+        // guard let sheetTaskVC = sheetTaskVC else { return }
         
     }
         
     // MARK: 點擊任務按鈕會發生的事
     @objc func clickTaskBtn() {
+        // 5️⃣ 當作是自己
         let sheetTaskVC = SheetTaskViewController()
         if let sheetPresentationController = sheetTaskVC.sheetPresentationController {
             sheetPresentationController.detents = [.medium()]
             sheetPresentationController.preferredCornerRadius = 60
         }
         
+        // 6️⃣
         sheetTaskVC.delegate = self
         
         // navigationController?.pushViewController(settingVC, animated: true)
@@ -292,7 +292,13 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     
     // 7️⃣ MARK: 傳值
     func passValue(_ VC: SheetTaskViewController, parameter: String) {
-        print("傳出來的值是", parameter)
+        print("傳出來的String Task是", parameter)
         circleTaskButton.setTitle(parameter, for: .normal)
     }
+    
+    func passValueTime(_ VC: SheetTaskViewController, parameterTime: String) {
+        print("傳出來的String Time是", parameterTime)
+        circleTimerLabel.text = parameterTime
+    }
+    
 }

@@ -11,6 +11,8 @@ import FirebaseFirestore
 // 1️⃣ 老闆定義要做的事
 protocol SheetTaskViewControllerDelegate: AnyObject {
     func passValue(_ VC: SheetTaskViewController, parameter: String)
+    
+    func passValueTime(_ VC: SheetTaskViewController, parameterTime: String)
 }
 
 class SheetTaskViewController: UIViewController {
@@ -19,6 +21,9 @@ class SheetTaskViewController: UIViewController {
         
     // MARK: firebase的任務文字
     var taskFirebaseArray: [String] = [""]
+    
+    // MARK: firebase的任務秒數
+    var taskFirebaseTimeArray: [String] = [""]
     
     // MARK: 先建立字串到時候給firebase用
     var dayString = ""
@@ -43,7 +48,9 @@ class SheetTaskViewController: UIViewController {
     
     // MARK: 點擊任務 半截VC要fetch的任務資料
     func fetchAPI() {
+        sumTime = 0
         taskFirebaseArray.removeAll()
+        taskFirebaseTimeArray.removeAll()
         
         let today = Date()
         
@@ -69,7 +76,9 @@ class SheetTaskViewController: UIViewController {
             // print("這是", userDayTask)
             
             for index in userDayTask {
-                self.taskFirebaseArray.append(userDayTask[indexNumber].id!)
+                self.taskFirebaseArray.append(userDayTask[indexNumber].id!) // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
+                
+                self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
                 
                 // print("userDayTask[indexNumber].id!",userDayTask[indexNumber].id!)
                 
@@ -116,6 +125,7 @@ extension SheetTaskViewController: UITableViewDataSource {
         }
         
         cell.settingInfo.text = taskFirebaseArray[indexPath.row]
+        cell.settingTime.text = taskFirebaseTimeArray[indexPath.row]
         
         return cell
     }
@@ -125,8 +135,11 @@ extension SheetTaskViewController: UITableViewDataSource {
         
         print("選到","\(taskFirebaseArray[indexPath.row])")
         
-        // 3️⃣ 使用的方法
+        // 3️⃣ 使用的方法 
         delegate?.passValue(self, parameter: taskFirebaseArray[indexPath.row])
+        
+        delegate?.passValueTime(self, parameterTime: taskFirebaseTimeArray[indexPath.row])
+        
         
         dismiss(animated: true, completion: nil)
     }
