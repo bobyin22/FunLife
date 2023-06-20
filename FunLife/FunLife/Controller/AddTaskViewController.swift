@@ -99,10 +99,12 @@ class AddTaskViewController: UIViewController {
     
     // MARK: UI儲存按鈕的objc要執行的事情(讓HomeVC知道新增任務)
     @objc func saveTaskToFirebase() {
-        print("印出", addTaskTextField.text)
+        // print("印出", addTaskTextField.text)
         createNewTask()
         
         titleTaskLabel.text = addTaskTextField.text  // 把輸入的TextField 給變數
+        
+        self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: 把新任務傳至firebase

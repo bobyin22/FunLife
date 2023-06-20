@@ -37,9 +37,6 @@ class HomeViewController: UIViewController {          //: BaseViewController    
         setupTimer()
         setupTask()
         setupFlipLabel()
-        
-//        createUser()
-//        fetchAPI()
     }
         
     // MARK: 點擊任務按鈕會發生的事
@@ -56,7 +53,7 @@ class HomeViewController: UIViewController {          //: BaseViewController    
     // MARK: 讓每次點擊tab會顯示
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        circleTaskButton.setTitle(addTaskVC.titleTaskLabel.text, for: .normal)   // 每次切回主畫面，會抓到剛剛輸入的新任務
+        circleTaskButton.setTitle(addTaskVC.titleTaskLabel.text, for: .normal)   // MARK: 一登入沒有任務，添加任務後才會有任務
         circleTimerLabel.text = "0"
         counter = 0
     }
@@ -80,7 +77,6 @@ class HomeViewController: UIViewController {          //: BaseViewController    
                   document.exists,
                   var user = try? document.data(as: Users.self)     // MARK: 這裡就有用到自定義的struct資料結構
             else {
-                print("XXX")
                 return
             }
             user.timer = "\(self.counter)"
@@ -91,33 +87,6 @@ class HomeViewController: UIViewController {          //: BaseViewController    
             }
         }
     }
-    
-//    // MARK: 目前沒有用
-//    func createUser(counter: Int) {
-//        let user = Users(user: "bob", timer: "\(counter)")
-//        // Users(timer: "\(counter)", user: "bob")
-//        do {
-//            let documentReference = try db.collection("users").addDocument(from: user)
-//            print("1", documentReference.documentID)
-//        } catch {
-//            print(error)
-//        }
-//    }
-//
-//    // MARK: 目前沒有用
-//    func fetchAPI() {
-//        // 抓取firebase的資料並顯示在畫面上
-//        db.collection("users").getDocuments { snapshot, error in
-//            guard let snapshot else { return }
-//            print("snapshot", snapshot)
-//            // 把所有資料傳給變數
-//            let users = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)
-//            }
-//
-//            print("api資料是", users)
-//            print("api資料數量", users.count)
-//        }
-//    }
     
     // MARK: 開始計時
     func startTimer() {
@@ -249,8 +218,6 @@ class HomeViewController: UIViewController {          //: BaseViewController    
         // 確保圓形圖不顯示超出邊界的部分
         circleView.clipsToBounds = true
         circleView.layer.masksToBounds = false
-        
-        // circleView.addTarget(self, action: #selector(clickCircle), for: .touchUpInside)
     }
     
     // MARK: 建立日期Label
@@ -274,7 +241,7 @@ class HomeViewController: UIViewController {          //: BaseViewController    
         let weekday = Calendar.current.component(.weekday, from: today)
         let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
         
-        print("\(year).\(month).\(day).\(weekdayString)")
+        // print("\(year).\(month).\(day).\(weekdayString)")
         
         circleDateLabel.text = "\(year).\(month).\(day).\(weekdayString)" // "2023.06.13.Tue"
     }

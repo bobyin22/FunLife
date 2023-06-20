@@ -18,16 +18,6 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     
     let myTableView = UITableView()
     
-    // MARK: 假資料圖
-    let settingIconArray = ["list.bullet.clipboard.fill",
-                            "list.bullet.clipboard.fill",
-                            "list.bullet.clipboard.fill",
-                            "list.bullet.clipboard.fill",
-                            "list.bullet.clipboard.fill"]
-    
-    // MARK: 假資料任務
-    let settingTitleArray = ["任務1", "任務2", "任務3", "任務4", "任務5"]
-    
     // MARK: firebase的任務文字
     var taskFirebaseArray: [String] = [""]
     
@@ -79,8 +69,8 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         formatter.dateFormat = "M" // 顯示月份的格式，只保留月
         monthString = formatter.string(from: date)
         
-        print("Day: \(dayString)")
-        print("Month: \(monthString)")
+        // print("Day: \(dayString)")
+        // print("Month: \(monthString)")
         
         self.fetchAPI()
     }
@@ -101,7 +91,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
             guard let snapshot else {
                 return
             }
-            print("snapshot", snapshot)
+            // print("snapshot", snapshot)
             
             let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
             
@@ -112,7 +102,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
                 self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
                 
                 self.sumTime += Int(userDayTask[indexNumber].timer) ?? 0
-                print(self.sumTime)
+                // print(self.sumTime)
                 indexNumber += 1
             }
             
@@ -135,33 +125,6 @@ class DayViewController: UIViewController, FSCalendarDelegate {
             myTableView.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
-    
-//    func sumTimer() -> Int {
-//
-//        let db = Firestore.firestore()
-//
-//        db.collection("users").document("Bob").collection("\(monthString).\(dayString)").getDocuments { snapshot, error in
-//            guard let snapshot else {
-//                return
-//            }
-//            print("snapshot99", snapshot)
-//
-//            let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
-//
-//            var indexNumber = 0
-//
-//            for index in userDayTask {
-//                self.sumTime += Int(userDayTask[indexNumber].timer) ?? 0
-//                print(self.sumTime)
-//                indexNumber += 1
-//            }
-//
-//            print("嘿嘿", self.sumTime)
-//        }
-//
-//        return sumTime
-//    }
-    
 }
 
 // MARK: 寫入自定義tableView的指派工作

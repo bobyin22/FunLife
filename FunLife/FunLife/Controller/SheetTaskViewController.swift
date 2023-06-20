@@ -11,17 +11,7 @@ import FirebaseFirestore
 class SheetTaskViewController: UIViewController {
     
     let myTaskTableView = UITableView()
-    
-    // MARK: 假資料圖
-    let settingIconArray = ["doc.plaintext",
-                            "doc.plaintext",
-                            "doc.plaintext",
-                            "doc.plaintext",
-                            "doc.plaintext"]
-    
-    // MARK: 假資料任務
-    let settingTitleArray = ["任務1", "任務2", "任務3", "任務4", "任務5"]
-    
+        
     // MARK: firebase的任務文字
     var taskFirebaseArray: [String] = [""]
     
@@ -56,24 +46,24 @@ class SheetTaskViewController: UIViewController {
         
         let db = Firestore.firestore()
         
-        print("月日", "\(monthString).\(dayString)")
+        // print("月日", "\(monthString).\(dayString)")
         
         db.collection("users").document("Bob").collection("\(monthString).\(dayString)").getDocuments { snapshot, error in
             guard let snapshot else {
                 return
             }
-            print("snapshot", snapshot)
+            // print("snapshot", snapshot)
             
             let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
             
             var indexNumber = 0
             
-            print("這是", userDayTask)
+            // print("這是", userDayTask)
             
             for index in userDayTask {
                 self.taskFirebaseArray.append(userDayTask[indexNumber].id!)
                 
-                print("userDayTask[indexNumber].id!",userDayTask[indexNumber].id!)
+                // print("userDayTask[indexNumber].id!",userDayTask[indexNumber].id!)
                 
                 indexNumber += 1
             }
@@ -85,7 +75,6 @@ class SheetTaskViewController: UIViewController {
     // MARK: 建立半截VC的tableView
     func setupTableView() {
         view.addSubview(myTaskTableView)
-        // myTaskTableView.backgroundColor = .blue
         myTaskTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             myTaskTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
@@ -107,9 +96,9 @@ extension SheetTaskViewController: UITableViewDataSource {
     // MARK: 幾個row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         taskFirebaseArray.count
-        // settingIconArray.count
     }
     
+    // MARK: 每個Cell內要顯示的資料
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SheetTaskTableViewCell", for: indexPath) as? SheetTaskTableViewCell
@@ -118,12 +107,16 @@ extension SheetTaskViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
-        // cell.settingInfo.text = settingTitleArray[indexPath.row]
         cell.settingInfo.text = taskFirebaseArray[indexPath.row]
         
-        
         return cell
+    }
+    
+    // MARK: 點選Cell執行的動作
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        print("選到ㄌㄜ","\(taskFirebaseArray[indexPath.row])")
+        
     }
     
 }
