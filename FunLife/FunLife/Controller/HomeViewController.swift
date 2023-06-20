@@ -16,7 +16,7 @@ class HomeViewController: UIViewController {          //: BaseViewController    
     let circleView = UIView()               // UI圓形View
     let circleTimerLabel = UILabel()        // UI計時時間Label
     let circleDateLabel = UILabel()         // UI計時日期Label
-    let circleTaskLabel = UILabel()         // UI任務Label
+    let circleTaskButton = UIButton()         // UI任務Label
     var settingSButton = UIBarButtonItem()  // UI設定  按鈕
     var addButton = UIBarButtonItem()       // UI加任務 按鈕
     
@@ -41,11 +41,20 @@ class HomeViewController: UIViewController {          //: BaseViewController    
 //        createUser()
 //        fetchAPI()
     }
+        
+    @objc func clickCircle() {
+        let sheetTaskVC = SheetTaskViewController()
+        if let sheetPresentationController = sheetTaskVC.sheetPresentationController {
+            sheetPresentationController.detents = [.medium()]
+        }
+        // navigationController?.pushViewController(settingVC, animated: true)
+        present(sheetTaskVC, animated: true)
+    }
     
     // MARK: 讓每次點擊tab會顯示
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        circleTaskLabel.text = addTaskVC.titleTaskLabel.text // 每次切回主畫面，會抓到剛剛輸入的新任務
+        circleTaskButton.setTitle(addTaskVC.titleTaskLabel.text, for: .normal)   // 每次切回主畫面，會抓到剛剛輸入的新任務
         circleTimerLabel.text = "0"
         counter = 0
     }
@@ -59,7 +68,6 @@ class HomeViewController: UIViewController {          //: BaseViewController    
 //        let year = dateComponents.year!
         let month = dateComponents.month!
         let day = dateComponents.day!
-
 //        let weekday = Calendar.current.component(.weekday, from: today)
 //        let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
         
@@ -239,6 +247,8 @@ class HomeViewController: UIViewController {          //: BaseViewController    
         // 確保圓形圖不顯示超出邊界的部分
         circleView.clipsToBounds = true
         circleView.layer.masksToBounds = false
+        
+        // circleView.addTarget(self, action: #selector(clickCircle), for: .touchUpInside)
     }
     
     // MARK: 建立日期Label
@@ -282,14 +292,20 @@ class HomeViewController: UIViewController {          //: BaseViewController    
     
     // MARK: 建立任務Label
     func setupTask() {
-        view.addSubview(circleTaskLabel)
-        circleTaskLabel.text = "線性代數"
-        circleTaskLabel.font = UIFont(name: "Helvetica", size: 20)
-        circleTaskLabel.backgroundColor = .systemRed
-        circleTaskLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(circleTaskButton)
+        circleTaskButton.setTitle("線性代數", for: .normal)
+        circleTaskButton.setTitleColor(UIColor.black, for: .normal)
+        circleTaskButton.titleLabel?.font = UIFont(name: "Helvetica", size: 20)
+//        if let font = UIFont(name: "Helvetica", size: 20) {
+//            circleTaskLabel.font = font
+//        }
+        // circleTaskLabel.backgroundColor = .systemRed
+        circleTaskButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            circleTaskLabel.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
-            circleTaskLabel.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -40)
+            circleTaskButton.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
+            circleTaskButton.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -40)
         ])
+        
+        circleTaskButton.addTarget(self, action: #selector(clickCircle), for: .touchUpInside)
     }
 }
