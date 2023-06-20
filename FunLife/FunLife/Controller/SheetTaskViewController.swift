@@ -8,6 +8,11 @@
 import UIKit
 import FirebaseFirestore
 
+// 1️⃣ 老闆定義要做的事
+protocol SheetTaskViewControllerDelegate: AnyObject {
+    func passValue(_ VC: SheetTaskViewController, parameter: String)
+}
+
 class SheetTaskViewController: UIViewController {
     
     let myTaskTableView = UITableView()
@@ -20,6 +25,9 @@ class SheetTaskViewController: UIViewController {
     var monthString = ""
     
     var sumTime = 0
+    
+    // 2️⃣ 建立一個變數是自己
+    weak var delegate: SheetTaskViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,8 +123,12 @@ extension SheetTaskViewController: UITableViewDataSource {
     // MARK: 點選Cell執行的動作
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        print("選到ㄌㄜ","\(taskFirebaseArray[indexPath.row])")
+        print("選到","\(taskFirebaseArray[indexPath.row])")
         
+        // 3️⃣ 使用的方法
+        delegate?.passValue(self, parameter: taskFirebaseArray[indexPath.row])
+        
+        dismiss(animated: true, completion: nil)
     }
     
 }

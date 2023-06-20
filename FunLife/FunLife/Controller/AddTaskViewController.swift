@@ -79,6 +79,11 @@ class AddTaskViewController: UIViewController {
             cancelTaskButton.heightAnchor.constraint(equalToConstant: 50),
             cancelTaskButton.widthAnchor.constraint(equalToConstant: 150)
         ])
+        cancelTaskButton.addTarget(self, action: #selector(cancelTaskToFirebase), for: .touchUpInside)
+    }
+    
+    @objc func cancelTaskToFirebase() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: UI儲存按鈕

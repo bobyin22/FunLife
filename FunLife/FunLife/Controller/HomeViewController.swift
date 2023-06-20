@@ -10,7 +10,15 @@ import AVFoundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class HomeViewController: UIViewController {          //: BaseViewController    原本有用base目前沒用
+// 4️⃣ 遵從我們定義的protocol
+class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
+    
+    
+    //: BaseViewController    原本有用base目前沒用
+    
+    // 5️⃣建立實體
+    var sheetTaskVC: SheetTaskViewController?
+    
     var structArray = [Users]()             // 目前沒用到
 
     let circleView = UIView()               // UI圓形View
@@ -37,6 +45,10 @@ class HomeViewController: UIViewController {          //: BaseViewController    
         setupTimer()
         setupTask()
         setupFlipLabel()
+        
+//        // 6️⃣ 當作是自己
+        guard let sheetTaskVC = sheetTaskVC else { return }
+        
     }
         
     // MARK: 點擊任務按鈕會發生的事
@@ -46,6 +58,9 @@ class HomeViewController: UIViewController {          //: BaseViewController    
             sheetPresentationController.detents = [.medium()]
             sheetPresentationController.preferredCornerRadius = 60
         }
+        
+        sheetTaskVC.delegate = self
+        
         // navigationController?.pushViewController(settingVC, animated: true)
         present(sheetTaskVC, animated: true)
     }
@@ -273,5 +288,11 @@ class HomeViewController: UIViewController {          //: BaseViewController    
         ])
         
         circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)   //
+    }
+    
+    // 7️⃣ MARK: 傳值
+    func passValue(_ VC: SheetTaskViewController, parameter: String) {
+        print("傳出來的值是", parameter)
+        circleTaskButton.setTitle(parameter, for: .normal)
     }
 }
