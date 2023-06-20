@@ -42,7 +42,8 @@ class HomeViewController: UIViewController {          //: BaseViewController    
 //        fetchAPI()
     }
         
-    @objc func clickCircle() {
+    // MARK: 點擊任務按鈕會發生的事
+    @objc func clickTaskBtn() {
         let sheetTaskVC = SheetTaskViewController()
         if let sheetPresentationController = sheetTaskVC.sheetPresentationController {
             sheetPresentationController.detents = [.medium()]
@@ -294,18 +295,15 @@ class HomeViewController: UIViewController {          //: BaseViewController    
     func setupTask() {
         view.addSubview(circleTaskButton)
         circleTaskButton.setTitle("線性代數", for: .normal)
+        circleTaskButton.backgroundColor = .systemGreen
         circleTaskButton.setTitleColor(UIColor.black, for: .normal)
         circleTaskButton.titleLabel?.font = UIFont(name: "Helvetica", size: 20)
-//        if let font = UIFont(name: "Helvetica", size: 20) {
-//            circleTaskLabel.font = font
-//        }
-        // circleTaskLabel.backgroundColor = .systemRed
         circleTaskButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             circleTaskButton.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
             circleTaskButton.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -40)
         ])
         
-        circleTaskButton.addTarget(self, action: #selector(clickCircle), for: .touchUpInside)
+        circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)   //
     }
 }
