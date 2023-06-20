@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class SheetTaskViewController: UIViewController {
     
@@ -21,6 +22,15 @@ class SheetTaskViewController: UIViewController {
     // MARK: 假資料任務
     let settingTitleArray = ["任務1", "任務2", "任務3", "任務4", "任務5"]
     
+    // MARK: firebase的任務文字
+    var taskFirebaseArray: [String] = [""]
+    
+    // MARK: 先建立字串到時候給firebase用
+    var dayString = ""
+    var monthString = ""
+    
+    var sumTime = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .orange
@@ -29,8 +39,50 @@ class SheetTaskViewController: UIViewController {
         myTaskTableView.delegate = self
         myTaskTableView.dataSource = self
         setupTableView()
+        
+        fetchAPI()
     }
     
+    // MARK: 點擊任務 半截VC要fetch的任務資料
+    func fetchAPI() {
+        taskFirebaseArray.removeAll()
+        
+        let today = Date()
+        
+        let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
+                
+        monthString = String(dateComponents.month!)
+        dayString = String(dateComponents.day!)
+        
+        let db = Firestore.firestore()
+        
+        print("月日", "\(monthString).\(dayString)")
+        
+        db.collection("users").document("Bob").collection("\(monthString).\(dayString)").getDocuments { snapshot, error in
+            guard let snapshot else {
+                return
+            }
+            print("snapshot", snapshot)
+            
+            let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
+            
+            var indexNumber = 0
+            
+            print("這是", userDayTask)
+            
+            for index in userDayTask {
+                self.taskFirebaseArray.append(userDayTask[indexNumber].id!)
+                
+                print("userDayTask[indexNumber].id!",userDayTask[indexNumber].id!)
+                
+                indexNumber += 1
+            }
+            
+            self.myTaskTableView.reloadData()
+        }
+    }
+    
+    // MARK: 建立半截VC的tableView
     func setupTableView() {
         view.addSubview(myTaskTableView)
         // myTaskTableView.backgroundColor = .blue
@@ -44,25 +96,32 @@ class SheetTaskViewController: UIViewController {
     }
 }
 
+// MARK: 寫入自定義tableView的指派工作
 extension SheetTaskViewController: UITableViewDelegate {
     
 }
 
+// MARK: 寫入自定義tableView的資料
 extension SheetTaskViewController: UITableViewDataSource {
     
+    // MARK: 幾個row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        settingIconArray.count
+        taskFirebaseArray.count
+        // settingIconArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SheetTaskTableViewCell", for: indexPath) as? SheetTaskTableViewCell
         else {
             // 處理轉換失敗的情況，例如創建一個預設的 UITableViewCell
             return UITableViewCell()
         }
         
-        cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
-        cell.settingInfo.text = settingTitleArray[indexPath.row]
+        // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
+        // cell.settingInfo.text = settingTitleArray[indexPath.row]
+        cell.settingInfo.text = taskFirebaseArray[indexPath.row]
+        
         
         return cell
     }

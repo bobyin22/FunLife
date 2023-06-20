@@ -47,6 +47,7 @@ class HomeViewController: UIViewController {          //: BaseViewController    
         let sheetTaskVC = SheetTaskViewController()
         if let sheetPresentationController = sheetTaskVC.sheetPresentationController {
             sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.preferredCornerRadius = 60
         }
         // navigationController?.pushViewController(settingVC, animated: true)
         present(sheetTaskVC, animated: true)
