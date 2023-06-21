@@ -52,4 +52,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     // swiftlint:enable line_length
+    
+    // 🍎
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        print("\(URLContexts)")
+    }
 }

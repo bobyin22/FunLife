@@ -43,29 +43,10 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         setupTimer()
         setupTask()
         setupFlipLabel()
-        
-//        // 6️⃣ 當作是自己
-        // guard let sheetTaskVC = sheetTaskVC else { return }
-        
-    }
-        
-    // MARK: 點擊任務按鈕會發生的事
-    @objc func clickTaskBtn() {
-        // 5️⃣ 當作是自己
-        let sheetTaskVC = SheetTaskViewController()
-        if let sheetPresentationController = sheetTaskVC.sheetPresentationController {
-            sheetPresentationController.detents = [.medium()]
-            sheetPresentationController.preferredCornerRadius = 60
-        }
-        
-        // 6️⃣
-        sheetTaskVC.delegate = self
-        
-        // navigationController?.pushViewController(settingVC, animated: true)
-        present(sheetTaskVC, animated: true)
+        createANewDocument()
     }
     
-    // MARK: 讓每次點擊tab會顯示
+    // MARK: 讓每次返回本頁會顯示
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         circleTaskButton.setTitle(addTaskVC.titleTaskLabel.text, for: .normal)   // MARK: 一登入沒有任務，添加任務後才會有任務
@@ -73,6 +54,16 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         counter = 0
     }
     
+    func createANewDocument() {
+        db.collection("users").document("LA").setData([
+            "name": "洛杉磯",
+            "state": "加州",
+            "country": "美國"
+        ])
+        // let documentReference = db.collection("users").addDocument(data: Users.self).collection("0621").document("任務1")
+        // print(documentReference)
+    }
+        
     // MARK: 每次翻轉後要更新秒數
     func modifyUser(counter: Int) {
         
@@ -82,8 +73,6 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
 //        let year = dateComponents.year!
         let month = dateComponents.month!
         let day = dateComponents.day!
-//        let weekday = Calendar.current.component(.weekday, from: today)
-//        let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
         
         let documentReference = db.collection("users").document("Bob").collection("\(month).\(day)").document(addTaskVC.titleTaskLabel.text ?? "沒接到")
         documentReference.getDocument { document, error in
@@ -101,6 +90,22 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
                 print(error)
             }
         }
+    }
+    
+    // MARK: 點擊任務按鈕會發生的事
+    @objc func clickTaskBtn() {
+        // 5️⃣ 當作是自己
+        let sheetTaskVC = SheetTaskViewController()
+        if let sheetPresentationController = sheetTaskVC.sheetPresentationController {
+            sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.preferredCornerRadius = 60
+        }
+        
+        // 6️⃣
+        sheetTaskVC.delegate = self
+        
+        // navigationController?.pushViewController(settingVC, animated: true)
+        present(sheetTaskVC, animated: true)
     }
     
     // MARK: 開始計時
@@ -290,12 +295,13 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)   //
     }
     
-    // 7️⃣ MARK: 傳值
+    // 7️⃣ MARK: Delegate傳值
     func passValue(_ VC: SheetTaskViewController, parameter: String) {
         print("傳出來的String Task是", parameter)
         circleTaskButton.setTitle(parameter, for: .normal)
     }
     
+    // 7️⃣ MARK: Delegate傳值
     func passValueTime(_ VC: SheetTaskViewController, parameterTime: String) {
         print("傳出來的String Time是", parameterTime)
         circleTimerLabel.text = parameterTime

@@ -19,6 +19,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()                         // MARK: 加入第三方套件Firebase
         IQKeyboardManager.shared().isEnabled = true     // MARK: 加入第三方套件IQKeyboard
         
+        // MARK: 這是目前存在UserDefaults的資料  然後我要取得UUID
+//        print("這是目前存在",UserDefaults.standard.dictionaryRepresentation())
+//
+//        let myString = ""
+//        var userDefaults: UserDefaults!
+//        userDefaults = UserDefaults.standard
+//        userDefaults.set(myString, forKey: "name")
+//
+//        print("這是後來存在",UserDefaults.standard.dictionaryRepresentation())
+//
+//        userDefaults.removeObject(forKey: "name")
+//
+//        print("這是後來存在",UserDefaults.standard.dictionaryRepresentation())
+
         return true
     }
 
