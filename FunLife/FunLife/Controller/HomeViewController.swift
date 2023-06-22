@@ -33,6 +33,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
     
     let addTaskVC = AddTaskViewController()                 // 把VC變數拉出來，讓後面可以 .點
+    var documentID = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +44,12 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         setupTimer()
         setupTask()
         setupFlipLabel()
-        createANewDocument()
+        
+        print("函式執行前", UserDefaults.standard.dictionaryRepresentation())
+        //UserDefaults.standard.removeObject(forKey: "myUserID")
+        
+        //isUserDefault()
+        //print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
     }
     
     // MARK: 讓每次返回本頁會顯示
@@ -54,14 +60,49 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         counter = 0
     }
     
-    func createANewDocument() {
-        db.collection("users").document("LA").setData([
-            "name": "洛杉磯",
-            "state": "加州",
-            "country": "美國"
-        ])
-        // let documentReference = db.collection("users").addDocument(data: Users.self).collection("0621").document("任務1")
-        // print(documentReference)
+    // MARK: 判斷這台手機是不是第一次下載我的app，如果是幫她建立一個myUserID，如果不是直接執行
+    func isUserDefault () {
+        // 如果這台手機有我建立的userID
+        //      直接進入畫面
+        // 如果沒有
+        //      打一筆資料到firebase  並把亂數ID 給一個變數    在UserDefailt裡面建立一個字串 userID
+        if let isDocumentID = UserDefaults.standard.string(forKey: "myUserID") {
+          print("有我建立的myUserID")
+        } else {
+            print("沒有我建立myUserID，所以我要建立一個")
+            createANewUserIDDocument()
+        }
+    }
+    
+    // MARK: 成功拿到創建的獨一無二的ID
+    func createANewUserIDDocument() {
+        
+        let task = ["timer": "0", "user": "包伯"]
+        let newDocumentID = db.collection("users").document()
+            
+        newDocumentID.collection("6.22").document("吃晚餐").setData(task) { error in
+            if let error = error {
+                print("錯誤")
+            } else {
+                print("成功")
+                
+                self.documentID = newDocumentID.documentID
+                // let documentID = newDocumentID.documentID
+                print("這才是我要的",self.documentID)
+                UserDefaults.standard.set(self.documentID, forKey: "myUserID")
+            }
+        }
+
+//        db.collection("users").addDocument(data: [
+//            "name": "東京",
+//            "country": "日本"
+//        ])
+        
+//        db.collection("users").document("LA").setData([
+//            "name": "洛杉磯",
+//            "state": "加州",
+//            "country": "美國"
+//        ])
     }
         
     // MARK: 每次翻轉後要更新秒數
