@@ -8,7 +8,7 @@
 import UIKit
 
 class MyGroupListViewController: UIViewController {
-
+    
     let groupListTableView = UITableView()
     
     override func viewDidLoad() {
@@ -23,6 +23,7 @@ class MyGroupListViewController: UIViewController {
         addGroup()
     }
     
+    // MARK: 建立UI TableView
     func setupGroupListTableView() {
         view.addSubview(groupListTableView)
         groupListTableView.backgroundColor = .systemYellow
@@ -35,6 +36,7 @@ class MyGroupListViewController: UIViewController {
         ])
     }
     
+    // MARK: 建立UI 方形按鈕
     func addGroup() {
         let addGroupBtn = UIButton()
         view.addSubview(addGroupBtn)
@@ -43,23 +45,26 @@ class MyGroupListViewController: UIViewController {
         
         addGroupBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            addGroupBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -200),
-            addGroupBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
+            addGroupBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
+            addGroupBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -40),
             addGroupBtn.heightAnchor.constraint(equalToConstant: 50),
             addGroupBtn.widthAnchor.constraint(equalToConstant: 50)
         ])
     }
     
+    // MARK: 點擊按鈕發生的事
     @objc func clickBtn() {
         let createGroupVC = CreateGroupViewController()
         navigationController?.pushViewController(createGroupVC, animated: true)
     }
 }
 
+// MARK: 寫入要做的事
 extension MyGroupListViewController: UITableViewDelegate {
     
 }
 
+// MARK: 寫入資料
 extension MyGroupListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -80,9 +85,7 @@ extension MyGroupListViewController: UITableViewDataSource {
         
         cell.groupNameLabel.text = "Bob的群組"
         // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
-        
         return cell
     }
-    
     
 }

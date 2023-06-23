@@ -26,7 +26,7 @@ class MyGroupListTableViewCell: UITableViewCell {
         contentView.addSubview(groupNameLabel)
         groupNameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            groupNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            groupNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30),
             groupNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             groupNameLabel.heightAnchor.constraint(equalToConstant: 50),
             groupNameLabel.widthAnchor.constraint(equalToConstant: 100)
@@ -34,19 +34,18 @@ class MyGroupListTableViewCell: UITableViewCell {
     }
     
     func setupGroupPhotoImageView () {
-        groupPhotoImageView.image = UIImage(named: "StudyRoom.jpeg")
+        groupPhotoImageView.image = UIImage(named: "StudyRoom1.jpeg")
         groupPhotoImageView.contentMode = .scaleAspectFit
         groupPhotoImageView.backgroundColor = .systemGreen
         contentView.addSubview(groupPhotoImageView)
         groupPhotoImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             groupPhotoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-            groupPhotoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
+            groupPhotoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
             groupPhotoImageView.heightAnchor.constraint(equalToConstant: 100),
             groupPhotoImageView.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
