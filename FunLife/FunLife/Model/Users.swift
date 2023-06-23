@@ -19,3 +19,10 @@ struct Users: Codable, Identifiable {
     let user: String
     var timer: String
 }
+
+struct Group: Codable, Identifiable {
+    @DocumentID var id: String?
+    let founder: String
+    let groupID: String
+    let roomName: String
+}

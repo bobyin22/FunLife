@@ -7,8 +7,10 @@
 
 import UIKit
 
-class CreateGroupView: UIView {
 
+
+class CreateGroupView: UIView {
+    
     // MARK: 建立一個UI TableView
     let createGroupTableView: UITableView = {
         let createGroupTableView = UITableView()
@@ -83,6 +85,7 @@ class CreateGroupView: UIView {
             createGroupTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
             createGroupTableView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
         ])
+        
     }
     
     // MARK: 需要寫上

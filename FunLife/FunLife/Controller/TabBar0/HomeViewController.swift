@@ -45,7 +45,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("函式執行前", UserDefaults.standard.dictionaryRepresentation())
+        //print("函式執行前", UserDefaults.standard.dictionaryRepresentation())
         isUserDefault()
         
         view.backgroundColor = .systemGray
@@ -59,7 +59,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
        
         // UserDefaults.standard.removeObject(forKey: "myUserID")
         
-        print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
+        //print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
     }
     
     // MARK: 讓每次返回本頁會顯示
