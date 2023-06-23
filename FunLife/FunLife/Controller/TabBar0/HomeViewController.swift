@@ -81,32 +81,19 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     }
     
     // MARK: firebase成功拿到創建的獨一無二的ID
-    // 這個ID目前並不會上傳到firebase 只有當新增任務才會建立
     func createANewUserIDDocument() {
         let task = ["timer": "0", "user": "包伯"]
         let newDocumentID = db.collection("users").document()   // firebase建立一個亂數DocumentID
-       
-        //newDocumentID.collection("\(month).\(day)")
         self.documentID = newDocumentID.documentID      // firebase建立一個亂數DocumentID 並賦值給變數
         UserDefaults.standard.set(self.documentID, forKey: "myUserID")      // 把亂數DocumentID 塞在 App的UserDefault裡
         
-        db.collection("users").document("\(self.documentID)").setData([:]) { err in
-            if let err = err {
-                print("Error writing document: (err)")
+        db.collection("users").document("\(self.documentID)").setData([:]) { error in
+            if let error = error {
+                print("Document 建立失敗")
             } else {
-                print("Document successfully written!")
+                print("Document 建立成功")
             }
         }
-        
-//        newDocumentID.collection("\(month).\(day)").document("吃晚餐").setData(task) { error in
-//            if let error = error {
-//                print("錯誤")
-//            } else {
-//                print("成功")
-//                self.documentID = newDocumentID.documentID      // firebase建立一個亂數DocumentID 並賦值給變數
-//                UserDefaults.standard.set(self.documentID, forKey: "myUserID")      // 把亂數DocumentID 塞在 App的UserDefault裡
-//            }
-//        }
     }
         
     // MARK: 每次翻轉後要更新秒數

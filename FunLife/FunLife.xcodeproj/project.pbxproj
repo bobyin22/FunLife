@@ -25,6 +25,9 @@
 		A808A95E2A4041D300237AD7 /* MonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A95D2A4041D300237AD7 /* MonthViewController.swift */; };
 		A84F64102A4151E30064D9FC /* SheetTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84F640F2A4151E30064D9FC /* SheetTaskViewController.swift */; };
 		A894F9582A415CEB00550196 /* SheetTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F9572A415CEB00550196 /* SheetTaskTableViewCell.swift */; };
+		A894F97B2A45591C00550196 /* MyGroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F97A2A45591C00550196 /* MyGroupListViewController.swift */; };
+		A894F97D2A45708100550196 /* CreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F97C2A45708100550196 /* CreateGroupViewController.swift */; };
+		A894F9822A45724F00550196 /* MyGroupListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F9812A45724F00550196 /* MyGroupListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +52,9 @@
 		A808A95D2A4041D300237AD7 /* MonthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthViewController.swift; sourceTree = "<group>"; };
 		A84F640F2A4151E30064D9FC /* SheetTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetTaskViewController.swift; sourceTree = "<group>"; };
 		A894F9572A415CEB00550196 /* SheetTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetTaskTableViewCell.swift; sourceTree = "<group>"; };
+		A894F97A2A45591C00550196 /* MyGroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGroupListViewController.swift; sourceTree = "<group>"; };
+		A894F97C2A45708100550196 /* CreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupViewController.swift; sourceTree = "<group>"; };
+		A894F9812A45724F00550196 /* MyGroupListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MyGroupListTableViewCell.swift; path = FunLife/Controller/TabBar2/MyGroupListTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		DDD65060761FD46356DD5941 /* Pods_FunLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -113,6 +119,7 @@
 				A808A9292A3BD14A00237AD7 /* SettingTableViewCell.swift */,
 				A808A95B2A3D9DC900237AD7 /* DayTableViewCell.swift */,
 				A894F9572A415CEB00550196 /* SheetTaskTableViewCell.swift */,
+				A894F9812A45724F00550196 /* MyGroupListTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -136,15 +143,49 @@
 		A808A9222A3AC32800237AD7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A894F9802A4571F200550196 /* NavBar */,
+				A894F97E2A4571A800550196 /* TabBar0 */,
+				A894F97F2A4571BB00550196 /* TabBar1 */,
+				A894F9792A45558C00550196 /* TabBar2 */,
 				A808A91E2A3AC28A00237AD7 /* Base */,
+				A808A95D2A4041D300237AD7 /* MonthViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		A894F9792A45558C00550196 /* TabBar2 */ = {
+			isa = PBXGroup;
+			children = (
+				A894F97A2A45591C00550196 /* MyGroupListViewController.swift */,
+				A894F97C2A45708100550196 /* CreateGroupViewController.swift */,
+			);
+			path = TabBar2;
+			sourceTree = "<group>";
+		};
+		A894F97E2A4571A800550196 /* TabBar0 */ = {
+			isa = PBXGroup;
+			children = (
 				A808A9252A3AC38000237AD7 /* HomeViewController.swift */,
 				A84F640F2A4151E30064D9FC /* SheetTaskViewController.swift */,
+			);
+			path = TabBar0;
+			sourceTree = "<group>";
+		};
+		A894F97F2A4571BB00550196 /* TabBar1 */ = {
+			isa = PBXGroup;
+			children = (
 				A808A9592A3D96C000237AD7 /* DayViewController.swift */,
-				A808A95D2A4041D300237AD7 /* MonthViewController.swift */,
+			);
+			path = TabBar1;
+			sourceTree = "<group>";
+		};
+		A894F9802A4571F200550196 /* NavBar */ = {
+			isa = PBXGroup;
+			children = (
 				A808A9272A3BCEE600237AD7 /* SettingViewController.swift */,
 				A808A92B2A3C0FDA00237AD7 /* AddTaskViewController.swift */,
 			);
-			path = Controller;
+			path = NavBar;
 			sourceTree = "<group>";
 		};
 		BBBB1F696B776909A2AD1CD7 /* Pods */ = {
@@ -293,13 +334,16 @@
 			files = (
 				A808A9562A3C693200237AD7 /* Users.swift in Sources */,
 				A894F9582A415CEB00550196 /* SheetTaskTableViewCell.swift in Sources */,
+				A894F97B2A45591C00550196 /* MyGroupListViewController.swift in Sources */,
 				A808A92A2A3BD14A00237AD7 /* SettingTableViewCell.swift in Sources */,
 				A808A95C2A3D9DC900237AD7 /* DayTableViewCell.swift in Sources */,
+				A894F97D2A45708100550196 /* CreateGroupViewController.swift in Sources */,
 				A808A9282A3BCEE600237AD7 /* SettingViewController.swift in Sources */,
 				A808A9262A3AC38000237AD7 /* HomeViewController.swift in Sources */,
 				A808A9202A3AC2B200237AD7 /* BaseViewController.swift in Sources */,
 				A808A9082A39CCC300237AD7 /* AppDelegate.swift in Sources */,
 				A84F64102A4151E30064D9FC /* SheetTaskViewController.swift in Sources */,
+				A894F9822A45724F00550196 /* MyGroupListTableViewCell.swift in Sources */,
 				A808A90A2A39CCC300237AD7 /* SceneDelegate.swift in Sources */,
 				A808A95E2A4041D300237AD7 /* MonthViewController.swift in Sources */,
 				A808A92C2A3C0FDA00237AD7 /* AddTaskViewController.swift in Sources */,

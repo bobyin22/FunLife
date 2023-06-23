@@ -25,17 +25,17 @@
             </objects>
             <point key="canvasLocation" x="1863.3587786259541" y="-561.26760563380287"/>
         </scene>
-        <!--Month-->
+        <!--MyGroupList-->
         <scene sceneID="1kQ-lg-QUK">
             <objects>
-                <viewController id="KoH-18-Gf5" customClass="MonthViewController" customModule="FunLife" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="KoH-18-Gf5" customClass="MyGroupListViewController" customModule="FunLife" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Bd-wX-0Kc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="uW2-0N-yVc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Month" id="XMW-Kx-3UN"/>
+                    <navigationItem key="navigationItem" title="MyGroupList" id="XMW-Kx-3UN"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bPS-5M-ArA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -51,7 +51,7 @@
                         <viewLayoutGuide key="safeArea" id="pII-HH-qRW"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="person.2.fill" catalog="system" id="0o3-Vu-U7b"/>
+                    <tabBarItem key="tabBarItem" title="" image="person.fill" catalog="system" id="0o3-Vu-U7b"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ogx-Dg-MHC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -145,7 +145,7 @@
         <scene sceneID="YcR-xa-Icr">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RgW-ps-1Kd" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="chart.bar.fill" catalog="system" id="YZO-MZ-0JS"/>
+                    <tabBarItem key="tabBarItem" title="" image="person.2.fill" catalog="system" id="YZO-MZ-0JS"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mrX-rp-d2b">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -162,9 +162,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="chart.bar.fill" catalog="system" width="128" height="90"/>
         <image name="list.bullet" catalog="system" width="128" height="87"/>
         <image name="person.2.fill" catalog="system" width="128" height="81"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="stopwatch.fill" catalog="system" width="121" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
