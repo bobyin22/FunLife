@@ -17,7 +17,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     // 5️⃣建立實體
     // var sheetTaskVC: SheetTaskViewController?
     
-    var structArray = [Users]()             // 目前沒用到
+    // var structArray = [Users]()             // 目前沒用到
 
     let circleView = UIView()               // UI圓形View
     let circleTimerLabel = UILabel()        // UI計時時間Label
@@ -33,10 +33,21 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
     
     let addTaskVC = AddTaskViewController()                 // 把VC變數拉出來，讓後面可以 .點
-    var documentID = ""
+    var documentID = ""                                     // myUserID格式是一個字串
+    
+    
+    lazy var today = Date()
+    lazy var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
+//        let year = dateComponents.year!
+    lazy var month = dateComponents.month!
+    lazy var day = dateComponents.day!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("函式執行前", UserDefaults.standard.dictionaryRepresentation())
+        isUserDefault()
+        
         view.backgroundColor = .systemGray
         setupNavigation()
         setupCircleUI()
@@ -45,11 +56,10 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         setupTask()
         setupFlipLabel()
         
-        print("函式執行前", UserDefaults.standard.dictionaryRepresentation())
-        //UserDefaults.standard.removeObject(forKey: "myUserID")
+       
+        // UserDefaults.standard.removeObject(forKey: "myUserID")
         
-        //isUserDefault()
-        //print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
+        print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
     }
     
     // MARK: 讓每次返回本頁會顯示
@@ -62,10 +72,6 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     
     // MARK: 判斷這台手機是不是第一次下載我的app，如果是幫她建立一個myUserID，如果不是直接執行
     func isUserDefault () {
-        // 如果這台手機有我建立的userID
-        //      直接進入畫面
-        // 如果沒有
-        //      打一筆資料到firebase  並把亂數ID 給一個變數    在UserDefailt裡面建立一個字串 userID
         if let isDocumentID = UserDefaults.standard.string(forKey: "myUserID") {
           print("有我建立的myUserID")
         } else {
@@ -74,48 +80,47 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         }
     }
     
-    // MARK: 成功拿到創建的獨一無二的ID
+    // MARK: firebase成功拿到創建的獨一無二的ID
+    // 這個ID目前並不會上傳到firebase 只有當新增任務才會建立
     func createANewUserIDDocument() {
-        
         let task = ["timer": "0", "user": "包伯"]
-        let newDocumentID = db.collection("users").document()
-            
-        newDocumentID.collection("6.22").document("吃晚餐").setData(task) { error in
-            if let error = error {
-                print("錯誤")
+        let newDocumentID = db.collection("users").document()   // firebase建立一個亂數DocumentID
+       
+        //newDocumentID.collection("\(month).\(day)")
+        self.documentID = newDocumentID.documentID      // firebase建立一個亂數DocumentID 並賦值給變數
+        UserDefaults.standard.set(self.documentID, forKey: "myUserID")      // 把亂數DocumentID 塞在 App的UserDefault裡
+        
+        db.collection("users").document("\(self.documentID)").setData([:]) { err in
+            if let err = err {
+                print("Error writing document: (err)")
             } else {
-                print("成功")
-                
-                self.documentID = newDocumentID.documentID
-                // let documentID = newDocumentID.documentID
-                print("這才是我要的",self.documentID)
-                UserDefaults.standard.set(self.documentID, forKey: "myUserID")
+                print("Document successfully written!")
             }
         }
-
-//        db.collection("users").addDocument(data: [
-//            "name": "東京",
-//            "country": "日本"
-//        ])
         
-//        db.collection("users").document("LA").setData([
-//            "name": "洛杉磯",
-//            "state": "加州",
-//            "country": "美國"
-//        ])
+//        newDocumentID.collection("\(month).\(day)").document("吃晚餐").setData(task) { error in
+//            if let error = error {
+//                print("錯誤")
+//            } else {
+//                print("成功")
+//                self.documentID = newDocumentID.documentID      // firebase建立一個亂數DocumentID 並賦值給變數
+//                UserDefaults.standard.set(self.documentID, forKey: "myUserID")      // 把亂數DocumentID 塞在 App的UserDefault裡
+//            }
+//        }
     }
         
     // MARK: 每次翻轉後要更新秒數
     func modifyUser(counter: Int) {
         
-        let today = Date()
-
-        let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-//        let year = dateComponents.year!
-        let month = dateComponents.month!
-        let day = dateComponents.day!
+//        let today = Date()
+//
+//        let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
+////        let year = dateComponents.year!
+//        let month = dateComponents.month!
+//        let day = dateComponents.day!
         
-        let documentReference = db.collection("users").document("Bob").collection("\(month).\(day)").document(addTaskVC.titleTaskLabel.text ?? "沒接到")
+        // firebaseUserID = "\(UserDefaults.standard.string(forKey: "myUserID")!)"
+        let documentReference = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(month).\(day)").document(addTaskVC.titleTaskLabel.text ?? "沒接到")
         documentReference.getDocument { document, error in
             
             guard let document,
@@ -166,7 +171,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         timer = nil
     }
     
-    // MARK: 顯示目前翻面的Label
+    // MARK: 建立UI 顯示目前在哪一面的Label
     func setupFlipLabel() {
         label = UILabel(frame: CGRect(x: 140, y: 450, width: 200, height: 50))
         // label.center = view.center
@@ -225,7 +230,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         label.text = oriString
     }
     
-    // MARK: 提示框
+    // MARK: 翻正面 提示框
     func alertMsg () {
         let alert = UIAlertController(title: "計時停止", message: "你翻面了，專注暫停", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"),
@@ -240,26 +245,26 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    // MARK: 建立 NavBar +按鈕 與 設定按鈕
+    // MARK: 建立UI NavBar +按鈕 與 設定按鈕
     func setupNavigation() {
         settingSButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(navToSettingVC))
         addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(navToAddTaskVC))
         navigationItem.rightBarButtonItems = [settingSButton, addButton]    // 兩個按鈕
     }
     
-    // MARK: 點擊Nav進入跳轉設定頁面VC
+    // MARK: 跳轉頁 點擊Nav進入跳轉設定頁面VC
     @objc func navToSettingVC() {
         let settingVC = SettingViewController()
         navigationController?.pushViewController(settingVC, animated: true)
     }
     
-    // MARK: 點擊Nav進入跳轉新增任務頁面VC
+    // MARK: 跳轉頁 點擊Nav進入跳轉新增任務頁面VC
     @objc func navToAddTaskVC() {
         // let addTaskVC = AddTaskViewController()
         navigationController?.pushViewController(addTaskVC, animated: true)
     }
     
-    // MARK: 建立圓形View
+    // MARK: UI建立圓形View
     func setupCircleUI() {
         view.addSubview(circleView)
         circleView.backgroundColor = .systemYellow
@@ -281,7 +286,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         circleView.layer.masksToBounds = false
     }
     
-    // MARK: 建立日期Label
+    // MARK: UI建立日期Label
     func setupDate() {
         view.addSubview(circleDateLabel)
         circleDateLabel.font = UIFont(name: "Helvetica", size: 20)
@@ -293,21 +298,16 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         ])
         
         let today = Date()
-
         let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
         let year = dateComponents.year!
         let month = dateComponents.month!
         let day = dateComponents.day!
-        
         let weekday = Calendar.current.component(.weekday, from: today)
         let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
-        
-        // print("\(year).\(month).\(day).\(weekdayString)")
-        
         circleDateLabel.text = "\(year).\(month).\(day).\(weekdayString)" // "2023.06.13.Tue"
     }
     
-    // MARK: 建立倒數計時器Label
+    // MARK: UI建立倒數計時器Label
     func setupTimer() {
         view.addSubview(circleTimerLabel)
         circleTimerLabel.text = "\(counter)"
@@ -320,7 +320,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         ])
     }
     
-    // MARK: 建立任務Label
+    // MARK: UI建立任務Label
     func setupTask() {
         view.addSubview(circleTaskButton)
         circleTaskButton.setTitle("線性代數", for: .normal)

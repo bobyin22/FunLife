@@ -19,6 +19,10 @@ class AddTaskViewController: UIViewController {
     
     var titleTaskLabel = UILabel()          // MARK: 用來接住輸入的textField，給HomeVC顯示用
     
+    //var firebaseUserID = "\(UserDefaults.standard.string(forKey: "myUserID")!)"
+    
+    // "\(UserDefaults.standard.string(forKey: "myUserID")!)"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray5
@@ -128,7 +132,10 @@ class AddTaskViewController: UIViewController {
         let task = ["timer": "0", "user": "包伯"]
         let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
         
-        let bobDocumentRef = db.collection("users").document("Bob")
+        
+        //var firebaseUserID = "\(UserDefaults.standard.string(forKey: "myUserID")!)"
+        //firebaseUserID = firebaseUserID!
+        let bobDocumentRef = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
         let nextTaskCollectionRef = bobDocumentRef.collection("\(month).\(day)" ?? "沒輸入")
         
         nextTaskCollectionRef.document(addTaskTextField.text ?? "沒輸入").setData(task) { error in
@@ -138,5 +145,6 @@ class AddTaskViewController: UIViewController {
                 print("Task created successfully")
             }
         }
+        print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
     }
 }

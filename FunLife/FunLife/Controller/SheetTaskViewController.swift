@@ -63,7 +63,7 @@ class SheetTaskViewController: UIViewController {
         
         // print("月日", "\(monthString).\(dayString)")
         
-        db.collection("users").document("Bob").collection("\(monthString).\(dayString)").getDocuments { snapshot, error in
+        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(monthString).\(dayString)").getDocuments { snapshot, error in
             guard let snapshot else {
                 return
             }
