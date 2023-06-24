@@ -26,6 +26,9 @@
 		A84F64102A4151E30064D9FC /* SheetTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84F640F2A4151E30064D9FC /* SheetTaskViewController.swift */; };
 		A887B24E2A458003003AD6E3 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B24D2A458003003AD6E3 /* CreateGroupView.swift */; };
 		A887B2502A458392003AD6E3 /* CreateGroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B24F2A458392003AD6E3 /* CreateGroupTableViewCell.swift */; };
+		A887B2532A46A1CE003AD6E3 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B2522A46A1CE003AD6E3 /* GroupDetailView.swift */; };
+		A887B2552A46A452003AD6E3 /* GroupDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B2542A46A452003AD6E3 /* GroupDetailViewController.swift */; };
+		A887B2572A46ADE0003AD6E3 /* GroupDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B2562A46ADE0003AD6E3 /* GroupDetailTableViewCell.swift */; };
 		A894F9582A415CEB00550196 /* SheetTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F9572A415CEB00550196 /* SheetTaskTableViewCell.swift */; };
 		A894F97B2A45591C00550196 /* MyGroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F97A2A45591C00550196 /* MyGroupListViewController.swift */; };
 		A894F97D2A45708100550196 /* CreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F97C2A45708100550196 /* CreateGroupViewController.swift */; };
@@ -55,6 +58,9 @@
 		A84F640F2A4151E30064D9FC /* SheetTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetTaskViewController.swift; sourceTree = "<group>"; };
 		A887B24D2A458003003AD6E3 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
 		A887B24F2A458392003AD6E3 /* CreateGroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupTableViewCell.swift; sourceTree = "<group>"; };
+		A887B2522A46A1CE003AD6E3 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
+		A887B2542A46A452003AD6E3 /* GroupDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailViewController.swift; sourceTree = "<group>"; };
+		A887B2562A46ADE0003AD6E3 /* GroupDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailTableViewCell.swift; sourceTree = "<group>"; };
 		A894F9572A415CEB00550196 /* SheetTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetTaskTableViewCell.swift; sourceTree = "<group>"; };
 		A894F97A2A45591C00550196 /* MyGroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGroupListViewController.swift; sourceTree = "<group>"; };
 		A894F97C2A45708100550196 /* CreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupViewController.swift; sourceTree = "<group>"; };
@@ -163,6 +169,8 @@
 				A894F9812A45724F00550196 /* MyGroupListTableViewCell.swift */,
 				A887B24D2A458003003AD6E3 /* CreateGroupView.swift */,
 				A887B24F2A458392003AD6E3 /* CreateGroupTableViewCell.swift */,
+				A887B2522A46A1CE003AD6E3 /* GroupDetailView.swift */,
+				A887B2562A46ADE0003AD6E3 /* GroupDetailTableViewCell.swift */,
 			);
 			path = Group;
 			sourceTree = "<group>";
@@ -172,6 +180,7 @@
 			children = (
 				A894F97A2A45591C00550196 /* MyGroupListViewController.swift */,
 				A894F97C2A45708100550196 /* CreateGroupViewController.swift */,
+				A887B2542A46A452003AD6E3 /* GroupDetailViewController.swift */,
 			);
 			path = TabBar2;
 			sourceTree = "<group>";
@@ -347,13 +356,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				A808A9562A3C693200237AD7 /* Users.swift in Sources */,
+				A887B2532A46A1CE003AD6E3 /* GroupDetailView.swift in Sources */,
 				A894F9582A415CEB00550196 /* SheetTaskTableViewCell.swift in Sources */,
 				A894F97B2A45591C00550196 /* MyGroupListViewController.swift in Sources */,
 				A887B2502A458392003AD6E3 /* CreateGroupTableViewCell.swift in Sources */,
 				A808A92A2A3BD14A00237AD7 /* SettingTableViewCell.swift in Sources */,
+				A887B2572A46ADE0003AD6E3 /* GroupDetailTableViewCell.swift in Sources */,
 				A808A95C2A3D9DC900237AD7 /* DayTableViewCell.swift in Sources */,
 				A894F97D2A45708100550196 /* CreateGroupViewController.swift in Sources */,
 				A808A9282A3BCEE600237AD7 /* SettingViewController.swift in Sources */,
+				A887B2552A46A452003AD6E3 /* GroupDetailViewController.swift in Sources */,
 				A808A9262A3AC38000237AD7 /* HomeViewController.swift in Sources */,
 				A808A9202A3AC2B200237AD7 /* BaseViewController.swift in Sources */,
 				A808A9082A39CCC300237AD7 /* AppDelegate.swift in Sources */,

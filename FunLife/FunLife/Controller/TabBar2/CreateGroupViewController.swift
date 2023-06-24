@@ -8,15 +8,8 @@
 import UIKit
 import FirebaseFirestore
 
-// 1️⃣
-protocol CreateGroupViewControllerDelegate: AnyObject {
-    func passValue(parameter: String)
-}
 
 class CreateGroupViewController: UIViewController {
-
-    // 2️⃣
-    weak var delegate: CreateGroupViewControllerDelegate?
     
     // MARK: 生成自定義View的實體
     let createGroupView = CreateGroupView()
@@ -68,22 +61,15 @@ class CreateGroupViewController: UIViewController {
             }
         }
         
-        clickBtn()
-        
-        // 3️⃣
-        delegate?.passValue(parameter: "\(cell.createGroupTextField.text!)")
+        self.navigationController?.popViewController(animated: true)    // MARK: 點擊按鈕發生的事   跳轉回群組List頁
     }
     
-    // MARK: 點擊按鈕發生的事   跳轉回群組List頁
-    @objc func clickBtn() {
-        let myGroupListVC = MyGroupListViewController()
-        navigationController?.pushViewController(myGroupListVC, animated: true)
-    }
-    
+
     
     // 取消按鈕 點擊動作
     @objc func clickCancelGroupBtn() {
         print("已取消")
+        self.navigationController?.popViewController(animated: true)
     }
     
 }

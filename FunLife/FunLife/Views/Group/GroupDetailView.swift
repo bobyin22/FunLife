@@ -1,0 +1,107 @@
+//
+//  GroupDetailView.swift
+//  FunLife
+//
+//  Created by 邱慧珊 on 2023/6/24.
+//
+
+import UIKit
+
+class GroupDetailView: UIView {
+
+    // MARK: 建立一個UI 照片
+    let groupDetailImageView: UIImageView = {
+        let groupDetailImageView = UIImageView()
+        groupDetailImageView.backgroundColor = .systemBlue
+        return groupDetailImageView
+    }()
+        
+    // MARK: 建立一個UI TableView
+    let groupDetailTableView: UITableView = {
+        let groupDetailTableView = UITableView()
+        groupDetailTableView.backgroundColor = .systemGreen
+        return groupDetailTableView
+    }()
+    
+    // MARK: 初始init
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupGroupDetailImageView()
+        setupGroupDetailTableView()
+        
+        groupDetailTableView.register(GroupDetailTableViewCell.self, forCellReuseIdentifier: "GroupDetailTableViewCell")
+        groupDetailTableView.delegate = self
+        groupDetailTableView.dataSource = self
+    }
+        
+    // MARK: 照片AutoLayout
+    func setupGroupDetailImageView() {
+        groupDetailImageView.image = UIImage(named: "StudyRoom1")
+        groupDetailImageView.contentMode = .scaleAspectFit
+        addSubview(groupDetailImageView)
+        groupDetailImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            groupDetailImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            groupDetailImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            groupDetailImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            // groupDetailImageView.widthAnchor.constraint(equalToConstant: 150),
+            groupDetailImageView.bottomAnchor.constraint(equalTo: self.topAnchor, constant: 150),
+        ])
+    }
+    
+    // MARK: 建立群組tablview的AutoLayout
+    func setupGroupDetailTableView() {
+        addSubview(groupDetailTableView)
+        
+        // 設定View的邊界
+        groupDetailTableView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            groupDetailTableView.topAnchor.constraint(equalTo: groupDetailImageView.bottomAnchor, constant: 50),
+            groupDetailTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+            groupDetailTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+            groupDetailTableView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -100),
+        ])
+        
+    }
+    
+    // MARK: 需要寫上
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+extension GroupDetailView: UITableViewDelegate {
+    
+}
+
+extension GroupDetailView: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        "群組成員"
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        80
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "GroupDetailTableViewCell", for: indexPath) as? GroupDetailTableViewCell
+        else {
+            // 處理轉換失敗的情況，例如創建一個預設的 UITableViewCell
+            return UITableViewCell()
+        }
+        
+        // cell.personIconBtn.setTitle("組員Bob", for: .normal)
+        cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
+        // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
+        return cell
+    }
+    
+}

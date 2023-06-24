@@ -9,7 +9,7 @@ import UIKit
 import FirebaseFirestore
 
 // 4️⃣
-class MyGroupListViewController: UIViewController, CreateGroupViewControllerDelegate {
+class MyGroupListViewController: UIViewController  {
     
     var text = ""
     let groupListTableView = UITableView()
@@ -18,7 +18,7 @@ class MyGroupListViewController: UIViewController, CreateGroupViewControllerDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray2
+        view.backgroundColor = .white
         
         setupGroupListTableView()
         groupListTableView.register(MyGroupListTableViewCell.self, forCellReuseIdentifier: "MyGroupListTableViewCell")
@@ -26,16 +26,17 @@ class MyGroupListViewController: UIViewController, CreateGroupViewControllerDele
         groupListTableView.dataSource = self
         
         addGroup()
-        fetchAPI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        fetchAPI()
     }
     
     // MARK: 抓取firebase上的資料
     func fetchAPI() {
         userGroupArray.removeAll()
+        
         let db = Firestore.firestore()
         db.collection("group").getDocuments { snapshot, error in
             guard let snapshot = snapshot else { return }
@@ -49,7 +50,7 @@ class MyGroupListViewController: UIViewController, CreateGroupViewControllerDele
                 self.userGroupArray.append(userGroup[indexNumber].roomName)
                 indexNumber += 1
             }
-            print(userGroup)
+            print("確認有沒有爆掉", self.userGroupArray)
             self.groupListTableView.reloadData()
         }
     }
@@ -57,20 +58,21 @@ class MyGroupListViewController: UIViewController, CreateGroupViewControllerDele
     // MARK: 建立UI TableView
     func setupGroupListTableView() {
         view.addSubview(groupListTableView)
-        groupListTableView.backgroundColor = .systemYellow
+        // groupListTableView.backgroundColor = .systemYellow
         groupListTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            groupListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            groupListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             groupListTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             groupListTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            groupListTableView.heightAnchor.constraint(equalToConstant: 450)
+            groupListTableView.heightAnchor.constraint(equalToConstant: 430)
         ])
     }
     // MARK: 建立UI 方形按鈕
     func addGroup() {
         let addGroupBtn = UIButton()
+        addGroupBtn.setImage(UIImage(named: "plus1.png"), for: .normal)
         view.addSubview(addGroupBtn)
-        addGroupBtn.backgroundColor = .yellow
+        // addGroupBtn.backgroundColor = .yellow
         addGroupBtn.addTarget(self, action: #selector(clickBtn), for: .touchUpInside)
         
         addGroupBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -84,25 +86,8 @@ class MyGroupListViewController: UIViewController, CreateGroupViewControllerDele
     
     // MARK: 點擊按鈕發生的事
     @objc func clickBtn() {
-        // 5️⃣
         let createGroupVC = CreateGroupViewController()
         navigationController?.pushViewController(createGroupVC, animated: true)
-        
-        // 6️⃣
-        createGroupVC.delegate = self
-    }
-    
-    // 7️⃣
-    func passValue(parameter: String) {
-        text = "\(parameter)"
-        print("text是", text)
-        
-        guard let cell = groupListTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? MyGroupListTableViewCell else {
-            return
-        }
-        
-        cell.groupNameLabel.text = text
-        groupListTableView.reloadData()
     }
 }
 
@@ -114,8 +99,21 @@ extension MyGroupListViewController: UITableViewDelegate {
 // MARK: 寫入資料
 extension MyGroupListViewController: UITableViewDataSource {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell =  tableView.dequeueReusableCell(withIdentifier: "MyGroupListTableViewCell",
+                                                        for: indexPath) as? MyGroupListTableViewCell
+        else { return }
+        
+        print("印出", cell.groupNameLabel.text!)
+        
+        // MARK: 點擊進入各自的下一頁
+        let groupDetailVC = GroupDetailViewController()
+        navigationController?.pushViewController(groupDetailVC, animated: true)
+        
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        150
+        120
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -123,6 +121,7 @@ extension MyGroupListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+                
         guard let cell =  tableView.dequeueReusableCell(withIdentifier: "MyGroupListTableViewCell",
                                                         for: indexPath) as? MyGroupListTableViewCell
         else {
@@ -130,7 +129,7 @@ extension MyGroupListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.groupNameLabel.text = userGroupArray[indexPath.row]
+         cell.groupNameLabel.text = userGroupArray[indexPath.row]
         // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
         return cell
     }
