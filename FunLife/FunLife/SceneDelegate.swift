@@ -55,6 +55,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     // 🍎
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        print("\(URLContexts)")
+        print("SceneDelegate是","\(URLContexts)")
     }
 }

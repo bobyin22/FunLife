@@ -8,7 +8,6 @@
 import UIKit
 import FirebaseFirestore
 
-
 class CreateGroupViewController: UIViewController {
     
     // MARK: 生成自定義View的實體
@@ -48,6 +47,9 @@ class CreateGroupViewController: UIViewController {
         }
         
         let newDocumentGroupID = db.collection("group").document()   // firebase建立一個亂數DocumentID
+        let documentID = newDocumentGroupID.documentID      // firebase建立一個亂數DocumentID 並賦值給變數
+        UserDefaults.standard.set(documentID, forKey: "myGroupID")      // 把亂數DocumentID 塞在 App的UserDefault裡
+        
         let task = ["groupID": "\(newDocumentGroupID.documentID)",
                     "founder": "\(UserDefaults.standard.string(forKey: "myUserID")!)",
                     "roomName": "\(cell.createGroupTextField.text!)"
@@ -62,9 +64,8 @@ class CreateGroupViewController: UIViewController {
         }
         
         self.navigationController?.popViewController(animated: true)    // MARK: 點擊按鈕發生的事   跳轉回群組List頁
+        print("UserDefaults.standard.dictionaryRepresentation()是", UserDefaults.standard.dictionaryRepresentation())
     }
-    
-
     
     // 取消按鈕 點擊動作
     @objc func clickCancelGroupBtn() {

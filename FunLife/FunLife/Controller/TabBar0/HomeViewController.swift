@@ -35,7 +35,6 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     let addTaskVC = AddTaskViewController()                 // 把VC變數拉出來，讓後面可以 .點
     var documentID = ""                                     // myUserID格式是一個字串
     
-    
     lazy var today = Date()
     lazy var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
 //        let year = dateComponents.year!
@@ -59,7 +58,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
        
         // UserDefaults.standard.removeObject(forKey: "myUserID")
         
-        //print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
+        print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
     }
     
     // MARK: 讓每次返回本頁會顯示
@@ -82,18 +81,20 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     
     // MARK: firebase成功拿到創建的獨一無二的ID
     func createANewUserIDDocument() {
-        let task = ["timer": "0", "user": "包伯"]
+        //let task = ["timer": "0", "user": "包伯"]
         let newDocumentID = db.collection("users").document()   // firebase建立一個亂數DocumentID
         self.documentID = newDocumentID.documentID      // firebase建立一個亂數DocumentID 並賦值給變數
         UserDefaults.standard.set(self.documentID, forKey: "myUserID")      // 把亂數DocumentID 塞在 App的UserDefault裡
         
-        db.collection("users").document("\(self.documentID)").setData([:]) { error in
+        // 建立firebase資料 ID 其他空
+        db.collection("users").document("\(self.documentID)").setData(["name": ""]) { error in
             if let error = error {
                 print("Document 建立失敗")
             } else {
                 print("Document 建立成功")
             }
         }
+        
     }
         
     // MARK: 每次翻轉後要更新秒數

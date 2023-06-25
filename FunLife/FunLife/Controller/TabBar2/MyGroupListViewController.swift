@@ -9,12 +9,12 @@ import UIKit
 import FirebaseFirestore
 
 // 4️⃣
-class MyGroupListViewController: UIViewController  {
+class MyGroupListViewController: UIViewController {
     
     var text = ""
     let groupListTableView = UITableView()
     // var groupNameArray: [String] = [""]
-    var userGroupArray:[String] = [""]
+    var userGroupArray: [String] = [""]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +50,7 @@ class MyGroupListViewController: UIViewController  {
                 self.userGroupArray.append(userGroup[indexNumber].roomName)
                 indexNumber += 1
             }
-            print("確認有沒有爆掉", self.userGroupArray)
+            // print("確認有沒有爆掉", self.userGroupArray)
             self.groupListTableView.reloadData()
         }
     }
@@ -104,10 +104,15 @@ extension MyGroupListViewController: UITableViewDataSource {
                                                         for: indexPath) as? MyGroupListTableViewCell
         else { return }
         
-        print("印出", cell.groupNameLabel.text!)
+        // print("印出", cell.groupNameLabel.text!)
+        // print("全", userGroupArray)
+        // print("0", userGroupArray[0])
+        
+        let selectedGroupID = userGroupArray[indexPath.row] // 获取所选群组的 ID 或其他信息
         
         // MARK: 點擊進入各自的下一頁
         let groupDetailVC = GroupDetailViewController()
+        groupDetailVC.groupID = selectedGroupID // 传递群组 ID 或其他信息给详情页
         navigationController?.pushViewController(groupDetailVC, animated: true)
         
     }
