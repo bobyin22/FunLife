@@ -25,4 +25,12 @@ struct Group: Codable, Identifiable {
     let founder: String
     let groupID: String
     let roomName: String
+    //let members: [Members]
 }
+
+//struct Members: Codable, Identifiable {
+//    @DocumentID var id: String?
+//    let member: String
+//}
+
+

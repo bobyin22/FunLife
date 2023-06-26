@@ -172,7 +172,7 @@ extension GroupDetailView: UITableViewDataSource {
         // cell.personIconBtn.setTitle("組員Bob", for: .normal)
         cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
         // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
-        print("挖哩勒", passData)
+        // print("挖哩勒", passData)
         cell.personNameLabel.text = "\(passData)"
         
         return cell

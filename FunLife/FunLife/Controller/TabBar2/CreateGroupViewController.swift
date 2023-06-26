@@ -38,23 +38,23 @@ class CreateGroupViewController: UIViewController {
         ])
     }
     
-    // 儲存按鈕 點擊動作
+    // 儲存按鈕 點擊動作 建立群組
     @objc func clickSaveGroupBtn() {
         
         // 取得輸入欄
-        guard let cell = createGroupView.createGroupTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? CreateGroupTableViewCell else {
-            return
-        }
+        guard let cell = createGroupView.createGroupTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? CreateGroupTableViewCell else { return }
         
-        let newDocumentGroupID = db.collection("group").document()   // firebase建立一個亂數DocumentID
-        let documentID = newDocumentGroupID.documentID      // firebase建立一個亂數DocumentID 並賦值給變數
+        let newDocumentGroupID = db.collection("group").document()      // firebase建立一個亂數DocumentID
+        let documentID = newDocumentGroupID.documentID                  // firebase建立一個亂數DocumentID 並賦值給變數
         UserDefaults.standard.set(documentID, forKey: "myGroupID")      // 把亂數DocumentID 塞在 App的UserDefault裡
         
         let task = ["groupID": "\(newDocumentGroupID.documentID)",
                     "founder": "\(UserDefaults.standard.string(forKey: "myUserID")!)",
-                    "roomName": "\(cell.createGroupTextField.text!)"
-        ]
+                    "roomName": "\(cell.createGroupTextField.text!)",
+                    "members": ["\(UserDefaults.standard.string(forKey: "myUserID")!)"]     // 把founder放入member中
+        ] as [String : Any]
         
+        // 把創立的群組資料傳到firebase
         db.collection("group").document("\(newDocumentGroupID.documentID)").setData(task) { error in
             if let error = error {
                 print("Document 建立失敗")
@@ -64,7 +64,7 @@ class CreateGroupViewController: UIViewController {
         }
         
         self.navigationController?.popViewController(animated: true)    // MARK: 點擊按鈕發生的事   跳轉回群組List頁
-        print("UserDefaults.standard.dictionaryRepresentation()是", UserDefaults.standard.dictionaryRepresentation())
+        // print("UserDefaults.standard.dictionaryRepresentation()是", UserDefaults.standard.dictionaryRepresentation())
     }
     
     // 取消按鈕 點擊動作

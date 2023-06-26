@@ -15,6 +15,7 @@ class MyGroupListViewController: UIViewController {
     let groupListTableView = UITableView()
     // var groupNameArray: [String] = [""]
     var userGroupArray: [String] = [""]
+    var groupMembersArrays: [[String]] = [[]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,19 +39,33 @@ class MyGroupListViewController: UIViewController {
         userGroupArray.removeAll()
         
         let db = Firestore.firestore()
-        db.collection("group").getDocuments { snapshot, error in
+        
+        db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)") .getDocuments { snapshot, error in
             guard let snapshot = snapshot else { return }
             
             let userGroup = snapshot.documents.compactMap { snapshot in
                 try? snapshot.data(as: Group.self)
             }
             
+            // MARK: 取得成員名稱 userGroupArray
+            let documents = snapshot.documents
             var indexNumber = 0
-            for index in userGroup {
-                self.userGroupArray.append(userGroup[indexNumber].roomName)
+            
+            for document in documents {
+                let data = document.data()
+                guard let groupMembersArray = data["members"] as? [String] else { return }
+                self.groupMembersArrays.append(groupMembersArray)
                 indexNumber += 1
             }
-            // print("確認有沒有爆掉", self.userGroupArray)
+            
+            indexNumber = 0
+            
+            // MARK: 取得教室名稱 userGroupArray
+            for index in userGroup {
+                self.userGroupArray.append(userGroup[indexNumber].roomName)
+//                self.groupMembersArrays.append(userGroup[indexNumber].members)
+                indexNumber += 1
+            }
             self.groupListTableView.reloadData()
         }
     }
@@ -103,16 +118,14 @@ extension MyGroupListViewController: UITableViewDataSource {
         guard let cell =  tableView.dequeueReusableCell(withIdentifier: "MyGroupListTableViewCell",
                                                         for: indexPath) as? MyGroupListTableViewCell
         else { return }
-        
-        // print("印出", cell.groupNameLabel.text!)
-        // print("全", userGroupArray)
-        // print("0", userGroupArray[0])
-        
-        let selectedGroupID = userGroupArray[indexPath.row] // 获取所选群组的 ID 或其他信息
+                
+        let selectedGroupID = userGroupArray[indexPath.row]             // 获取所选群组的 ID 或其他信息
+        let selectedGroupMembers = groupMembersArrays[indexPath.row]
         
         // MARK: 點擊進入各自的下一頁
         let groupDetailVC = GroupDetailViewController()
         groupDetailVC.groupID = selectedGroupID // 传递群组 ID 或其他信息给详情页
+        //groupDetailVC.groupMembersArray = selectedGroupMembers
         navigationController?.pushViewController(groupDetailVC, animated: true)
         
     }
