@@ -95,17 +95,13 @@ class GroupDetailView: UIView {
     // MARK: 建立群組tablview的AutoLayout
     func setupGroupDetailTableView() {
         addSubview(groupDetailTableView)
-        
-        // 設定View的邊界
         groupDetailTableView.translatesAutoresizingMaskIntoConstraints = false
-
         NSLayoutConstraint.activate([
             groupDetailTableView.topAnchor.constraint(equalTo: groupDetailImageView.bottomAnchor, constant: 30),
             groupDetailTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
             groupDetailTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
             groupDetailTableView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -100),
         ])
-        
     }
     
     // MARK: 進入房間按鈕AutoLayout
@@ -168,13 +164,13 @@ extension GroupDetailView: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        
-        // cell.personIconBtn.setTitle("組員Bob", for: .normal)
         cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
-        // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
-        // print("挖哩勒", passData)
-        cell.personNameLabel.text = "\(passData)"
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
+            print("傳過來的passData",self.passData)
+            cell.personNameLabel.text = self.passData
+        }
+
         return cell
     }
     

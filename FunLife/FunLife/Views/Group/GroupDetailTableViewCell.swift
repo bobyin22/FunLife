@@ -35,10 +35,10 @@ class GroupDetailTableViewCell: UITableViewCell {
         ])
     }
     
-    // MARK: AutoLayout 按鈕照片
+    // MARK: AutoLayout Label名字
     func setupPersonNameLabel () {
         personNameLabel.backgroundColor = .systemYellow
-        personNameLabel.text = "包伯"
+        personNameLabel.text = "載入"
         contentView.addSubview(personNameLabel)
         personNameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -63,7 +63,6 @@ class GroupDetailTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
 

@@ -9,19 +9,21 @@ import UIKit
 import FirebaseFirestore
 
 class GroupDetailViewController: UIViewController {
-
+    
     // MARK: 生成自定義View的實體
     let groupDetailView = GroupDetailView()
     
     var groupID: String = ""
     var groupMembersArrays: [String] = []
-    var userGroupArray: [String] = [""]
+    var userGroupArray: [String] = []
+    
+    var fromGroupGetUserID = ""
+    var fromGroupGetUserName = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white //.systemGray2
+        view.backgroundColor = .white
         setupGroupDetailView()
-        
         // print("傳進來的groupID是", groupID)
         groupDetailView.groupDetailNameLabel.text = groupID
         fetchAPI()
@@ -30,7 +32,7 @@ class GroupDetailViewController: UIViewController {
     // MARK: 把自定義的View設定邊界
     func setupGroupDetailView() {
         view.addSubview(groupDetailView)
-
+        
         groupDetailView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             groupDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
@@ -47,10 +49,18 @@ class GroupDetailViewController: UIViewController {
         db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)") .getDocuments { snapshot, error in
             guard let snapshot = snapshot else { return }
             
+            // 拿到所有符合 member是使用者的group
             let userGroup = snapshot.documents.compactMap { snapshot in
                 try? snapshot.data(as: Group.self)
             }
-            
+            print("userGroup", userGroup)
+            print("userGroup[0]", userGroup[0])                        // ["G0DQu4crcwLZJXlL8qpr"]
+            print("userGroup[0].members[0]", userGroup[0].members[0])  // G0DQu4crcwLZJXlL8qpr
+            print("成員有幾個", userGroup[0].members.count)              // 1
+            self.fromGroupGetUserID = userGroup[0].members[0]
+            self.getUserName()
+//            self.groupDetailView.passData = "\(self.fromGroupGetUserName)"
+//            print("self.groupDetailView.passData", self.groupDetailView.passData)
             
             var indexNumber = 0
             
@@ -67,29 +77,41 @@ class GroupDetailViewController: UIViewController {
             indexNumber = 0
             
             for index in userGroup {
-                self.userGroupArray.append(userGroup[indexNumber].roomName)
-                //self.groupMembersArray.append(userGroup[indexNumber].members)
+                // self.userGroupArray.append(userGroup[indexNumber].roomName)
+                //self.groupMembersArrays.append(userGroup[indexNumber].members)
                 indexNumber += 1
             }
-            print("確認成員", self.userGroupArray)
             self.groupDetailView.groupDetailTableView.reloadData()
-            // self.groupListTableView.reloadData()
         }
-        
-//        db.collection("group").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").getDocument { (document, error) in
-//
-//            if let document = document, document.exists {
-//                // print(document.documentID, document.data()!)
-//                print(document.data()!["name"]!)
-//
-//                self.groupDetailView.passData = "\(document.data()!["name"]!)"
-//                self.groupDetailView.groupDetailTableView.reloadData()
-//
-//            } else {
-//                print("Document does not exist")
-//            }
-//
-//        }
     }
     
+    // MARK: 拿G0DQu4crcwLZJXlL8qpr 去抓 users -> G0DQu4crcwLZJXlL8qpr -> name
+    func getUserName() {
+        let db = Firestore.firestore()
+        db.collection("users").document(fromGroupGetUserID).getDocument { snapshot, error in
+            if let error = error {
+                print("Error getting document: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let snapshot = snapshot, snapshot.exists else {
+                print("snapshot不存在")
+                return
+            }
+            
+            if let data = snapshot.data(),
+                let name = data["name"] as? String {
+                self.fromGroupGetUserName = name
+                // 把Bob塞給下一頁變數來接顯示在cell Label
+
+                self.groupDetailView.passData = "\(self.fromGroupGetUserName)"
+                print("self.groupDetailView.passData", self.groupDetailView.passData)
+                
+                print("抓到的UserName是: \(name)")
+            } else {
+                print("Invalid document data or name field does not exist")
+            }
+            
+        }
+    }
 }

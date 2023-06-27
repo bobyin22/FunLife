@@ -48,10 +48,26 @@ class CreateGroupViewController: UIViewController {
         let documentID = newDocumentGroupID.documentID                  // firebase建立一個亂數DocumentID 並賦值給變數
         UserDefaults.standard.set(documentID, forKey: "myGroupID")      // 把亂數DocumentID 塞在 App的UserDefault裡
         
+//        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").getDocument { snapshot, error in
+//            if let error = error { return }
+//
+//            guard let snapshot = snapshot, snapshot.exists else { return }
+//
+//            guard let data = snapshot.data() else { return }
+//
+//            if let group = try? Firestore.Decoder().decode(Group.self, from: data) {
+//                print("group", group)
+//            } else { return }
+//
+//        }
+        
+        //print("userName", userName)
+        
         let task = ["groupID": "\(newDocumentGroupID.documentID)",
                     "founder": "\(UserDefaults.standard.string(forKey: "myUserID")!)",
                     "roomName": "\(cell.createGroupTextField.text!)",
-                    "members": ["\(UserDefaults.standard.string(forKey: "myUserID")!)"]     // 把founder放入member中
+                    "membersID": ["\(UserDefaults.standard.string(forKey: "myUserID")!)"],     // 把founder放入member中
+                    //"membersName": ["\()"]
         ] as [String : Any]
         
         // 把創立的群組資料傳到firebase

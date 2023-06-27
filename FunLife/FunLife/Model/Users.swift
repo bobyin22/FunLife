@@ -12,7 +12,6 @@ import FirebaseFirestoreSwift
 // import FirebaseStorage
 // import FirebaseAuth
 
-
 // MARK: 自定義類別 在建立任務時會顯示
 struct Users: Codable, Identifiable {
     @DocumentID var id: String?
@@ -25,12 +24,10 @@ struct Group: Codable, Identifiable {
     let founder: String
     let groupID: String
     let roomName: String
-    //let members: [Members]
+    let members: [String]
 }
 
-//struct Members: Codable, Identifiable {
-//    @DocumentID var id: String?
+//struct Members: Codable { // , Identifiable
+//    // @DocumentID var id: String?
 //    let member: String
 //}
-
-
