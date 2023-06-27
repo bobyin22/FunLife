@@ -24,7 +24,6 @@ class GroupDetailViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupGroupDetailView()
-        // print("傳進來的groupID是", groupID)
         groupDetailView.groupDetailNameLabel.text = groupID
         fetchAPI()
     }
@@ -40,6 +39,26 @@ class GroupDetailViewController: UIViewController {
             groupDetailView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             groupDetailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
         ])
+        
+        // MARK: 允許邀請按鈕點擊有反應
+        groupDetailView.inviteGroupBtn.addTarget(self, action: #selector(clickInvite), for: .touchUpInside)
+
+    }
+    
+    // MARK: 點擊邀請按鈕觸發 彈跳出UIActivityViewController
+    @objc func clickInvite() {
+        print("🍎🍎🍎🍎")
+        guard let image = UIImage(systemName: "bell"),
+              let url = URL(string: "https://www.google.com") else { return }
+        
+        let shareSheertVC = UIActivityViewController(
+        activityItems: [
+            image,
+            url
+        ],
+        applicationActivities: nil
+        )
+        present(shareSheertVC, animated: true)
     }
     
     // MARK: 抓取firebase上的資料
@@ -59,8 +78,7 @@ class GroupDetailViewController: UIViewController {
             print("成員有幾個", userGroup[0].members.count)              // 1
             self.fromGroupGetUserID = userGroup[0].members[0]
             self.getUserName()
-//            self.groupDetailView.passData = "\(self.fromGroupGetUserName)"
-//            print("self.groupDetailView.passData", self.groupDetailView.passData)
+            
             
             var indexNumber = 0
             
@@ -74,13 +92,6 @@ class GroupDetailViewController: UIViewController {
                 indexNumber += 1
             }
             
-            indexNumber = 0
-            
-            for index in userGroup {
-                // self.userGroupArray.append(userGroup[indexNumber].roomName)
-                //self.groupMembersArrays.append(userGroup[indexNumber].members)
-                indexNumber += 1
-            }
             self.groupDetailView.groupDetailTableView.reloadData()
         }
     }
@@ -100,10 +111,10 @@ class GroupDetailViewController: UIViewController {
             }
             
             if let data = snapshot.data(),
-                let name = data["name"] as? String {
+               let name = data["name"] as? String {
                 self.fromGroupGetUserName = name
                 // 把Bob塞給下一頁變數來接顯示在cell Label
-
+                
                 self.groupDetailView.passData = "\(self.fromGroupGetUserName)"
                 print("self.groupDetailView.passData", self.groupDetailView.passData)
                 

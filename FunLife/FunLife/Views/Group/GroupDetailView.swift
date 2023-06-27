@@ -130,6 +130,8 @@ class GroupDetailView: UIView {
             inviteGroupBtn.widthAnchor.constraint(equalToConstant: 150),
             inviteGroupBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
         ])
+        
+
     }
       
     // MARK: 需要寫上
