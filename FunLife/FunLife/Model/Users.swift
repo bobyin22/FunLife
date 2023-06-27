@@ -24,7 +24,7 @@ struct Group: Codable, Identifiable {
     let founder: String
     let groupID: String
     let roomName: String
-    let members: [String]
+    var members: [String]
 }
 
 //struct Members: Codable { // , Identifiable

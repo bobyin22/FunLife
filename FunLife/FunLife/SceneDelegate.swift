@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -53,8 +54,63 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     // swiftlint:enable line_length
     
-    // 🍎
+    // MARK: 從別地方切換回這個App會呼叫
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         print("SceneDelegate是","\(URLContexts)")
+        
+        if let url = URLContexts.first?.url {
+            print("URL 是", url)
+
+            // 🍎 MARK: 從 URL 中取得相關資訊 (我要的)
+            if let scheme = url.scheme {
+                print("URL Scheme 是", scheme)
+            }
+
+            // 🍎 MARK: 拿到 5Qmy7teqRWTJdWjbtbLy
+            if let host = url.host {
+                print("URL Host 是", host)
+                
+                // 拿groupID 去 group裡面，把自己userID加入到members
+                let db = Firestore.firestore()
+                let documentReference = db.collection("group").document("\(host)")
+                    documentReference.getDocument { document, error in
+                    
+                    guard let document,
+                          document.exists,
+                          var group = try? document.data(as: Group.self)
+                    else {
+                        return
+                    }
+                    
+                        group.members.append("\(UserDefaults.standard.string(forKey: "myUserID")!)") //
+                    
+                    do {
+                        try documentReference.setData(from: group)
+                            
+                    } catch {
+                            print(error)
+                        }
+                    }
+
+            }
+            
+                
+            }
+            
+//            if let path = url.path, !path.isEmpty {
+//                print("URL Path 是", path)
+//            }
+
+            // 若需要取得 URL 中的特定參數，可以使用 URLComponents
+//            if let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+//               let queryItems = components.queryItems {
+//                for queryItem in queryItems {
+//                    print("URL Query Item:", queryItem)
+//                }
+//            }
+
+        }
+        
     }
-}
+    
+

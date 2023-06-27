@@ -19,7 +19,7 @@ class GroupDetailViewController: UIViewController {
     
     var fromGroupGetUserID = ""
     var fromGroupGetUserName = ""
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -47,23 +47,13 @@ class GroupDetailViewController: UIViewController {
     
     // MARK: 點擊邀請按鈕觸發 彈跳出UIActivityViewController
     @objc func clickInvite() {
-        print("🍎🍎🍎🍎")
-        guard let image = UIImage(systemName: "bell"),
-              let url = URL(string: "https://www.google.com") else { return }
-        
-        let shareSheertVC = UIActivityViewController(
-        activityItems: [
-            image,
-            url
-        ],
-        applicationActivities: nil
-        )
+        guard let url = URL(string: "FunLife://\(UserDefaults.standard.string(forKey: "myGroupID")!)") else { return }
+        let shareSheertVC = UIActivityViewController( activityItems: [url], applicationActivities: nil )
         present(shareSheertVC, animated: true)
     }
     
     // MARK: 抓取firebase上的資料
     func fetchAPI() {
-        
         let db = Firestore.firestore()
         db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)") .getDocuments { snapshot, error in
             guard let snapshot = snapshot else { return }
