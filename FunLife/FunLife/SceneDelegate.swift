@@ -40,18 +40,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
     }
-
+    
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
     }
-
+    
     func sceneDidEnterBackground(_ scene: UIScene) {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
+    
     // swiftlint:enable line_length
     
     // MARK: 從別地方切換回這個App會呼叫
@@ -60,12 +60,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let url = URLContexts.first?.url {
             print("URL 是", url)
-
+            
             // 🍎 MARK: 從 URL 中取得相關資訊 (我要的)
             if let scheme = url.scheme {
                 print("URL Scheme 是", scheme)
             }
-
+            
             // 🍎 MARK: 拿到 5Qmy7teqRWTJdWjbtbLy
             if let host = url.host {
                 print("URL Host 是", host)
@@ -73,7 +73,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 // 拿groupID 去 group裡面，把自己userID加入到members
                 let db = Firestore.firestore()
                 let documentReference = db.collection("group").document("\(host)")
-                    documentReference.getDocument { document, error in
+                documentReference.getDocument { document, error in
                     
                     guard let document,
                           document.exists,
@@ -82,35 +82,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         return
                     }
                     
-                        group.members.append("\(UserDefaults.standard.string(forKey: "myUserID")!)") //
+                    group.members.append("\(UserDefaults.standard.string(forKey: "myUserID")!)") //
                     
                     do {
                         try documentReference.setData(from: group)
-                            
+                        
                     } catch {
-                            print(error)
-                        }
+                        print(error)
                     }
-
-            }
-            
+                }
                 
             }
             
-//            if let path = url.path, !path.isEmpty {
-//                print("URL Path 是", path)
-//            }
-
-            // 若需要取得 URL 中的特定參數，可以使用 URLComponents
-//            if let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-//               let queryItems = components.queryItems {
-//                for queryItem in queryItems {
-//                    print("URL Query Item:", queryItem)
-//                }
-//            }
-
         }
         
     }
     
-
+}
