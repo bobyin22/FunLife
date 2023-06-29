@@ -29,6 +29,8 @@
 		A887B2572A46ADE0003AD6E3 /* GroupDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B2562A46ADE0003AD6E3 /* GroupDetailTableViewCell.swift */; };
 		A887B25A2A48319C003AD6E3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B2592A48319C003AD6E3 /* ProfileView.swift */; };
 		A887B25D2A48349E003AD6E3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B25C2A48349E003AD6E3 /* ProfileViewController.swift */; };
+		A887B25F2A4D6C85003AD6E3 /* GroupTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B25E2A4D6C85003AD6E3 /* GroupTimerViewController.swift */; };
+		A887B2612A4D6CBE003AD6E3 /* GroupTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B2602A4D6CBE003AD6E3 /* GroupTimerView.swift */; };
 		A894F9582A415CEB00550196 /* SheetTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F9572A415CEB00550196 /* SheetTaskTableViewCell.swift */; };
 		A894F97B2A45591C00550196 /* MyGroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F97A2A45591C00550196 /* MyGroupListViewController.swift */; };
 		A894F97D2A45708100550196 /* CreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F97C2A45708100550196 /* CreateGroupViewController.swift */; };
@@ -61,6 +63,8 @@
 		A887B2562A46ADE0003AD6E3 /* GroupDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailTableViewCell.swift; sourceTree = "<group>"; };
 		A887B2592A48319C003AD6E3 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A887B25C2A48349E003AD6E3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		A887B25E2A4D6C85003AD6E3 /* GroupTimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTimerViewController.swift; sourceTree = "<group>"; };
+		A887B2602A4D6CBE003AD6E3 /* GroupTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTimerView.swift; sourceTree = "<group>"; };
 		A894F9572A415CEB00550196 /* SheetTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetTaskTableViewCell.swift; sourceTree = "<group>"; };
 		A894F97A2A45591C00550196 /* MyGroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGroupListViewController.swift; sourceTree = "<group>"; };
 		A894F97C2A45708100550196 /* CreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupViewController.swift; sourceTree = "<group>"; };
@@ -163,6 +167,7 @@
 				A887B24F2A458392003AD6E3 /* CreateGroupTableViewCell.swift */,
 				A887B2522A46A1CE003AD6E3 /* GroupDetailView.swift */,
 				A887B2562A46ADE0003AD6E3 /* GroupDetailTableViewCell.swift */,
+				A887B2602A4D6CBE003AD6E3 /* GroupTimerView.swift */,
 			);
 			path = Group;
 			sourceTree = "<group>";
@@ -189,6 +194,7 @@
 				A894F97A2A45591C00550196 /* MyGroupListViewController.swift */,
 				A894F97C2A45708100550196 /* CreateGroupViewController.swift */,
 				A887B2542A46A452003AD6E3 /* GroupDetailViewController.swift */,
+				A887B25E2A4D6C85003AD6E3 /* GroupTimerViewController.swift */,
 			);
 			path = TabBar2;
 			sourceTree = "<group>";
@@ -369,6 +375,7 @@
 				A894F97B2A45591C00550196 /* MyGroupListViewController.swift in Sources */,
 				A887B2502A458392003AD6E3 /* CreateGroupTableViewCell.swift in Sources */,
 				A808A92A2A3BD14A00237AD7 /* SettingTableViewCell.swift in Sources */,
+				A887B25F2A4D6C85003AD6E3 /* GroupTimerViewController.swift in Sources */,
 				A887B2572A46ADE0003AD6E3 /* GroupDetailTableViewCell.swift in Sources */,
 				A808A95C2A3D9DC900237AD7 /* DayTableViewCell.swift in Sources */,
 				A894F97D2A45708100550196 /* CreateGroupViewController.swift in Sources */,
@@ -382,6 +389,7 @@
 				A808A90A2A39CCC300237AD7 /* SceneDelegate.swift in Sources */,
 				A887B24E2A458003003AD6E3 /* CreateGroupView.swift in Sources */,
 				A808A92C2A3C0FDA00237AD7 /* AddTaskViewController.swift in Sources */,
+				A887B2612A4D6CBE003AD6E3 /* GroupTimerView.swift in Sources */,
 				A887B25A2A48319C003AD6E3 /* ProfileView.swift in Sources */,
 				A808A95A2A3D96C000237AD7 /* DayViewController.swift in Sources */,
 			);

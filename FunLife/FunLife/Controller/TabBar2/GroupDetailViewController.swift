@@ -48,7 +48,9 @@ class GroupDetailViewController: UIViewController {
         
         // MARK: 允許邀請按鈕點擊有反應
         groupDetailView.inviteGroupBtn.addTarget(self, action: #selector(clickInvite), for: .touchUpInside)
-
+        
+        // MARK: 允許進入按鈕點擊有反應
+        groupDetailView.goGroupBtn.addTarget(self, action: #selector(clickIntoClass), for: .touchUpInside)
     }
     
     // MARK: 點擊邀請按鈕觸發 彈跳出UIActivityViewController
@@ -56,6 +58,11 @@ class GroupDetailViewController: UIViewController {
         guard let url = URL(string: "FunLife://\(UserDefaults.standard.string(forKey: "myGroupID")!)") else { return }
         let shareSheertVC = UIActivityViewController( activityItems: [url], applicationActivities: nil )
         present(shareSheertVC, animated: true)
+    }
+    
+    @objc func clickIntoClass() {
+        let groupTimerVC = GroupTimerViewController()
+        navigationController?.pushViewController(groupTimerVC, animated: true)
     }
     
     // MARK: 建立群組tablview的AutoLayout
@@ -67,40 +74,34 @@ class GroupDetailViewController: UIViewController {
             groupDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
             groupDetailTableView.leadingAnchor.constraint(equalTo: groupDetailView.leadingAnchor, constant: 0),
             groupDetailTableView.trailingAnchor.constraint(equalTo: groupDetailView.trailingAnchor, constant: 0),
-            groupDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -250),
+            groupDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150),
         ])
     }
     
     // MARK: 抓取firebase上 有member下的 userID (用自己的ID去 找有沒有這樣的document)
     // 拿到 ["成員1的ID", "成員2的ID"]
     func fetchIDAPI() {
-        
         let db = Firestore.firestore()
         
-        // 判斷式 如果UserDefault 有 FriendGroupID 用 FriendGroupID 去取得member
-        //       如果          沒有               用 myGroupID     去取得member
+        // MARK: 判斷式 如果UserDefault 有 FriendGroupID 用 FriendGroupID 去取得member
+        // MARK:       如果          沒有               用 myGroupID     去取得member
+        
         if UserDefaults.standard.string(forKey: "FriendGroupID") == nil {
-            print("1")
             let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "myGroupID")!).getDocument { snapshot, error in
                 guard let snapshot = snapshot else { return }
                 
                 let memberNSArray = snapshot.data()!
                 if let members = memberNSArray["members"] as? [String] {
                     self.classMembersIDArray = members
-                    print("創建人classMembersIDArray", self.classMembersIDArray)
                 }
                 self.groupDetailTableView.reloadData()
                 self.fetchNameAPI()
             }
         } else {
-            print("2")
             let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "FriendGroupID")!).getDocument { snapshot, error in
                 guard let snapshot = snapshot else { return }
-                //print("snapshot", snapshot) // <FIRDocumentSnapshot: 0x600003e88140>
-                
                 let memberNSArray = snapshot.data()!  // 這時候是一個NSArray
                 if let members = memberNSArray["members"] as? [String] {  // 轉成Swift Array 拿到 ["成員1號ID", "成員2號ID"]
-                    //print("members:", members)
                     self.classMembersIDArray = members
                 }
                 self.groupDetailTableView.reloadData()
@@ -117,15 +118,15 @@ class GroupDetailViewController: UIViewController {
             print("🍎classMembersIDArray", classMembersIDArray)
             
             let db = Firestore.firestore()
-            print("⭐️classMembersIDArray[數字]", self.classMembersIDArray[self.indexNumber])
+            // print("⭐️classMembersIDArray[數字]", self.classMembersIDArray[self.indexNumber])
             db.collection("users").document("\(classMembersIDArray[indexNumber])").getDocument { snapshot, error in
                 
                 guard let snapshot = snapshot else { return }
                 // print("snapshot", snapshot)                                          // <FIRDocumentSnapshot: 0x600001c401e0>
                 // print("snapshot.data()", snapshot.data()!)                           // 得到 ["name": user1]
-                print("⚠️snapshot.data()是", snapshot.data()!["name"]!)                // 得到 user1
+                // print("⚠️snapshot.data()是", snapshot.data()!["name"]!)                // 得到 user1
                 self.classMembersNameArray.append("\(snapshot.data()!["name"]!)")
-                print("🍀classMembersNameArray", self.classMembersNameArray)
+                // print("🍀classMembersNameArray", self.classMembersNameArray)
                 self.groupDetailTableView.reloadData()
             }
             self.indexNumber += 1
@@ -151,7 +152,7 @@ extension GroupDetailViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        classMembersNameArray.count // classMembersIDArray.count
+        classMembersNameArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -162,7 +163,7 @@ extension GroupDetailViewController: UITableViewDataSource {
         }
         
         cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
-        cell.personNameLabel.text = self.classMembersNameArray[indexPath.row] // classMembersIDArray[indexPath.row]
+        cell.personNameLabel.text = self.classMembersNameArray[indexPath.row]
         
         return cell
     }
