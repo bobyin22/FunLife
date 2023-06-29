@@ -9,14 +9,16 @@ import UIKit
 
 class GroupDetailTableViewCell: UITableViewCell {
 
-    let personIconBtn = UIButton()
-    let personNameLabel = UILabel()
+    let personIconBtn = UIButton()      // 頭像
+    let personNameLabel = UILabel()     // 姓名
+    let personTimerLabel = UILabel()    // 秒數
     
     // MARK: 程式碼寫在這
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupPersonIconBtn()
         setupPersonNameLabel()
+        setupPersonTimerLabel()
     }
         
     // MARK: AutoLayout 按鈕照片
@@ -37,17 +39,33 @@ class GroupDetailTableViewCell: UITableViewCell {
     
     // MARK: AutoLayout Label名字
     func setupPersonNameLabel () {
-        personNameLabel.backgroundColor = .systemYellow
-        personNameLabel.text = "載入"
+        personNameLabel.backgroundColor = .systemMint
+        personNameLabel.text = "載入人名"
         contentView.addSubview(personNameLabel)
         personNameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             personNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            personNameLabel.leadingAnchor.constraint(equalTo: personIconBtn.leadingAnchor, constant: 50),
+            personNameLabel.leadingAnchor.constraint(equalTo: personIconBtn.trailingAnchor, constant: 50),
             // personNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            personNameLabel.widthAnchor.constraint(equalToConstant: 250),
+            personNameLabel.widthAnchor.constraint(equalToConstant: 100),
             personNameLabel.heightAnchor.constraint(equalToConstant: 50),
             personNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+        ])
+    }
+    
+    // MARK: AutoLayout Label秒數
+    func setupPersonTimerLabel () {
+        personTimerLabel.backgroundColor = .systemCyan
+        personTimerLabel.text = "載入秒數"
+        contentView.addSubview(personTimerLabel)
+        personTimerLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            personTimerLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            personTimerLabel.leadingAnchor.constraint(equalTo: personNameLabel.trailingAnchor, constant: 50),
+            // personTimerLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            personTimerLabel.widthAnchor.constraint(equalToConstant: 100),
+            personTimerLabel.heightAnchor.constraint(equalToConstant: 50),
+            personTimerLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     

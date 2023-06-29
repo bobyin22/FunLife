@@ -77,6 +77,7 @@ class GroupDetailViewController: UIViewController {
         // MARK:       如果          沒有               用 myGroupID     去取得member
         
         if UserDefaults.standard.string(forKey: "FriendGroupID") == nil {
+            print("1")
             let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "myGroupID")!).getDocument { snapshot, error in
                 guard let snapshot = snapshot else { return }
                 
@@ -84,20 +85,29 @@ class GroupDetailViewController: UIViewController {
                 if let members = memberNSArray["members"] as? [String] {
                     self.classMembersIDArray = members
                 }
+                self.fetchNameAPI()                 //去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
                 self.groupDetailTableView.reloadData()
-                self.fetchNameAPI()
             }
         } else {
+            print("2")
             let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "FriendGroupID")!).getDocument { snapshot, error in
                 guard let snapshot = snapshot else { return }
                 let memberNSArray = snapshot.data()!  // 這時候是一個NSArray
                 if let members = memberNSArray["members"] as? [String] {  // 轉成Swift Array 拿到 ["成員1號ID", "成員2號ID"]
                     self.classMembersIDArray = members
                 }
+                self.fetchNameAPI()                //去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
                 self.groupDetailTableView.reloadData()
-                self.fetchNameAPI()
+                
             }
         }
+    }
+    
+    // MARK: userID去拿當日的Timer
+    func fetchTimeAPI() {
+       var indexNumberTime = 0
+        print("我的classMembersIDArray", classMembersIDArray)
+        
     }
     
     // MARK: 拿userID陣列去 fetch抓 userName陣列

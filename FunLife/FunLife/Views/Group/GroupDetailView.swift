@@ -17,14 +17,7 @@ class GroupDetailView: UIView {
         groupDetailImageView.backgroundColor = .white //. systemBlue
         return groupDetailImageView
     }()
-            
-    // MARK: 左進入按鈕
-    let goGroupBtn: UIButton = {
-        let goGroupBtn = UIButton()
-        goGroupBtn.backgroundColor = .systemBlue
-        return goGroupBtn
-    }()
-    
+                
     // MARK: 右邀請朋友按鈕
     let inviteGroupBtn: UIButton = {
         let inviteGroupBtn = UIButton()
@@ -44,7 +37,6 @@ class GroupDetailView: UIView {
         super.init(frame: frame)
         setupGroupDetailNameLabel()
         setupGroupDetailImageView()
-        setupGoGroupBtn()
         setupInviteGroupBtn()
     }
     
@@ -79,31 +71,19 @@ class GroupDetailView: UIView {
         ])
     }
     
-    // MARK: 進入房間按鈕AutoLayout
-    func setupGoGroupBtn() {
-        goGroupBtn.setTitle("進入", for: .normal)
-        addSubview(goGroupBtn)
-        goGroupBtn.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            goGroupBtn.topAnchor.constraint(equalTo: self.bottomAnchor, constant: -50),
-            goGroupBtn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            //goGroupBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -200),
-            goGroupBtn.widthAnchor.constraint(equalToConstant: 150),
-            goGroupBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
-        ])
-    }
-    
     // MARK: 邀請按鈕AutoLayout
     func setupInviteGroupBtn() {
         inviteGroupBtn.setTitle("邀請", for: .normal)
+        inviteGroupBtn.setTitleColor(.black, for: .normal)
         addSubview(inviteGroupBtn)
         inviteGroupBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            inviteGroupBtn.topAnchor.constraint(equalTo: self.bottomAnchor, constant: -50),
+            inviteGroupBtn.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             // inviteGroupBtn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             inviteGroupBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            inviteGroupBtn.widthAnchor.constraint(equalToConstant: 150),
-            inviteGroupBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+            inviteGroupBtn.widthAnchor.constraint(equalToConstant: 100),
+            inviteGroupBtn.heightAnchor.constraint(equalToConstant: 50),
+            // inviteGroupBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
         ])
     }
       
