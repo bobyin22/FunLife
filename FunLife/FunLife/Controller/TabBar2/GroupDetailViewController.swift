@@ -30,8 +30,6 @@ class GroupDetailViewController: UIViewController {
         groupDetailTableView.dataSource = self
         
         groupDetailView.groupDetailNameLabel.text = classNameString // 讓Label吃到上一頁傳來的教室名稱
-        print("朋友的GroupID", UserDefaults.standard.string(forKey: "FriendGroupID"))
-        
     }
     
     // MARK: 把自定義的View設定邊界
@@ -48,9 +46,6 @@ class GroupDetailViewController: UIViewController {
         
         // MARK: 允許邀請按鈕點擊有反應
         groupDetailView.inviteGroupBtn.addTarget(self, action: #selector(clickInvite), for: .touchUpInside)
-        
-        // MARK: 允許進入按鈕點擊有反應
-        groupDetailView.goGroupBtn.addTarget(self, action: #selector(clickIntoClass), for: .touchUpInside)
     }
     
     // MARK: 點擊邀請按鈕觸發 彈跳出UIActivityViewController
@@ -58,11 +53,6 @@ class GroupDetailViewController: UIViewController {
         guard let url = URL(string: "FunLife://\(UserDefaults.standard.string(forKey: "myGroupID")!)") else { return }
         let shareSheertVC = UIActivityViewController( activityItems: [url], applicationActivities: nil )
         present(shareSheertVC, animated: true)
-    }
-    
-    @objc func clickIntoClass() {
-        let groupTimerVC = GroupTimerViewController()
-        navigationController?.pushViewController(groupTimerVC, animated: true)
     }
     
     // MARK: 建立群組tablview的AutoLayout
