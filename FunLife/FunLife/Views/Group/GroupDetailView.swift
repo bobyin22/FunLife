@@ -10,7 +10,6 @@ import UIKit
 class GroupDetailView: UIView {
 
     var passData = ""
-    var passNameArray: [String] = []
     
     // MARK: 建立一個UI 照片
     let groupDetailImageView: UIImageView = {
@@ -18,14 +17,7 @@ class GroupDetailView: UIView {
         groupDetailImageView.backgroundColor = .white //. systemBlue
         return groupDetailImageView
     }()
-        
-    // MARK: 建立一個UI TableView
-    let groupDetailTableView: UITableView = {
-        let groupDetailTableView = UITableView()
-        groupDetailTableView.backgroundColor = .systemGreen
-        return groupDetailTableView
-    }()
-    
+            
     // MARK: 左進入按鈕
     let goGroupBtn: UIButton = {
         let goGroupBtn = UIButton()
@@ -52,12 +44,6 @@ class GroupDetailView: UIView {
         super.init(frame: frame)
         setupGroupDetailNameLabel()
         setupGroupDetailImageView()
-        setupGroupDetailTableView()
-        
-        groupDetailTableView.register(GroupDetailTableViewCell.self, forCellReuseIdentifier: "GroupDetailTableViewCell")
-        groupDetailTableView.delegate = self
-        groupDetailTableView.dataSource = self
-        
         setupGoGroupBtn()
         setupInviteGroupBtn()
     }
@@ -93,18 +79,6 @@ class GroupDetailView: UIView {
         ])
     }
     
-    // MARK: 建立群組tablview的AutoLayout
-    func setupGroupDetailTableView() {
-        addSubview(groupDetailTableView)
-        groupDetailTableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            groupDetailTableView.topAnchor.constraint(equalTo: groupDetailImageView.bottomAnchor, constant: 30),
-            groupDetailTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-            groupDetailTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            groupDetailTableView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -100),
-        ])
-    }
-    
     // MARK: 進入房間按鈕AutoLayout
     func setupGoGroupBtn() {
         goGroupBtn.setTitle("進入", for: .normal)
@@ -131,50 +105,11 @@ class GroupDetailView: UIView {
             inviteGroupBtn.widthAnchor.constraint(equalToConstant: 150),
             inviteGroupBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
         ])
-        
     }
       
     // MARK: 需要寫上
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-}
-
-extension GroupDetailView: UITableViewDelegate {
-    
-}
-
-extension GroupDetailView: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        "群組成員"
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        80
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        passNameArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "GroupDetailTableViewCell", for: indexPath) as? GroupDetailTableViewCell
-        else {
-            // 處理轉換失敗的情況，例如創建一個預設的 UITableViewCell
-            return UITableViewCell()
-        }
-        
-        cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
-        cell.personNameLabel.text = passNameArray[indexPath.row]
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
-//
-//            print("傳過來View的self.passNameArray", self.passNameArray)
-//        }
-
-        return cell
     }
     
 }
