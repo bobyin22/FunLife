@@ -16,6 +16,8 @@ class GroupDetailViewController: UIViewController {
     var classNameString: String = ""            // 讓Label吃到上一頁傳來的教室名稱
     var classMembersIDArray: [String] = []      // 空陣列，要接住下方轉換成的 ["成員1ID", "成員2ID"]
     var classMembersNameArray: [String] = []    // 🍎空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
+    var classMembersTimeSum: Int = 0
+    var classMembersTimerArray: [String] = []   //  空陣列，要接 []
     var indexNumber = 0                         // 🍎用
     
     override func viewDidLoad() {
@@ -85,6 +87,7 @@ class GroupDetailViewController: UIViewController {
                 if let members = memberNSArray["members"] as? [String] {
                     self.classMembersIDArray = members
                 }
+                self.fetchTimeAPI()
                 self.fetchNameAPI()                 //去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
                 self.groupDetailTableView.reloadData()
             }
@@ -96,9 +99,9 @@ class GroupDetailViewController: UIViewController {
                 if let members = memberNSArray["members"] as? [String] {  // 轉成Swift Array 拿到 ["成員1號ID", "成員2號ID"]
                     self.classMembersIDArray = members
                 }
+                self.fetchTimeAPI()
                 self.fetchNameAPI()                //去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
                 self.groupDetailTableView.reloadData()
-                
             }
         }
     }
@@ -106,7 +109,36 @@ class GroupDetailViewController: UIViewController {
     // MARK: userID去拿當日的Timer
     func fetchTimeAPI() {
        var indexNumberTime = 0
-        print("我的classMembersIDArray", classMembersIDArray)
+        var timer: Timer?
+        var today = Date()
+        var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
+        var month = dateComponents.month!
+        var day = dateComponents.day!
+        
+        print("🥹我的classMembersIDArray", classMembersIDArray)
+        let db = Firestore.firestore()
+        let documentRef = db.collection("users").document("\(classMembersIDArray[indexNumberTime])").collection("\(month).\(day)").getDocuments(source: .default) { snapshot, error in
+            guard let snapshot = snapshot else { return }
+            print("😱classMembersIDArray[indexNumberTime]", self.classMembersIDArray[indexNumberTime])
+            print("🥶snapshot", snapshot)
+            // print("🤗snapshot.exists", snapshot.exists)
+            // print("👻snapshot.data()", snapshot.data())
+            print("🥵snapshot.documents", snapshot.documents)   //[<FIRQueryDocumentSnapshot: 0x6000038c00a0>, <FIRQueryDocumentSnapshot: 0x6000038c01e0>]
+            for document in snapshot.documents {
+                let documentData = document.data()
+                
+                print("☠️documentData[timer]", documentData["timer"]!)
+                if let eachTaskTimer = documentData["timer"] as? String {  // 轉成Swift Array 拿到 ["成員1號ID", "成員2號ID"]
+                    self.classMembersTimeSum += Int(eachTaskTimer)!
+                }
+                
+                print("🎃classMembersTimeSum", self.classMembersTimeSum)
+                self.classMembersTimerArray.append("\(documentData["timer"]!)")
+                print("👽classMembersTimerArray", self.classMembersTimerArray)
+                
+            }
+            
+        }
         
     }
     
@@ -164,7 +196,7 @@ extension GroupDetailViewController: UITableViewDataSource {
         
         cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
         cell.personNameLabel.text = self.classMembersNameArray[indexPath.row]
-        
+        cell.personTimerLabel.text = String(classMembersTimeSum)
         return cell
     }
 }
