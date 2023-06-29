@@ -45,7 +45,7 @@ class GroupDetailTableViewCell: UITableViewCell {
             personNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             personNameLabel.leadingAnchor.constraint(equalTo: personIconBtn.leadingAnchor, constant: 50),
             // personNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            personNameLabel.widthAnchor.constraint(equalToConstant: 50),
+            personNameLabel.widthAnchor.constraint(equalToConstant: 250),
             personNameLabel.heightAnchor.constraint(equalToConstant: 50),
             personNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])

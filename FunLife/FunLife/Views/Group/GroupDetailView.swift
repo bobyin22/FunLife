@@ -10,6 +10,7 @@ import UIKit
 class GroupDetailView: UIView {
 
     var passData = ""
+    var passNameArray: [String] = []
     
     // MARK: 建立一個UI 照片
     let groupDetailImageView: UIImageView = {
@@ -63,7 +64,7 @@ class GroupDetailView: UIView {
     
     // MARK: 教室名Label AutoLayout
     func setupGroupDetailNameLabel() {
-        groupDetailNameLabel.text = "包伯的教室"
+        groupDetailNameLabel.text = "xx教室"
         addSubview(groupDetailNameLabel)
         groupDetailNameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -131,7 +132,6 @@ class GroupDetailView: UIView {
             inviteGroupBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
         ])
         
-
     }
       
     // MARK: 需要寫上
@@ -156,7 +156,7 @@ extension GroupDetailView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        passNameArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -167,11 +167,12 @@ extension GroupDetailView: UITableViewDataSource {
         }
         
         cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
+        cell.personNameLabel.text = passNameArray[indexPath.row]
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
-            print("傳過來的passData",self.passData)
-            cell.personNameLabel.text = self.passData
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
+//
+//            print("傳過來View的self.passNameArray", self.passNameArray)
+//        }
 
         return cell
     }

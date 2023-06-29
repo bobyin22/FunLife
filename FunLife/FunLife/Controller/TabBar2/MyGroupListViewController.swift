@@ -8,13 +8,13 @@
 import UIKit
 import FirebaseFirestore
 
-// 4️⃣
 class MyGroupListViewController: UIViewController {
     
-    var text = ""
+    // var text = ""
     let groupListTableView = UITableView()
-    var userGroupArray: [String] = [""]
-    var groupMembersArrays: [[String]] = [[]]
+    
+    var userInGroupClassNameArray: [String] = [""]      //用來存教室名稱 ["教室1", "教室2"]
+    // var groupMembersArrays: [[String]] = [[]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,24 +35,24 @@ class MyGroupListViewController: UIViewController {
     
     // MARK: 抓取firebase上的資料
     func fetchAPI() {
-        userGroupArray.removeAll()
+        userInGroupClassNameArray.removeAll()
         
         let db = Firestore.firestore()
         
         // MARK: group下document，且 members欄是使用者，才顯示教室
-        db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)") .getDocuments { snapshot, error in
+        db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)").getDocuments { snapshot, error in
             guard let snapshot = snapshot else { return }
             
             let userGroup = snapshot.documents.compactMap { snapshot in
                 try? snapshot.data(as: Group.self)
             }
             
-            // MARK: 取得成員名稱 userGroupArray
             var indexNumber = 0
             
             // MARK: 取得教室名稱 userGroupArray
             for index in userGroup {
-                self.userGroupArray.append(userGroup[indexNumber].roomName)
+                self.userInGroupClassNameArray.append(userGroup[indexNumber].roomName)
+                print("userGroupArray", self.userInGroupClassNameArray)
                 indexNumber += 1
             }
             self.groupListTableView.reloadData()
@@ -106,11 +106,11 @@ extension MyGroupListViewController: UITableViewDataSource {
                                                         for: indexPath) as? MyGroupListTableViewCell
         else { return }
                 
-        let selectedGroupID = userGroupArray[indexPath.row]             // 获取所选群组的 ID 或其他信息
+        let selectedGroupID = userInGroupClassNameArray[indexPath.row]             // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
         
         // MARK: 點擊進入各自的下一頁
         let groupDetailVC = GroupDetailViewController()
-        groupDetailVC.groupID = selectedGroupID // 传递群组ID给DetailVC
+        groupDetailVC.classNameString = selectedGroupID                            // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
         navigationController?.pushViewController(groupDetailVC, animated: true)
     }
     
@@ -119,7 +119,7 @@ extension MyGroupListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        userGroupArray.count
+        userInGroupClassNameArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -131,7 +131,7 @@ extension MyGroupListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-         cell.groupNameLabel.text = userGroupArray[indexPath.row]
+         cell.groupNameLabel.text = userInGroupClassNameArray[indexPath.row]   // List的教室名稱
         // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
         return cell
     }

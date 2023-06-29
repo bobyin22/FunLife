@@ -70,6 +70,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if let host = url.host {
                 print("URL Host 是", host)
                 
+                // 把別人的GroupID存到UserDefault
+                UserDefaults.standard.set(host, forKey: "FriendGroupID")      // 把亂數DocumentID 塞在 App的UserDefault裡
+                
                 // 拿groupID 去 group裡面，把自己userID加入到members
                 let db = Firestore.firestore()
                 let documentReference = db.collection("group").document("\(host)")
