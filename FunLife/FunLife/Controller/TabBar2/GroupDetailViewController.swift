@@ -20,7 +20,7 @@ class GroupDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //fetchIDAPI()
+        fetchIDAPI()
         
         view.backgroundColor = .white
         setupGroupDetailView()
@@ -77,18 +77,35 @@ class GroupDetailViewController: UIViewController {
         
         let db = Firestore.firestore()
         
-        let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "FriendGroupID")!).getDocument { snapshot, error in
-            guard let snapshot = snapshot else { return }
-            //print("snapshot", snapshot) // <FIRDocumentSnapshot: 0x600003e88140>
-            
-            let memberNSArray = snapshot.data()!  // 這時候是一個NSArray
-            if let members = memberNSArray["members"] as? [String] {  // 轉成Swift Array 拿到 ["成員1號ID", "成員2號ID"]
-                //print("members:", members)
-                self.classMembersIDArray = members
+        // 判斷式 如果UserDefault 有 FriendGroupID 用 FriendGroupID 去取得member
+        //       如果          沒有               用 myGroupID     去取得member
+        if UserDefaults.standard.string(forKey: "FriendGroupID") == nil {
+            print("1")
+            let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "myGroupID")!).getDocument { snapshot, error in
+                guard let snapshot = snapshot else { return }
+                
+                let memberNSArray = snapshot.data()!
+                if let members = memberNSArray["members"] as? [String] {
+                    self.classMembersIDArray = members
+                    print("創建人classMembersIDArray", self.classMembersIDArray)
+                }
+                self.groupDetailTableView.reloadData()
+                self.fetchNameAPI()
             }
-            
-            self.groupDetailTableView.reloadData()
-            self.fetchNameAPI()
+        } else {
+            print("2")
+            let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "FriendGroupID")!).getDocument { snapshot, error in
+                guard let snapshot = snapshot else { return }
+                //print("snapshot", snapshot) // <FIRDocumentSnapshot: 0x600003e88140>
+                
+                let memberNSArray = snapshot.data()!  // 這時候是一個NSArray
+                if let members = memberNSArray["members"] as? [String] {  // 轉成Swift Array 拿到 ["成員1號ID", "成員2號ID"]
+                    //print("members:", members)
+                    self.classMembersIDArray = members
+                }
+                self.groupDetailTableView.reloadData()
+                self.fetchNameAPI()
+            }
         }
     }
     
