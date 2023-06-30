@@ -18,7 +18,10 @@ class GroupDetailViewController: UIViewController {
     var classMembersNameArray: [String] = []    // 🍎空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
     var classMembersTimeSum: Int = 0
     var classMembersTimerArray: [String] = []   //  空陣列，要接 []
-    var indexNumber = 0                         // 🍎用
+    
+    var indexNumber = 0                         // 獲取名字
+    var indexID = 0                             // for迴圈第一層 member幾個人
+    var indexNumberTime = 0                     // for迴圈第二層 單一member有幾個任務
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,8 +111,7 @@ class GroupDetailViewController: UIViewController {
     
     // MARK: userID去拿當日的Timer
     func fetchTimeAPI() {
-       var indexNumberTime = 0
-        var timer: Timer?
+        // var timer: Timer?
         var today = Date()
         var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
         var month = dateComponents.month!
@@ -117,29 +119,45 @@ class GroupDetailViewController: UIViewController {
         
         print("🥹我的classMembersIDArray", classMembersIDArray)
         let db = Firestore.firestore()
-        let documentRef = db.collection("users").document("\(classMembersIDArray[indexNumberTime])").collection("\(month).\(day)").getDocuments(source: .default) { snapshot, error in
-            guard let snapshot = snapshot else { return }
-            print("😱classMembersIDArray[indexNumberTime]", self.classMembersIDArray[indexNumberTime])
-            print("🥶snapshot", snapshot)
-            // print("🤗snapshot.exists", snapshot.exists)
-            // print("👻snapshot.data()", snapshot.data())
-            print("🥵snapshot.documents", snapshot.documents)   //[<FIRQueryDocumentSnapshot: 0x6000038c00a0>, <FIRQueryDocumentSnapshot: 0x6000038c01e0>]
-            for document in snapshot.documents {
-                let documentData = document.data()
-                
-                print("☠️documentData[timer]", documentData["timer"]!)
-                if let eachTaskTimer = documentData["timer"] as? String {  // 轉成Swift Array 拿到 ["成員1號ID", "成員2號ID"]
-                    self.classMembersTimeSum += Int(eachTaskTimer)!
-                }
-                
-                print("🎃classMembersTimeSum", self.classMembersTimeSum)
-                self.classMembersTimerArray.append("\(documentData["timer"]!)")
-                print("👽classMembersTimerArray", self.classMembersTimerArray)
-                
-            }
+        
+        // MARK: 依據幾個member跑幾次
+        for classMembersID in classMembersIDArray {
+            print(classMembersID)
+        }
+        
+        for document in docuntID.count {
             
         }
         
+        for _ in 0..<classMembersIDArray.count {
+            let documentRef = db.collection("users").document("\(classMembersIDArray[indexID])").collection("\(month).\(day)").addSnapshotListener { snapshot, error in
+                guard let snapshot = snapshot else {
+                    return
+                    
+                }
+                
+                print("🤡classMembersIDArray", self.classMembersIDArray)                 // ["oQ05e4KfbunW9xOhzIfA", "KftROc4kzwaZCBJ6uy6a"]
+                print("🤡🤡classMembersIDArray[0])", self.classMembersIDArray[0])       // oQ05e4KfbunW9xOhzIfA
+                print("🤡🤡🤡snapshot", snapshot)                                       // <FIRQuerySnapshot: 0x151309230> 6.30
+                print("🤡🤡🤡🤡snapshot.documents", snapshot.documents)                 // [<FIRQueryDocumentSnapshot: 0x600000da8000>, <FIRQueryDocumentSnapshot: 0x600000da80a0>] 兩筆任務
+                print("🤡🤡🤡🤡🤡snapshot.documents.count", snapshot.documents.count)   // 2
+                print("🤡🤡🤡🤡🤡🤡snapshot.documents", snapshot.documents[0].data())   // ["timer": 30, "user": 包伯]
+                
+                // MARK: 依據單一member，任務有幾個跑幾次                
+                self.indexNumberTime = 0
+                for _ in 0..<snapshot.documents.count {
+                    print("0️⃣snapshot.documents[indexNumberTime].data()[timer]", snapshot.documents[self.indexNumberTime].data()["timer"] ) // Optional(20)
+                    guard let eachTaskTimer = snapshot.documents[self.indexNumberTime].data()["timer"] as? String else { return }    // 轉型成String
+                    print("1️⃣eachTaskTimer", eachTaskTimer)
+                    self.classMembersTimeSum += Int(eachTaskTimer)!
+                    print("2️⃣classMembersTimeSum", self.classMembersTimeSum)
+                    self.indexNumberTime += 1
+                }
+                self.classMembersTimerArray.append("\(self.indexNumberTime)")
+//                self.indexNumberTime = 0
+            }
+            self.indexID += 1   //第一層for迴圈+1
+        }
     }
     
     // MARK: 拿userID陣列去 fetch抓 userName陣列
