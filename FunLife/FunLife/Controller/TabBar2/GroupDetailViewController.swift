@@ -122,30 +122,13 @@ class GroupDetailViewController: UIViewController {
         
         // MARK: 依據幾個member跑幾次
         for classMembersID in classMembersIDArray {
-            print(classMembersID)
-        }
-        
-        for document in docuntID.count {
-            
-        }
-        
-        for _ in 0..<classMembersIDArray.count {
             let documentRef = db.collection("users").document("\(classMembersIDArray[indexID])").collection("\(month).\(day)").addSnapshotListener { snapshot, error in
-                guard let snapshot = snapshot else {
-                    return
-                    
-                }
+                guard let snapshot = snapshot else { return }
                 
-                print("🤡classMembersIDArray", self.classMembersIDArray)                 // ["oQ05e4KfbunW9xOhzIfA", "KftROc4kzwaZCBJ6uy6a"]
-                print("🤡🤡classMembersIDArray[0])", self.classMembersIDArray[0])       // oQ05e4KfbunW9xOhzIfA
-                print("🤡🤡🤡snapshot", snapshot)                                       // <FIRQuerySnapshot: 0x151309230> 6.30
-                print("🤡🤡🤡🤡snapshot.documents", snapshot.documents)                 // [<FIRQueryDocumentSnapshot: 0x600000da8000>, <FIRQueryDocumentSnapshot: 0x600000da80a0>] 兩筆任務
-                print("🤡🤡🤡🤡🤡snapshot.documents.count", snapshot.documents.count)   // 2
-                print("🤡🤡🤡🤡🤡🤡snapshot.documents", snapshot.documents[0].data())   // ["timer": 30, "user": 包伯]
                 
-                // MARK: 依據單一member，任務有幾個跑幾次                
-                self.indexNumberTime = 0
-                for _ in 0..<snapshot.documents.count {
+                self.indexNumberTime = 0    //第二層for迴圈開始前
+                // MARK: 依據單一member，任務有幾個跑幾次
+                for _ in snapshot.documents {
                     print("0️⃣snapshot.documents[indexNumberTime].data()[timer]", snapshot.documents[self.indexNumberTime].data()["timer"] ) // Optional(20)
                     guard let eachTaskTimer = snapshot.documents[self.indexNumberTime].data()["timer"] as? String else { return }    // 轉型成String
                     print("1️⃣eachTaskTimer", eachTaskTimer)
@@ -154,9 +137,8 @@ class GroupDetailViewController: UIViewController {
                     self.indexNumberTime += 1
                 }
                 self.classMembersTimerArray.append("\(self.indexNumberTime)")
-//                self.indexNumberTime = 0
             }
-            self.indexID += 1   //第一層for迴圈+1
+            self.indexID += 1   //第一層for迴圈結束前
         }
     }
     
