@@ -117,28 +117,31 @@ class GroupDetailViewController: UIViewController {
         var month = dateComponents.month!
         var day = dateComponents.day!
         
-        print("🥹我的classMembersIDArray", classMembersIDArray)
+        //print("🥹我的classMembersIDArray", classMembersIDArray)
         let db = Firestore.firestore()
         
         // MARK: 依據幾個member跑幾次
-        for classMembersID in classMembersIDArray {
-            let documentRef = db.collection("users").document("\(classMembersIDArray[indexID])").collection("\(month).\(day)").addSnapshotListener { snapshot, error in
+        classMembersTimerArray.removeAll()
+        for classMemberID in classMembersIDArray {
+            let documentRef = db.collection("users").document("\(classMemberID)").collection("\(month).\(day)").addSnapshotListener { snapshot, error in
                 guard let snapshot = snapshot else { return }
                 
-                
-                self.indexNumberTime = 0    //第二層for迴圈開始前
+                self.classMembersTimeSum = 0   // 換人時間歸零
                 // MARK: 依據單一member，任務有幾個跑幾次
-                for _ in snapshot.documents {
-                    print("0️⃣snapshot.documents[indexNumberTime].data()[timer]", snapshot.documents[self.indexNumberTime].data()["timer"] ) // Optional(20)
-                    guard let eachTaskTimer = snapshot.documents[self.indexNumberTime].data()["timer"] as? String else { return }    // 轉型成String
-                    print("1️⃣eachTaskTimer", eachTaskTimer)
+                for document in snapshot.documents {
+                    guard let eachTaskTimer = document.data()["timer"] as? String else { return }    // 轉型成String
                     self.classMembersTimeSum += Int(eachTaskTimer)!
-                    print("2️⃣classMembersTimeSum", self.classMembersTimeSum)
-                    self.indexNumberTime += 1
                 }
-                self.classMembersTimerArray.append("\(self.indexNumberTime)")
+                
+                self.classMembersTimerArray.append("\(self.classMembersTimeSum)")
+                print("classMembersTimerArray", self.classMembersTimerArray)
+                
+                // MARK: 加完改變
+                DispatchQueue.main.async {
+                    self.groupDetailTableView.reloadData()
+                }
+                
             }
-            self.indexID += 1   //第一層for迴圈結束前
         }
     }
     
@@ -196,7 +199,7 @@ extension GroupDetailViewController: UITableViewDataSource {
         
         cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
         cell.personNameLabel.text = self.classMembersNameArray[indexPath.row]
-        cell.personTimerLabel.text = String(classMembersTimeSum)
+        cell.personTimerLabel.text = self.classMembersTimerArray[indexPath.row] //String(classMembersTimeSum)
         return cell
     }
 }
