@@ -12,22 +12,16 @@ import FirebaseFirestoreSwift
 
 // 4️⃣ 遵從我們定義的protocol
 class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
-    //: BaseViewController    原本有用base目前沒用
     
-    // 5️⃣建立實體
-    // var sheetTaskVC: SheetTaskViewController?
-    
-    // var structArray = [Users]()             // 目前沒用到
+    let homeView = HomeView()
 
-    let circleView = UIView()               // UI圓形View
-    let circleTimerLabel = UILabel()        // UI計時時間Label
-    let circleDateLabel = UILabel()         // UI計時日期Label
-    let circleTaskButton = UIButton()         // UI任務Label
-    var settingSButton = UIBarButtonItem()  // UI設定  按鈕
-    var addButton = UIBarButtonItem()       // UI加任務 按鈕
+    // MARK: 建立一個UI NavBar 設定按鈕
+    var settingSButton = UIBarButtonItem()
     
-    var label: UILabel!                     // UI測試Label
-    var counter = 0                         // 計時
+    // MARK: 建立一個UI NavBar 加任務按鈕
+    var addButton = UIBarButtonItem()
+
+    var counter = 0                                         // 計時
     var timer: Timer?                                       // 方便後面用timer
     let soundID = SystemSoundID(kSystemSoundID_Vibrate)     // 震動
     let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
@@ -43,30 +37,60 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //print("函式執行前", UserDefaults.standard.dictionaryRepresentation())
-        isUserDefault()
-        
-        view.backgroundColor = .systemGray
         setupNavigation()
-        setupCircleUI()
-        setupDate()
-        setupTimer()
-        setupTask()
-        setupFlipLabel()
+        setupHomeView()
+        isUserDefault()
+        view.backgroundColor = .systemGray
+        homeView.circleTimerLabel.text = "\(counter)"
+        homeView.circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)   //
         
-       
-        // UserDefaults.standard.removeObject(forKey: "myUserID")
-        
-        //print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
+        // 使用 NotificationCenter 監聽裝置方向變化的通知 UIDevice.orientationDidChangeNotification。
+        // 一旦收到該通知，就會調用 orientationChanged 方法
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(orientationChanged),
+                                               name: UIDevice.orientationDidChangeNotification,
+                                               object: nil)
+
     }
     
     // MARK: 讓每次返回本頁會顯示
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        circleTaskButton.setTitle(addTaskVC.titleTaskLabel.text, for: .normal)   // MARK: 一登入沒有任務，添加任務後才會有任務
-        circleTimerLabel.text = "0"
+        homeView.circleTaskButton.setTitle(addTaskVC.titleTaskLabel.text, for: .normal)   // MARK: 一登入沒有任務，添加任務後才會有任務
+        homeView.circleTimerLabel.text = "0"
         counter = 0
+    }
+    
+    // MARK: 建立UI NavBar +按鈕 與 設定按鈕
+    func setupNavigation() {
+        settingSButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(navToSettingVC))
+        addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(navToAddTaskVC))
+        navigationItem.rightBarButtonItems = [settingSButton, addButton]    // 兩個按鈕
+    }
+    
+    // MARK: 跳轉頁 點擊Nav進入跳轉設定頁面VC
+    @objc func navToSettingVC() {
+        let settingVC = SettingViewController()
+        navigationController?.pushViewController(settingVC, animated: true)
+    }
+    
+    // MARK: 跳轉頁 點擊Nav進入跳轉新增任務頁面VC
+    @objc func navToAddTaskVC() {
+        let addTaskVC = AddTaskViewController()
+        navigationController?.pushViewController(addTaskVC, animated: true)
+    }
+
+    
+    // MARK: 把自定義的View設定邊界
+    func setupHomeView() {
+        view.addSubview(homeView)
+        homeView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            homeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            homeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            homeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+        ])
     }
     
     // MARK: 判斷這台手機是不是第一次下載我的app，如果是幫她建立一個myUserID，如果不是直接執行
@@ -137,8 +161,6 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         
         // 6️⃣
         sheetTaskVC.delegate = self
-        
-        // navigationController?.pushViewController(settingVC, animated: true)
         present(sheetTaskVC, animated: true)
     }
     
@@ -146,8 +168,8 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     func startTimer() {
         // 開始計時器
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            self?.counter += 1
-            self?.circleTimerLabel.text = "\(self?.counter ?? 0)"
+            //self.counter += 1
+            //self.homeView.circleTimerLabel.text = "\(self?.counter ?? 0)"
             print("目前計時", self?.counter)
         }
     }
@@ -159,22 +181,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         timer = nil
     }
     
-    // MARK: 建立UI 顯示目前在哪一面的Label
-    func setupFlipLabel() {
-        label = UILabel(frame: CGRect(x: 140, y: 450, width: 200, height: 50))
-        // label.center = view.center
-        // label.textAlignment = .center
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 24)
-        view.addSubview(label)
-        
-        // 使用 NotificationCenter 監聽裝置方向變化的通知 UIDevice.orientationDidChangeNotification。
-        // 一旦收到該通知，就會調用 orientationChanged 方法
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(orientationChanged),
-                                               name: UIDevice.orientationDidChangeNotification,
-                                               object: nil)
-    }
+
     
     // MARK: 偵測目前翻面狀態
     @objc func orientationChanged() {
@@ -215,7 +222,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
             oriString = "Unknown"
             stopTimer()
         }
-        label.text = oriString
+        homeView.label.text = oriString
     }
     
     // MARK: 翻正面 提示框
@@ -233,107 +240,16 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    // MARK: 建立UI NavBar +按鈕 與 設定按鈕
-    func setupNavigation() {
-        settingSButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(navToSettingVC))
-        addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(navToAddTaskVC))
-        navigationItem.rightBarButtonItems = [settingSButton, addButton]    // 兩個按鈕
-    }
-    
-    // MARK: 跳轉頁 點擊Nav進入跳轉設定頁面VC
-    @objc func navToSettingVC() {
-        let settingVC = SettingViewController()
-        navigationController?.pushViewController(settingVC, animated: true)
-    }
-    
-    // MARK: 跳轉頁 點擊Nav進入跳轉新增任務頁面VC
-    @objc func navToAddTaskVC() {
-        // let addTaskVC = AddTaskViewController()
-        navigationController?.pushViewController(addTaskVC, animated: true)
-    }
-    
-    // MARK: UI建立圓形View
-    func setupCircleUI() {
-        view.addSubview(circleView)
-        circleView.backgroundColor = .systemYellow
-        circleView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            circleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor, constant: -200),
-            circleView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: -150),
-            circleView.heightAnchor.constraint(equalToConstant: 300),
-            circleView.widthAnchor.constraint(equalToConstant: 300)
-        ])
-        
-        circleView.layer.borderColor = UIColor.black.cgColor
-        circleView.layer.borderWidth = 2.0
-
-        // 圓半徑設為 寬的一半
-        circleView.layer.cornerRadius = 150
-        // 確保圓形圖不顯示超出邊界的部分
-        circleView.clipsToBounds = true
-        circleView.layer.masksToBounds = false
-    }
-    
-    // MARK: UI建立日期Label
-    func setupDate() {
-        view.addSubview(circleDateLabel)
-        circleDateLabel.font = UIFont(name: "Helvetica", size: 20)
-        circleDateLabel.backgroundColor = .systemRed
-        circleDateLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            circleDateLabel.topAnchor.constraint(equalTo: circleView.topAnchor, constant: 70),
-            circleDateLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -80)
-        ])
-        
-        let today = Date()
-        let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-        let year = dateComponents.year!
-        let month = dateComponents.month!
-        let day = dateComponents.day!
-        let weekday = Calendar.current.component(.weekday, from: today)
-        let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
-        circleDateLabel.text = "\(year).\(month).\(day).\(weekdayString)" // "2023.06.13.Tue"
-    }
-    
-    // MARK: UI建立倒數計時器Label
-    func setupTimer() {
-        view.addSubview(circleTimerLabel)
-        circleTimerLabel.text = "\(counter)"
-        circleTimerLabel.font = UIFont(name: "Helvetica", size: 50)
-        circleTimerLabel.backgroundColor = .systemRed
-        circleTimerLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            circleTimerLabel.topAnchor.constraint(equalTo: circleDateLabel.bottomAnchor, constant: 10),
-            circleTimerLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -18)
-        ])
-    }
-    
-    // MARK: UI建立任務Label
-    func setupTask() {
-        view.addSubview(circleTaskButton)
-        circleTaskButton.setTitle("線性代數", for: .normal)
-        circleTaskButton.backgroundColor = .systemGreen
-        circleTaskButton.setTitleColor(UIColor.black, for: .normal)
-        circleTaskButton.titleLabel?.font = UIFont(name: "Helvetica", size: 20)
-        circleTaskButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            circleTaskButton.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
-            circleTaskButton.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -40)
-        ])
-        
-        circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)   //
-    }
-    
     // 7️⃣ MARK: Delegate傳值
     func passValue(_ VC: SheetTaskViewController, parameter: String) {
         print("傳出來的String Task是", parameter)
-        circleTaskButton.setTitle(parameter, for: .normal)
+        homeView.circleTaskButton.setTitle(parameter, for: .normal)
     }
     
     // 7️⃣ MARK: Delegate傳值
     func passValueTime(_ VC: SheetTaskViewController, parameterTime: String) {
         print("傳出來的String Time是", parameterTime)
-        circleTimerLabel.text = parameterTime
+        homeView.circleTimerLabel.text = parameterTime
     }
     
 }

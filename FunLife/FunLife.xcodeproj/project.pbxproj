@@ -22,6 +22,7 @@
 		A808A95A2A3D96C000237AD7 /* DayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9592A3D96C000237AD7 /* DayViewController.swift */; };
 		A808A95C2A3D9DC900237AD7 /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A95B2A3D9DC900237AD7 /* DayTableViewCell.swift */; };
 		A84F64102A4151E30064D9FC /* SheetTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84F640F2A4151E30064D9FC /* SheetTaskViewController.swift */; };
+		A85E55AA2A500DB00090A15E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85E55A92A500DB00090A15E /* HomeView.swift */; };
 		A887B24E2A458003003AD6E3 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B24D2A458003003AD6E3 /* CreateGroupView.swift */; };
 		A887B2502A458392003AD6E3 /* CreateGroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B24F2A458392003AD6E3 /* CreateGroupTableViewCell.swift */; };
 		A887B2532A46A1CE003AD6E3 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A887B2522A46A1CE003AD6E3 /* GroupDetailView.swift */; };
@@ -54,6 +55,7 @@
 		A808A9592A3D96C000237AD7 /* DayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewController.swift; sourceTree = "<group>"; };
 		A808A95B2A3D9DC900237AD7 /* DayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		A84F640F2A4151E30064D9FC /* SheetTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetTaskViewController.swift; sourceTree = "<group>"; };
+		A85E55A92A500DB00090A15E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		A887B24D2A458003003AD6E3 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
 		A887B24F2A458392003AD6E3 /* CreateGroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupTableViewCell.swift; sourceTree = "<group>"; };
 		A887B2522A46A1CE003AD6E3 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
@@ -128,7 +130,7 @@
 			children = (
 				A808A9292A3BD14A00237AD7 /* SettingTableViewCell.swift */,
 				A808A95B2A3D9DC900237AD7 /* DayTableViewCell.swift */,
-				A894F9572A415CEB00550196 /* SheetTaskTableViewCell.swift */,
+				A85E55A82A500D110090A15E /* Home */,
 				A887B2512A4583A4003AD6E3 /* Group */,
 				A887B2582A483158003AD6E3 /* Profiel */,
 			);
@@ -153,6 +155,15 @@
 				A887B25B2A483479003AD6E3 /* TabBar3 */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		A85E55A82A500D110090A15E /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A894F9572A415CEB00550196 /* SheetTaskTableViewCell.swift */,
+				A85E55A92A500DB00090A15E /* HomeView.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		A887B2512A4583A4003AD6E3 /* Group */ = {
@@ -368,6 +379,7 @@
 				A894F9582A415CEB00550196 /* SheetTaskTableViewCell.swift in Sources */,
 				A894F97B2A45591C00550196 /* MyGroupListViewController.swift in Sources */,
 				A887B2502A458392003AD6E3 /* CreateGroupTableViewCell.swift in Sources */,
+				A85E55AA2A500DB00090A15E /* HomeView.swift in Sources */,
 				A808A92A2A3BD14A00237AD7 /* SettingTableViewCell.swift in Sources */,
 				A887B2572A46ADE0003AD6E3 /* GroupDetailTableViewCell.swift in Sources */,
 				A808A95C2A3D9DC900237AD7 /* DayTableViewCell.swift in Sources */,
