@@ -17,19 +17,17 @@ class GroupDetailViewController: UIViewController {
     var classMembersIDArray: [String] = []      // 空陣列，要接住下方轉換成的 ["成員1ID", "成員2ID"]
     var classMembersNameArray: [String] = []    // 🍎空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
     var classMembersTimeSum: Int = 0
-    var classMembersTimerArray: [String] = []   //  空陣列，要接 []
     
     var classMembersDictionary: [String: Int] = [:]   //
     
     var indexNumber = 0                         // 獲取名字
-    //var indexID = 0                             // for迴圈第一層 member幾個人
-    //var indexNumberTime = 0                     // for迴圈第二層 單一member有幾個任務
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         fetchIDAPI()
         
-        view.backgroundColor = .white
         setupGroupDetailView()
         setupGroupDetailTableView()
         groupDetailTableView.register(GroupDetailTableViewCell.self, forCellReuseIdentifier: "GroupDetailTableViewCell")
@@ -37,6 +35,11 @@ class GroupDetailViewController: UIViewController {
         groupDetailTableView.dataSource = self
         
         groupDetailView.groupDetailNameLabel.text = classNameString // 讓Label吃到上一頁傳來的教室名稱
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
     }
     
     // MARK: 把自定義的View設定邊界
@@ -201,7 +204,7 @@ extension GroupDetailViewController: UITableViewDataSource {
         
         cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
         cell.personNameLabel.text = self.classMembersNameArray[indexPath.row]
-        cell.personTimerLabel.text = "\(classMembersDictionary[classMembersIDArray[indexPath.row]]!)"  //String(classMembersTimeSum)
+        cell.personTimerLabel.text = "\(classMembersDictionary[classMembersIDArray[indexPath.row]])"  //String(classMembersTimeSum)
         return cell
     }
 }

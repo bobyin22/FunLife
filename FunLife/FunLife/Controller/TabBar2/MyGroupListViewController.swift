@@ -35,12 +35,12 @@ class MyGroupListViewController: UIViewController {
     
     // MARK: 抓取firebase上的資料
     func fetchAPI() {
-        userInGroupClassNameArray.removeAll()
+        
         
         let db = Firestore.firestore()
         
         // MARK: group下document，且 members欄是使用者，才顯示教室
-        db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)").getDocuments { snapshot, error in
+        db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)").addSnapshotListener { snapshot, error in
             guard let snapshot = snapshot else { return }
             
             let userGroup = snapshot.documents.compactMap { snapshot in
@@ -49,10 +49,11 @@ class MyGroupListViewController: UIViewController {
             
             var indexNumber = 0
             
+            self.userInGroupClassNameArray.removeAll()
             // MARK: 取得教室名稱 userGroupArray
             for index in userGroup {
                 self.userInGroupClassNameArray.append(userGroup[indexNumber].roomName)
-                print("userGroupArray", self.userInGroupClassNameArray)
+                print("🍎userGroupArray", self.userInGroupClassNameArray)
                 indexNumber += 1
             }
             self.groupListTableView.reloadData()
