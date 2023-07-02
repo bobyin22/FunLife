@@ -131,7 +131,10 @@ class AddTaskViewController: UIViewController {
         let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
         let year = dateComponents.year!
         let month = dateComponents.month!
-        let day = dateComponents.day!
+        //let day = dateComponents.day!
+        
+        //如果小於10 加上0    大於10直接用
+        let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
 
         // let weekday = Calendar.current.component(.weekday, from: today)
         // let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
@@ -142,15 +145,17 @@ class AddTaskViewController: UIViewController {
         //var firebaseUserID = "\(UserDefaults.standard.string(forKey: "myUserID")!)"
         //firebaseUserID = firebaseUserID!
         let bobDocumentRef = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
-        let nextTaskCollectionRef = bobDocumentRef.collection("\(month).\(day)" ?? "沒輸入")
         
-        nextTaskCollectionRef.document(addTaskTextField.text ?? "沒輸入").setData(task) { error in
-            if let error = error {
-                print("Error creating task: \(error)")
-            } else {
-                print("Task textField文字有成功存至cloud firebase")
+        
+            let nextTaskCollectionRef = bobDocumentRef.collection("\(month).\(day)" ?? "沒輸入")
+            nextTaskCollectionRef.document(addTaskTextField.text ?? "沒輸入").setData(task) { error in
+                if let error = error {
+                    print("Error creating task: \(error)")
+                } else {
+                    print("Task textField文字有成功存至cloud firebase")
+                }
             }
-        }
-        print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
+            print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
+        
     }
 }

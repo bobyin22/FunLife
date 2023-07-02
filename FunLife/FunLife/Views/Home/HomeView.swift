@@ -86,7 +86,7 @@ class HomeView: UIView {
     // MARK: UI建立任務Label
     func setupTask() {
         addSubview(circleTaskButton)
-        circleTaskButton.setTitle("請加入新任務", for: .normal)
+        circleTaskButton.setTitle("我的今日任務", for: .normal)
         circleTaskButton.backgroundColor = .systemGreen
         circleTaskButton.setTitleColor(UIColor.black, for: .normal)
         circleTaskButton.titleLabel?.font = UIFont(name: "Helvetica", size: 20)

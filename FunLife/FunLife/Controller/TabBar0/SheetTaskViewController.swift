@@ -58,34 +58,30 @@ class SheetTaskViewController: UIViewController {
         monthString = String(dateComponents.month!)
         dayString = String(dateComponents.day!)
         
+        Int(dayString)! < 10 ? "0\(dayString)" : "\(dayString)"
+        // dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
+        
+        
         let db = Firestore.firestore()
         
-        // print("月日", "\(monthString).\(dayString)")
         
-        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(monthString).\(dayString)").getDocuments { snapshot, error in
+        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(monthString).0\(dayString)").getDocuments { snapshot, error in
             guard let snapshot else {
                 return
             }
-            // print("snapshot", snapshot)
             
             let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
-            
             var indexNumber = 0
-            
-            // print("這是", userDayTask)
             
             for index in userDayTask {
                 self.taskFirebaseArray.append(userDayTask[indexNumber].id!) // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
-                
                 self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
-                
-                // print("userDayTask[indexNumber].id!",userDayTask[indexNumber].id!)
-                
                 indexNumber += 1
             }
             
             self.myTaskTableView.reloadData()
         }
+
     }
     
     // MARK: 建立半截VC的tableView

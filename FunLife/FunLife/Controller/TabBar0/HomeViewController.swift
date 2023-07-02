@@ -10,7 +10,6 @@ import AVFoundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-
 class HomeViewController: UIViewController {
     
     let homeView = HomeView()                               // MARK: 把自定義UIView放進這頁
@@ -117,8 +116,8 @@ class HomeViewController: UIViewController {
         
     }
         
-    // MARK: 每次翻轉後要更新秒數 🍀🍀🍀🍀
-    func modifyUser() { //counter: Int
+    // MARK: 每次翻轉後要更新秒數
+    func modifyUser() { 
         
 //        let today = Date()
 //

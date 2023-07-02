@@ -69,9 +69,6 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         formatter.dateFormat = "M" // 顯示月份的格式，只保留月
         monthString = formatter.string(from: date)
         
-        // print("Day: \(dayString)")
-        // print("Month: \(monthString)")
-        
         self.fetchAPI()
     }
     
@@ -87,7 +84,11 @@ class DayViewController: UIViewController, FSCalendarDelegate {
                 
         let db = Firestore.firestore()
         
-        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(monthString).\(dayString)").getDocuments { snapshot, error in
+        db.collection("users")
+            .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
+            .collection("\(monthString).\(dayString)")
+            .getDocuments { snapshot, error in
+                
             guard let snapshot else {
                 return
             }
@@ -115,8 +116,6 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     // MARK: 建置自訂義的tableView尺寸
     func setupMyTableView() {
         view.addSubview(myTableView)
-        // myTableView.backgroundColor = .systemGreen
-        // myTableView.backgroundColor = .systemYellow
         myTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             myTableView.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 10),
