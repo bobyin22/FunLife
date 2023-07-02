@@ -10,28 +10,25 @@ import AVFoundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-// 4️⃣ 遵從我們定義的protocol
-class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
-    
-    let homeView = HomeView()
 
-    // MARK: 建立一個UI NavBar 設定按鈕
-    var settingSButton = UIBarButtonItem()
+class HomeViewController: UIViewController {
     
-    // MARK: 建立一個UI NavBar 加任務按鈕
-    var addButton = UIBarButtonItem()
+    let homeView = HomeView()                               // MARK: 把自定義UIView放進這頁
+    var settingButtonItem = UIBarButtonItem()                  // MARK: 建立一個UI NavBar 設定按鈕
+    var addTaskButtonItem = UIBarButtonItem()                       // MARK: 建立一個UI NavBar 加任務按鈕
 
-    var counter = 0                                         // 計時
     var timer: Timer?                                       // 方便後面用timer
     let soundID = SystemSoundID(kSystemSoundID_Vibrate)     // 震動
     let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
     
+    // 5️⃣建立實體
     let addTaskVC = AddTaskViewController()                 // 把VC變數拉出來，讓後面可以 .點
     var documentID = ""                                     // myUserID格式是一個字串
     
+    // MARK: 時間
     lazy var today = Date()
     lazy var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-//        let year = dateComponents.year!
+    // let year = dateComponents.year!
     lazy var month = dateComponents.month!
     lazy var day = dateComponents.day!
     
@@ -41,8 +38,9 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         setupHomeView()
         isUserDefault()
         view.backgroundColor = .systemGray
-        homeView.circleTimerLabel.text = "\(counter)"
-        homeView.circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)   //
+                
+        homeView.circleTimerLabel.text = "0"
+        homeView.circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)
         
         // 使用 NotificationCenter 監聽裝置方向變化的通知 UIDevice.orientationDidChangeNotification。
         // 一旦收到該通知，就會調用 orientationChanged 方法
@@ -51,21 +49,20 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
                                                name: UIDevice.orientationDidChangeNotification,
                                                object: nil)
 
+        // 6️⃣當作是自己
+        addTaskVC.delegate = self
     }
     
     // MARK: 讓每次返回本頁會顯示
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        homeView.circleTaskButton.setTitle(addTaskVC.titleTaskLabel.text, for: .normal)   // MARK: 一登入沒有任務，添加任務後才會有任務
-        homeView.circleTimerLabel.text = "0"
-        counter = 0
     }
     
     // MARK: 建立UI NavBar +按鈕 與 設定按鈕
     func setupNavigation() {
-        settingSButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(navToSettingVC))
-        addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(navToAddTaskVC))
-        navigationItem.rightBarButtonItems = [settingSButton, addButton]    // 兩個按鈕
+        settingButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(navToSettingVC))
+        addTaskButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(navToAddTaskVC))
+        navigationItem.rightBarButtonItems = [settingButtonItem, addTaskButtonItem]    // 兩個按鈕
     }
     
     // MARK: 跳轉頁 點擊Nav進入跳轉設定頁面VC
@@ -76,11 +73,10 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     
     // MARK: 跳轉頁 點擊Nav進入跳轉新增任務頁面VC
     @objc func navToAddTaskVC() {
-        let addTaskVC = AddTaskViewController()
+        // let addTaskVC = AddTaskViewController()  上方已經建立過變數，因為HomeVC任務Label要讀取AddTaskVC的變數
         navigationController?.pushViewController(addTaskVC, animated: true)
     }
 
-    
     // MARK: 把自定義的View設定邊界
     func setupHomeView() {
         view.addSubview(homeView)
@@ -89,7 +85,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
             homeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             homeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             homeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
     }
     
@@ -105,7 +101,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     
     // MARK: firebase成功拿到創建的獨一無二的ID
     func createANewUserIDDocument() {
-        //let task = ["timer": "0", "user": "包伯"]
+        // let task = ["timer": "0", "user": "包伯"]
         let newDocumentID = db.collection("users").document()   // firebase建立一個亂數DocumentID
         self.documentID = newDocumentID.documentID      // firebase建立一個亂數DocumentID 並賦值給變數
         UserDefaults.standard.set(self.documentID, forKey: "myUserID")      // 把亂數DocumentID 塞在 App的UserDefault裡
@@ -121,8 +117,8 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         
     }
         
-    // MARK: 每次翻轉後要更新秒數
-    func modifyUser(counter: Int) {
+    // MARK: 每次翻轉後要更新秒數 🍀🍀🍀🍀
+    func modifyUser() { //counter: Int
         
 //        let today = Date()
 //
@@ -132,7 +128,11 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
 //        let day = dateComponents.day!
         
         // firebaseUserID = "\(UserDefaults.standard.string(forKey: "myUserID")!)"
-        let documentReference = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(month).\(day)").document(addTaskVC.titleTaskLabel.text ?? "沒接到")
+        let documentReference = db.collection("users")
+            .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
+            .collection("\(month).\(day)")
+            .document(homeView.circleTaskButton.currentTitle ?? "沒接到")
+        
         documentReference.getDocument { document, error in
             
             guard let document,
@@ -141,7 +141,7 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
             else {
                 return
             }
-            user.timer = "\(self.counter)"
+            user.timer = self.homeView.circleTimerLabel.text!       // MARK: 我雲端timer資料是在這裡被傳上的
             do {
                 try documentReference.setData(from: user)
             } catch {
@@ -168,9 +168,17 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
     func startTimer() {
         // 開始計時器
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            //self.counter += 1
-            //self.homeView.circleTimerLabel.text = "\(self?.counter ?? 0)"
-            print("目前計時", self?.counter)
+            
+            guard let timerText = self!.homeView.circleTimerLabel.text,
+                    var tempCounter = Int(timerText) else {
+                return
+            }
+
+            tempCounter += 1
+            self!.homeView.circleTimerLabel.text = String(tempCounter)
+            
+            self?.homeView.circleTimerLabel.text = "\(tempCounter)"
+            print("目前計時", self!.homeView.circleTimerLabel.text)
         }
     }
 
@@ -180,8 +188,6 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         timer?.invalidate()
         timer = nil
     }
-    
-
     
     // MARK: 偵測目前翻面狀態
     @objc func orientationChanged() {
@@ -201,15 +207,13 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
             stopTimer()
         case .faceUp:
             oriString = "FaceUp"
-            print("現在是正面", counter)
+            print("現在是正面")
             stopTimer()
             alertMsg()
-            // AudioServicesPlaySystemSound(soundID)
-            // createUser(counter: counter)
-            modifyUser(counter: counter)
+            modifyUser()                // MARK: 更新firebase資料   counter: counter
         case .faceDown:
             oriString = "FaceDown"
-            print("現在是反面", counter)
+            print("現在是反面")
             startTimer()
             AudioServicesPlaySystemSound(soundID)
         case .portrait:
@@ -230,16 +234,34 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         let alert = UIAlertController(title: "計時停止", message: "你翻面了，專注暫停", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"),
                                       style: .default,
-                                      handler: { _ in
-        NSLog("The \"OK\" alert occured.")
-        }))
+                                      handler: { _ in NSLog("The \"OK\" alert occured.")}
+                                     )
+        )
         self.present(alert, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+}
+
+// 4️⃣遵從我們自定義的protocol
+extension HomeViewController: AddTaskViewControllerDelegate {
     
+    func passTask(parameter: String) {
+        print("這是任務", parameter)
+        homeView.circleTaskButton.setTitle(parameter, for: .normal)
+    }
+    
+    func passTaskStartTime(parameter: String) {
+        print("這是時間", parameter)
+        homeView.circleTimerLabel.text = parameter
+    }
+}
+
+
+// 4️⃣遵從我們自定義的protocol
+extension HomeViewController: SheetTaskViewControllerDelegate {
     // 7️⃣ MARK: Delegate傳值
     func passValue(_ VC: SheetTaskViewController, parameter: String) {
         print("傳出來的String Task是", parameter)
@@ -251,5 +273,6 @@ class HomeViewController: UIViewController, SheetTaskViewControllerDelegate {
         print("傳出來的String Time是", parameterTime)
         homeView.circleTimerLabel.text = parameterTime
     }
-    
 }
+
+

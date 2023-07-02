@@ -10,6 +10,12 @@ import IQKeyboardManager
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+// 1️⃣ 老闆定義要做的事
+protocol AddTaskViewControllerDelegate: AnyObject {
+    func passTask(parameter: String)
+    func passTaskStartTime(parameter: String)
+}
+
 class AddTaskViewController: UIViewController {
     
     let addTaskLabel = UILabel()            // MARK: UI標題
@@ -19,9 +25,8 @@ class AddTaskViewController: UIViewController {
     
     var titleTaskLabel = UILabel()          // MARK: 用來接住輸入的textField，給HomeVC顯示用
     
-    //var firebaseUserID = "\(UserDefaults.standard.string(forKey: "myUserID")!)"
-    
-    // "\(UserDefaults.standard.string(forKey: "myUserID")!)"
+    // 2️⃣建立一個變數是自己
+    weak var delegate: AddTaskViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,12 +113,14 @@ class AddTaskViewController: UIViewController {
     
     // MARK: UI儲存按鈕的objc要執行的事情(讓HomeVC知道新增任務)
     @objc func saveTaskToFirebase() {
-        // print("印出", addTaskTextField.text)
         createNewTask()
-        
         titleTaskLabel.text = addTaskTextField.text  // 把輸入的TextField 給變數
+        print("titleTaskLabel.text", titleTaskLabel.text)
+        self.navigationController?.popViewController(animated: true)    // 跳回上一頁，也就是HomeVC
         
-        self.navigationController?.popViewController(animated: true)
+        // 3️⃣使用的方法
+        delegate?.passTask(parameter: addTaskTextField.text ?? "nil")
+        delegate?.passTaskStartTime(parameter: "0")
     }
     
     // MARK: 把新任務傳至firebase
@@ -132,7 +139,6 @@ class AddTaskViewController: UIViewController {
         let task = ["timer": "0", "user": "包伯"]
         let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
         
-        
         //var firebaseUserID = "\(UserDefaults.standard.string(forKey: "myUserID")!)"
         //firebaseUserID = firebaseUserID!
         let bobDocumentRef = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
@@ -142,7 +148,7 @@ class AddTaskViewController: UIViewController {
             if let error = error {
                 print("Error creating task: \(error)")
             } else {
-                print("Task created successfully")
+                print("Task textField文字有成功存至cloud firebase")
             }
         }
         print("函式執行後", UserDefaults.standard.dictionaryRepresentation())

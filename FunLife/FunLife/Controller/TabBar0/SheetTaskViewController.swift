@@ -11,7 +11,6 @@ import FirebaseFirestore
 // 1️⃣ 老闆定義要做的事
 protocol SheetTaskViewControllerDelegate: AnyObject {
     func passValue(_ VC: SheetTaskViewController, parameter: String)
-    
     func passValueTime(_ VC: SheetTaskViewController, parameterTime: String)
 }
 
@@ -139,7 +138,6 @@ extension SheetTaskViewController: UITableViewDataSource {
         delegate?.passValue(self, parameter: taskFirebaseArray[indexPath.row])
         
         delegate?.passValueTime(self, parameterTime: taskFirebaseTimeArray[indexPath.row])
-        
         
         dismiss(animated: true, completion: nil)
     }

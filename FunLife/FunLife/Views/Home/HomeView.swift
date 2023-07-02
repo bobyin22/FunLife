@@ -9,20 +9,6 @@ import UIKit
 
 class HomeView: UIView {
 
-    // MARK:
-//    var settingSButton: UIBarButtonItem = {
-//        let settingSButton = UIBarButtonItem()
-//        return settingSButton
-//    }()
-//
-//    // MARK:
-//    var addButton: UIBarButtonItem = {
-//        let addButton = UIBarButtonItem()
-//        return addButton
-//    }()
-    
-
-    
     // MARK: 建立一個UI 圓形View
     let circleView: UIView = {
         let circleView = UIView()
@@ -30,7 +16,7 @@ class HomeView: UIView {
     }()
     
     // MARK: 建立一個UI 計時時間Label
-    let circleTimerLabel: UILabel = {
+    var circleTimerLabel: UILabel = {
         let circleTimerLabel = UILabel()
         return circleTimerLabel
     }()
@@ -41,7 +27,7 @@ class HomeView: UIView {
         return circleDateLabel
     }()
     
-    // MARK: 建立一個UI 任務Label
+    // MARK: 建立一個UI 任務Button
     let circleTaskButton: UIButton = {
         let circleTaskButton = UIButton()
         return circleTaskButton
@@ -56,15 +42,12 @@ class HomeView: UIView {
     // MARK: 初始init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupCircleUI()
         setupDate()
         setupTimer()
         setupTask()
         setupFlipLabel()
     }
-    
-
     
     // MARK: UI建立圓形View
     func setupCircleUI() {
@@ -103,7 +86,7 @@ class HomeView: UIView {
     // MARK: UI建立任務Label
     func setupTask() {
         addSubview(circleTaskButton)
-        circleTaskButton.setTitle("線性代數", for: .normal)
+        circleTaskButton.setTitle("請加入新任務", for: .normal)
         circleTaskButton.backgroundColor = .systemGreen
         circleTaskButton.setTitleColor(UIColor.black, for: .normal)
         circleTaskButton.titleLabel?.font = UIFont(name: "Helvetica", size: 20)
