@@ -24,9 +24,7 @@ class SheetTaskViewController: UIViewController {
     // MARK: firebase的任務秒數
     var taskFirebaseTimeArray: [String] = [""]
     
-    // MARK: 先建立字串到時候給firebase用
-    var dayString = ""
-    var monthString = ""
+
     
     var sumTime = 0
     
@@ -52,20 +50,15 @@ class SheetTaskViewController: UIViewController {
         taskFirebaseTimeArray.removeAll()
         
         let today = Date()
-        
         let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-                
-        monthString = String(dateComponents.month!)
-        dayString = String(dateComponents.day!)
-        
-        Int(dayString)! < 10 ? "0\(dayString)" : "\(dayString)"
-        // dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
-        
+        var year = dateComponents.year!
+        var month = dateComponents.month!
+        let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
         
         let db = Firestore.firestore()
         
         
-        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(monthString).0\(dayString)").getDocuments { snapshot, error in
+        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(month).\(day)").getDocuments { snapshot, error in
             guard let snapshot else {
                 return
             }

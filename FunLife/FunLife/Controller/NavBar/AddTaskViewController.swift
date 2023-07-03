@@ -127,35 +127,27 @@ class AddTaskViewController: UIViewController {
     func createNewTask() {
         // MARK: 把日期功能補在這
         let today = Date()
-
+        
         let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
         let year = dateComponents.year!
         let month = dateComponents.month!
-        //let day = dateComponents.day!
-        
-        //如果小於10 加上0    大於10直接用
-        let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
-
-        // let weekday = Calendar.current.component(.weekday, from: today)
-        // let weekdayString = Calendar.current.weekdaySymbols[weekday - 1]
+        let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"   //如果小於10 加上0    大於10直接用
         
         let task = ["timer": "0", "user": "包伯"]
         let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
         
-        //var firebaseUserID = "\(UserDefaults.standard.string(forKey: "myUserID")!)"
-        //firebaseUserID = firebaseUserID!
         let bobDocumentRef = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
         
         
-            let nextTaskCollectionRef = bobDocumentRef.collection("\(month).\(day)" ?? "沒輸入")
-            nextTaskCollectionRef.document(addTaskTextField.text ?? "沒輸入").setData(task) { error in
-                if let error = error {
-                    print("Error creating task: \(error)")
-                } else {
-                    print("Task textField文字有成功存至cloud firebase")
-                }
+        let nextTaskCollectionRef = bobDocumentRef.collection("\(month).\(day)" ?? "沒輸入")
+        nextTaskCollectionRef.document(addTaskTextField.text ?? "沒輸入").setData(task) { error in
+            if let error = error {
+                print("Error creating task: \(error)")
+            } else {
+                print("Task textField文字有成功存至cloud firebase")
             }
-            print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
+        }
+        print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
         
     }
 }
