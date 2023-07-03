@@ -10,22 +10,20 @@ import FirebaseFirestore
 
 class MyGroupListViewController: UIViewController {
     
-    // var text = ""
     let groupListTableView = UITableView()
-    
-    var userInGroupClassNameArray: [String] = [""]      //用來存教室名稱 ["教室1", "教室2"]
+    var userInGroupClassNameArray: [String] = []      // 用來存教室名稱 ["教室1", "教室2"]
     // var groupMembersArrays: [[String]] = [[]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
         setupGroupListTableView()
+        setupAddGroupBtn()
+        
         groupListTableView.register(MyGroupListTableViewCell.self, forCellReuseIdentifier: "MyGroupListTableViewCell")
         groupListTableView.delegate = self
         groupListTableView.dataSource = self
         
-        addGroup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,7 +33,6 @@ class MyGroupListViewController: UIViewController {
     
     // MARK: 抓取firebase上的資料
     func fetchAPI() {
-        
         
         let db = Firestore.firestore()
         
@@ -53,7 +50,7 @@ class MyGroupListViewController: UIViewController {
             // MARK: 取得教室名稱 userGroupArray
             for index in userGroup {
                 self.userInGroupClassNameArray.append(userGroup[indexNumber].roomName)
-                print("🍎userGroupArray", self.userInGroupClassNameArray)
+                print("userGroupArray", self.userInGroupClassNameArray)
                 indexNumber += 1
             }
             self.groupListTableView.reloadData()
@@ -72,7 +69,7 @@ class MyGroupListViewController: UIViewController {
         ])
     }
     // MARK: 建立UI 方形按鈕
-    func addGroup() {
+    func setupAddGroupBtn() {
         let addGroupBtn = UIButton()
         addGroupBtn.setImage(UIImage(named: "plus1.png"), for: .normal)
         view.addSubview(addGroupBtn)
@@ -132,7 +129,7 @@ extension MyGroupListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-         cell.groupNameLabel.text = userInGroupClassNameArray[indexPath.row]   // List的教室名稱
+        cell.groupNameLabel.text = userInGroupClassNameArray[indexPath.row]   // List的教室名稱🍀
         // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
         return cell
     }

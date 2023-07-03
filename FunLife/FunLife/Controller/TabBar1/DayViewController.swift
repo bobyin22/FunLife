@@ -44,8 +44,9 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         
         myTableView.rowHeight = UITableView.automaticDimension
         myTableView.estimatedRowHeight = UITableView.automaticDimension
-        fetchDayAPI()     // 🍀🍀🍀🍀
+        fetchDayAPI()
     }
+    
     
     // MARK: 設定第三方套件日曆View尺寸
     func setupCalendar() {
@@ -72,7 +73,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     }
     
     // MARK: 載入日期firebase任務與時間
-    func fetchDayAPI() {      // 🍀🍀🍀🍀🍀
+    func fetchDayAPI() {
         sumTime = 0
         taskFirebaseArray.removeAll()
         taskFirebaseTimeArray.removeAll()
@@ -116,7 +117,6 @@ class DayViewController: UIViewController, FSCalendarDelegate {
                         return
                     }
                     // print("snapshot", snapshot)
-                    
                     let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
                     var indexNumber = 0
                     

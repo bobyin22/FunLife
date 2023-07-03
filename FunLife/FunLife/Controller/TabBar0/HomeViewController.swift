@@ -59,8 +59,12 @@ class HomeViewController: UIViewController {
     
     // MARK: 建立UI NavBar +按鈕 與 設定按鈕
     func setupNavigation() {
-        settingButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(navToSettingVC))
-        addTaskButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(navToAddTaskVC))
+        settingButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
+                                            target: self,
+                                            action: #selector(navToSettingVC))
+        addTaskButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                            target: self,
+                                            action: #selector(navToAddTaskVC))
         navigationItem.rightBarButtonItems = [settingButtonItem, addTaskButtonItem]    // 兩個按鈕
     }
     
@@ -72,7 +76,6 @@ class HomeViewController: UIViewController {
     
     // MARK: 跳轉頁 點擊Nav進入跳轉新增任務頁面VC
     @objc func navToAddTaskVC() {
-        // let addTaskVC = AddTaskViewController()  上方已經建立過變數，因為HomeVC任務Label要讀取AddTaskVC的變數
         navigationController?.pushViewController(addTaskVC, animated: true)
     }
 
@@ -258,7 +261,6 @@ extension HomeViewController: AddTaskViewControllerDelegate {
     }
 }
 
-
 // 4️⃣遵從我們自定義的protocol
 extension HomeViewController: SheetTaskViewControllerDelegate {
     // 7️⃣ MARK: Delegate傳值
@@ -273,5 +275,4 @@ extension HomeViewController: SheetTaskViewControllerDelegate {
         homeView.circleTimerLabel.text = parameterTime
     }
 }
-
 
