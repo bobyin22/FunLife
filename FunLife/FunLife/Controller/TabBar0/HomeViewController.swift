@@ -57,6 +57,17 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+
+    }
+    
     // MARK: 建立UI NavBar +按鈕 與 設定按鈕
     func setupNavigation() {
         settingButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
@@ -130,6 +141,8 @@ class HomeViewController: UIViewController {
 //        let day = dateComponents.day!
         
         // firebaseUserID = "\(UserDefaults.standard.string(forKey: "myUserID")!)"
+        var day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
+        
         let documentReference = db.collection("users")
             .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
             .collection("\(month).\(day)")

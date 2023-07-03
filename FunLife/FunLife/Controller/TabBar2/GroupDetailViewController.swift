@@ -18,11 +18,11 @@ class GroupDetailViewController: UIViewController {
     var classMembersNameArray: [String] = []    // 🍎空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
     var classMembersTimeSum: Int = 0
     
-    var classMembersDictionary: [String: Int] = [:]   //
+    var classMembersIDDictionary: [String: String] = [:]   //
+    var classMembersTimeDictionary: [String: Int] = [:]   //
     
     var indexNumber = 0                         // 獲取名字
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -39,7 +39,6 @@ class GroupDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
     }
     
     // MARK: 把自定義的View設定邊界
@@ -74,7 +73,7 @@ class GroupDetailViewController: UIViewController {
             groupDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
             groupDetailTableView.leadingAnchor.constraint(equalTo: groupDetailView.leadingAnchor, constant: 0),
             groupDetailTableView.trailingAnchor.constraint(equalTo: groupDetailView.trailingAnchor, constant: 0),
-            groupDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150),
+            groupDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
         ])
     }
     
@@ -85,7 +84,6 @@ class GroupDetailViewController: UIViewController {
         
         // MARK: 判斷式 如果UserDefault 有 FriendGroupID 用 FriendGroupID 去取得member
         // MARK:       如果          沒有               用 myGroupID     去取得member
-        
         if UserDefaults.standard.string(forKey: "FriendGroupID") == nil {
             print("1")
             let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "myGroupID")!).getDocument { snapshot, error in
@@ -96,7 +94,7 @@ class GroupDetailViewController: UIViewController {
                     self.classMembersIDArray = members
                 }
                 self.fetchTimeAPI()
-                self.fetchNameAPI()                 //去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
+                self.fetchNameAPI()                 // 去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
                 self.groupDetailTableView.reloadData()
             }
         } else {
@@ -108,7 +106,7 @@ class GroupDetailViewController: UIViewController {
                     self.classMembersIDArray = members
                 }
                 self.fetchTimeAPI()
-                self.fetchNameAPI()                //去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
+                self.fetchNameAPI()                // 去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
                 self.groupDetailTableView.reloadData()
             }
         }
@@ -120,9 +118,10 @@ class GroupDetailViewController: UIViewController {
         var today = Date()
         var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
         var month = dateComponents.month!
-        var day = dateComponents.day!
+        let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
+        //var day = dateComponents.day!
         
-        //print("🥹我的classMembersIDArray", classMembersIDArray)
+        // print("🥹我的classMembersIDArray", classMembersIDArray)
         let db = Firestore.firestore()
         
         // MARK: 依據幾個member跑幾次
@@ -137,9 +136,9 @@ class GroupDetailViewController: UIViewController {
                     guard let eachTaskTimer = document.data()["timer"] as? String else { return }    // 轉型成String
                     self.classMembersTimeSum += Int(eachTaskTimer)!
                 }
-                self.classMembersDictionary[classMemberID] = self.classMembersTimeSum
+                self.classMembersTimeDictionary[classMemberID] = self.classMembersTimeSum
 //                self.classMembersTimerArray.append("\(self.classMembersTimeSum)")
-                print("classMembersTimerArray", self.classMembersDictionary)
+                print("classMembersTimerArray", self.classMembersTimeDictionary)
                 
                 // MARK: 加完改變
                 DispatchQueue.main.async {
@@ -154,7 +153,7 @@ class GroupDetailViewController: UIViewController {
     // 拿到 ["成員1的Name", "成員2的Name"]
     func fetchNameAPI() {
         // 走2次
-        for _ in 0..<classMembersIDArray.count {
+        for memberID in classMembersIDArray {
             print("🍎classMembersIDArray", classMembersIDArray)
             
             let db = Firestore.firestore()
@@ -164,15 +163,17 @@ class GroupDetailViewController: UIViewController {
                 guard let snapshot = snapshot else { return }
                 // print("snapshot", snapshot)                                          // <FIRDocumentSnapshot: 0x600001c401e0>
                 // print("snapshot.data()", snapshot.data()!)                           // 得到 ["name": user1]
-                // print("⚠️snapshot.data()是", snapshot.data()!["name"]!)                // 得到 user1
+                // print("⚠️snapshot.data()是", snapshot.data()!["name"]!)              // 得到 user1
+                self.classMembersIDDictionary[memberID] = "\(snapshot.data()!["name"]!)"
+                print("classMembersIDDictionary是", self.classMembersIDDictionary)
                 self.classMembersNameArray.append("\(snapshot.data()!["name"]!)")
                 // print("🍀classMembersNameArray", self.classMembersNameArray)
                 self.groupDetailTableView.reloadData()
             }
             self.indexNumber += 1
         }
-        
     }
+    
     
 }
 
@@ -202,9 +203,21 @@ extension GroupDetailViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        //頭像
         cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
-        cell.personNameLabel.text = self.classMembersNameArray[indexPath.row]
-        cell.personTimerLabel.text = "\(classMembersDictionary[classMembersIDArray[indexPath.row]])"  //String(classMembersTimeSum)
+        //姓名
+        cell.personNameLabel.text = classMembersIDDictionary[classMembersIDArray[indexPath.row]]
+        //時間
+        if let time = classMembersTimeDictionary[classMembersIDArray[indexPath.row]] {
+            cell.personTimerLabel.text = "\(time)"
+        } else {
+            cell.personTimerLabel.text = nil
+        }
+        
+        print("1️⃣classMembersNameArray", classMembersNameArray)
+        print("2️⃣classMembersIDArray", classMembersIDArray)
+        print("3️⃣classMembersDictionary", classMembersTimeDictionary)
+        
         return cell
     }
 }

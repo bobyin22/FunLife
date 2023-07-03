@@ -44,9 +44,13 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         
         myTableView.rowHeight = UITableView.automaticDimension
         myTableView.estimatedRowHeight = UITableView.automaticDimension
-        fetchDayAPI()
+        //fetchDayAPI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchDayAPI()
+    }
     
     // MARK: 設定第三方套件日曆View尺寸
     func setupCalendar() {
