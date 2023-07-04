@@ -13,7 +13,7 @@ class CreateGroupView: UIView {
     // MARK: 建立一個UI TableView
     let createGroupTableView: UITableView = {
         let createGroupTableView = UITableView()
-        createGroupTableView.backgroundColor = .systemGreen
+        // createGroupTableView.backgroundColor = .systemGreen
         return createGroupTableView
     }()
     

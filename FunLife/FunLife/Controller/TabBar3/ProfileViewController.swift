@@ -9,7 +9,6 @@ import UIKit
 import FirebaseFirestore
 import FirebaseStorage
 
-
 class ProfileViewController: UIViewController {
     
     let profileView = ProfileView()

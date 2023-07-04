@@ -76,9 +76,10 @@ class ProfileView: UIView {
         profilePhotoImageView.layer.masksToBounds = true        // MARK: 讓照片變成圓形的
     }
     
+    // MARK: 照相Button AutoLayout
     func setupCameraBtn() {
         profileCaeraBtn.setImage(UIImage(named: "camera"), for: .normal)
-        profileCaeraBtn.backgroundColor = .systemMint
+        // profileCaeraBtn.backgroundColor = .systemMint
         addSubview(profileCaeraBtn)
         profileCaeraBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

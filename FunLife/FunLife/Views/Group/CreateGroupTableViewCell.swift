@@ -21,7 +21,8 @@ class CreateGroupTableViewCell: UITableViewCell {
     // MARK: AutoLayout輸入欄
     func setupCreateGroupTextField () {
         createGroupTextField.placeholder = "請輸入群組名稱"
-        createGroupTextField.backgroundColor = .systemYellow
+        createGroupTextField.backgroundColor = .systemGray2
+        createGroupTextField.borderStyle = .roundedRect
         contentView.addSubview(createGroupTextField)
         createGroupTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

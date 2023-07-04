@@ -51,7 +51,7 @@ class HomeView: UIView {
     
     // MARK: UI建立圓形View
     func setupCircleUI() {
-        circleView.backgroundColor = .systemYellow
+        circleView.backgroundColor = UIColor(red: 107/255, green: 142/255, blue: 35/255, alpha: 1)
         addSubview(circleView)
         circleView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -61,21 +61,28 @@ class HomeView: UIView {
             circleView.widthAnchor.constraint(equalToConstant: 300)
         ])
         
-        circleView.layer.borderColor = UIColor.black.cgColor
-        circleView.layer.borderWidth = 2.0
+        circleView.layer.borderColor = UIColor.green.cgColor
+        // circleView.layer.borderWidth = 2.0
 
         // 圓半徑設為 寬的一半
         circleView.layer.cornerRadius = 150
         // 確保圓形圖不顯示超出邊界的部分
         circleView.clipsToBounds = true
         circleView.layer.masksToBounds = false
+        
+        // 添加阴影效果
+        circleView.layer.shadowColor = UIColor.white.cgColor
+        circleView.layer.shadowOpacity = 0.5
+        circleView.layer.shadowOffset = CGSize(width: 8, height: 6)
+        circleView.layer.shadowRadius = 4
     }
     
     // MARK: UI建立倒數計時器Label
     func setupTimer() {
         addSubview(circleTimerLabel)
         circleTimerLabel.font = UIFont(name: "Helvetica", size: 50)
-        circleTimerLabel.backgroundColor = .systemRed
+        circleTimerLabel.textColor = .white
+        // circleTimerLabel.backgroundColor = .systemRed
         circleTimerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             circleTimerLabel.topAnchor.constraint(equalTo: circleDateLabel.bottomAnchor, constant: 10),
@@ -86,23 +93,26 @@ class HomeView: UIView {
     // MARK: UI建立任務Label
     func setupTask() {
         addSubview(circleTaskButton)
-        circleTaskButton.setTitle("我的今日任務", for: .normal)
-        circleTaskButton.backgroundColor = .systemGreen
+        circleTaskButton.setTitle("今日任務", for: .normal)
+        circleTaskButton.backgroundColor = UIColor(red: 175/255, green: 238/255, blue: 238/255, alpha: 1)
+        circleTaskButton.clipsToBounds = true
+        circleTaskButton.layer.cornerRadius = 8
+        circleTaskButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20) // 调整上下左右内边距
         circleTaskButton.setTitleColor(UIColor.black, for: .normal)
         circleTaskButton.titleLabel?.font = UIFont(name: "Helvetica", size: 20)
         circleTaskButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             circleTaskButton.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
-            circleTaskButton.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -40)
+            circleTaskButton.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -55)
         ])
-        
     }
     
     // MARK: UI建立日期Label
     func setupDate() {
         addSubview(circleDateLabel)
         circleDateLabel.font = UIFont(name: "Helvetica", size: 20)
-        circleDateLabel.backgroundColor = .systemRed
+        circleDateLabel.textColor = .white
+        // circleDateLabel.backgroundColor = .systemRed
         circleDateLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             circleDateLabel.topAnchor.constraint(equalTo: circleView.topAnchor, constant: 70),

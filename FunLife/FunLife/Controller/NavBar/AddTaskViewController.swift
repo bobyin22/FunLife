@@ -46,21 +46,22 @@ class AddTaskViewController: UIViewController {
     // MARK: UI標題
     func setupAddTaskLabel() {
         view.addSubview(addTaskLabel)
-        addTaskLabel.backgroundColor = .systemRed
-        addTaskLabel.text = "標題"
+        // addTaskLabel.backgroundColor = .systemRed
+        addTaskLabel.text = "新增任務"
+        addTaskLabel.font = UIFont(name: "Helvetica", size: 20)
         addTaskLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             addTaskLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             addTaskLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             addTaskLabel.heightAnchor.constraint(equalToConstant: 50),
-            addTaskLabel.widthAnchor.constraint(equalToConstant: 50)
+            addTaskLabel.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
     
     // MARK: UI輸入欄
     func setupAddTaskTextField() {
         view.addSubview(addTaskTextField)
-        addTaskTextField.backgroundColor = .systemRed
+        addTaskTextField.backgroundColor = .systemGray2
         addTaskTextField.placeholder = "請輸入標題"
         // 輸入框的樣式 這邊選擇圓角樣式
         addTaskTextField.borderStyle = .roundedRect
@@ -68,9 +69,9 @@ class AddTaskViewController: UIViewController {
         addTaskTextField.clearButtonMode = .whileEditing
         addTaskTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            addTaskTextField.topAnchor.constraint(equalTo: addTaskLabel.bottomAnchor, constant: 50),
+            addTaskTextField.topAnchor.constraint(equalTo: addTaskLabel.bottomAnchor, constant: 10),
             addTaskTextField.leadingAnchor.constraint(equalTo: addTaskLabel.leadingAnchor, constant: 0),
-            addTaskTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            addTaskTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             addTaskTextField.heightAnchor.constraint(equalToConstant: 50)
         ])
     }

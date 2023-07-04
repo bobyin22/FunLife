@@ -36,7 +36,7 @@ class HomeViewController: UIViewController {
         setupNavigation()
         setupHomeView()
         isUserDefault()
-        view.backgroundColor = .systemGray
+        view.backgroundColor = UIColor(red: 160/255, green: 191/255, blue: 224/255, alpha: 1)
                 
         homeView.circleTimerLabel.text = "0"
         homeView.circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)
