@@ -15,6 +15,8 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupProfileView()
+        
+        weak var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
     }
     
     // MARK: 把自定義的View設定邊界
@@ -38,17 +40,20 @@ class ProfileViewController: UIViewController {
     @objc func clickCameraBtn() {
         
         let controller = UIAlertController(title: "選擇開啟方式", message: nil, preferredStyle: .actionSheet)
+        
         let names = ["Camera", "Album"]
         for name in names {
             let action = UIAlertAction(title: name, style: .default) { action in
                 print(action.title)
                 if action.title == "Camera" {
-                    let myController = UIImagePickerController()
+                    let myController = UIImagePickerController()    // 5️⃣建立實體
                     myController.sourceType = .camera
+                    myController.delegate = self            // 6️⃣當作是自己
                     self.present(myController, animated: true)
                 } else {
-                    let myController = UIImagePickerController()
+                    let myController = UIImagePickerController()    // 5️⃣建立實體
                     myController.sourceType = .photoLibrary
+                    myController.delegate = self            // 6️⃣當作是自己
                     self.present(myController, animated: true)
                 }
             }
@@ -58,9 +63,6 @@ class ProfileViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         controller.addAction(cancelAction)
         present(controller, animated: true)
-        
-        
-
     }
     
     @objc func clickSaveProfileBtn() {
@@ -77,5 +79,22 @@ class ProfileViewController: UIViewController {
             }
         }
     }
+    
+}
+
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    // 選到照片
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        print("看起來照片有成功")
+        profileView.profilePhotoImageView.image = info[.originalImage] as? UIImage
+        // profileView.profilePhotoImageView.layer.masksToBounds = true
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    // 取消
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            picker.dismiss(animated: true, completion: nil)
+        }
     
 }

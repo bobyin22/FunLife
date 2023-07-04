@@ -53,7 +53,8 @@ class ProfileView: UIView {
     // MARK: 照片Image AutoLayout
     func setupPhotoImageView() {
         profilePhotoImageView.image = UIImage(named: "person2")
-        profilePhotoImageView.contentMode = .scaleAspectFit
+        
+        profilePhotoImageView.contentMode = .scaleAspectFill
         
         profilePhotoImageView.backgroundColor = .systemYellow
         addSubview(profilePhotoImageView)
@@ -72,7 +73,7 @@ class ProfileView: UIView {
         profilePhotoImageView.layer.cornerRadius = 75
         // 確保圓形圖不顯示超出邊界的部分
         profilePhotoImageView.clipsToBounds = true
-        profilePhotoImageView.layer.masksToBounds = false
+        profilePhotoImageView.layer.masksToBounds = true        // MARK: 讓照片變成圓形的
     }
     
     func setupCameraBtn() {
