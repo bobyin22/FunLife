@@ -7,16 +7,36 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseStorage
 
 class ProfileViewController: UIViewController {
-
+    
     let profileView = ProfileView()
-
+    let storage = Storage.storage().reference()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupProfileView()
         
         weak var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
+        
+        // 🍀
+        guard let urlString = UserDefaults.standard.value(forKey: "url") as? String,
+              let url = URL(string: urlString) else {
+            return
+        }
+        
+        // 🍀
+        let task = URLSession.shared.dataTask(with: url, completionHandler: { data, _, error in
+            guard let data = data, error == nil else {
+                return
+            }
+            DispatchQueue.main.async {
+                let image = UIImage(data: data)
+                self.profileView.profilePhotoImageView.image = image
+            }
+        })
+        task.response   // 🍀
     }
     
     // MARK: 把自定義的View設定邊界
@@ -37,34 +57,41 @@ class ProfileViewController: UIViewController {
         ])
     }
     
+    // 點擊相機按鈕
     @objc func clickCameraBtn() {
-        
         let controller = UIAlertController(title: "選擇開啟方式", message: nil, preferredStyle: .actionSheet)
-        
         let names = ["Camera", "Album"]
+        
+        // 顯示彈跳視窗 相機或是相簿
         for name in names {
             let action = UIAlertAction(title: name, style: .default) { action in
-                print(action.title)
-                if action.title == "Camera" {
+                // print(action.title)
+                if action.title == "Camera" {                       //如果選到是相機
+                    
                     let myController = UIImagePickerController()    // 5️⃣建立實體
                     myController.sourceType = .camera
-                    myController.delegate = self            // 6️⃣當作是自己
+                    myController.delegate = self                    // 6️⃣當作是自己
                     self.present(myController, animated: true)
-                } else {
+                    
+                } else {                                            //如果選到是相簿
+                    
                     let myController = UIImagePickerController()    // 5️⃣建立實體
                     myController.sourceType = .photoLibrary
-                    myController.delegate = self            // 6️⃣當作是自己
+                    myController.delegate = self                    // 6️⃣當作是自己
                     self.present(myController, animated: true)
+                    
                 }
             }
             controller.addAction(action)
         }
         
+        // 建立取消彈跳視窗
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         controller.addAction(cancelAction)
         present(controller, animated: true)
     }
     
+    // 點擊儲存按鈕
     @objc func clickSaveProfileBtn() {
         modifyAPIName()
     }
@@ -83,18 +110,40 @@ class ProfileViewController: UIViewController {
 }
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     // 選到照片
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        print("看起來照片有成功")
-        profileView.profilePhotoImageView.image = info[.originalImage] as? UIImage
-        // profileView.profilePhotoImageView.layer.masksToBounds = true
+        
+        profileView.profilePhotoImageView.image = info[.originalImage] as? UIImage  // 🍀
+        
+        guard let imageData = profileView.profilePhotoImageView.image?.pngData() else { return }    // 🍀
+        
+        storage.child("images/file.png").putData(imageData,                                         // 🍀
+                                                 metadata: nil,
+                                                 completion: { _, error in
+            guard error == nil else {
+                print("沒有上傳成功")
+                return
+            }
+            self.storage.child("images/file.png").downloadURL(completion: { url, error in
+                guard let url = url, error == nil else {
+                    return
+                }
+                
+                let urlString = url.absoluteString
+                
+//                DispatchQueue.main.async {
+//                    self.profileView.profilePhotoImageView.image = image
+//                }
+                
+                print("下載URL: \(urlString)")
+                UserDefaults.standard.set(urlString, forKey: "url")
+            })
+        })
+        
         picker.dismiss(animated: true, completion: nil)
     }
-    
     // 取消
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            picker.dismiss(animated: true, completion: nil)
-        }
-    
+        picker.dismiss(animated: true, completion: nil)
+    }
 }
