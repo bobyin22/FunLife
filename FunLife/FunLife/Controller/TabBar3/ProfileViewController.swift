@@ -23,7 +23,9 @@ class ProfileViewController: UIViewController {
         
         // 儲存按鈕可以點擊
         profileView.saveProfileBtn.addTarget(self, action: #selector(clickSaveProfileBtn), for: .touchUpInside)
-
+        // 照片按鈕可以點擊
+        profileView.profileCaeraBtn.addTarget(self, action: #selector(clickCameraBtn), for: .touchUpInside)
+        
         profileView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             profileView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
@@ -31,6 +33,34 @@ class ProfileViewController: UIViewController {
             profileView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             profileView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
         ])
+    }
+    
+    @objc func clickCameraBtn() {
+        
+        let controller = UIAlertController(title: "選擇開啟方式", message: nil, preferredStyle: .actionSheet)
+        let names = ["Camera", "Album"]
+        for name in names {
+            let action = UIAlertAction(title: name, style: .default) { action in
+                print(action.title)
+                if action.title == "Camera" {
+                    let myController = UIImagePickerController()
+                    myController.sourceType = .camera
+                    self.present(myController, animated: true)
+                } else {
+                    let myController = UIImagePickerController()
+                    myController.sourceType = .photoLibrary
+                    self.present(myController, animated: true)
+                }
+            }
+            controller.addAction(action)
+        }
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
+        present(controller, animated: true)
+        
+        
+
     }
     
     @objc func clickSaveProfileBtn() {

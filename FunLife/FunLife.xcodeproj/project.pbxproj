@@ -546,6 +546,7 @@
 				DEVELOPMENT_TEAM = GUP3F3MX45;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FunLife/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "更換大頭貼需要允許開啟相機";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -576,6 +577,7 @@
 				DEVELOPMENT_TEAM = GUP3F3MX45;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FunLife/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "更換大頭貼需要允許開啟相機";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

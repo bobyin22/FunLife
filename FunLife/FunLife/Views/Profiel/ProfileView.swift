@@ -8,7 +8,19 @@
 import UIKit
 
 class ProfileView: UIView {
-
+    
+    // MARK: 建立一個UI 使用者頭貼照片
+    let profilePhotoImageView: UIImageView = {
+        let profilePhotoImageView = UIImageView()
+        return profilePhotoImageView
+    }()
+    
+    // MARK: 建立一個UI 相機按鈕
+    let profileCaeraBtn: UIButton = {
+        let profileCaeraBtn = UIButton()
+        return profileCaeraBtn
+    }()
+    
     // MARK: 建立一個UI 儲存按鈕
     let userTitleLabel: UILabel = {
         let userTitleLabel = UILabel()
@@ -27,13 +39,55 @@ class ProfileView: UIView {
         return profileNameTextField
     }()
     
-    
+
     // MARK: 初始init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupPhotoImageView()
+        setupCameraBtn()
         setupUserTitleLabel()
         setupSaveProfileBtn()
         setupProfileNameTextField()
+    }
+    
+    // MARK: 照片Image AutoLayout
+    func setupPhotoImageView() {
+        profilePhotoImageView.image = UIImage(named: "person2")
+        profilePhotoImageView.contentMode = .scaleAspectFit
+        
+        profilePhotoImageView.backgroundColor = .systemYellow
+        addSubview(profilePhotoImageView)
+        profilePhotoImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            profilePhotoImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
+            profilePhotoImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor, constant: -78),
+            profilePhotoImageView.heightAnchor.constraint(equalToConstant: 150),
+            profilePhotoImageView.widthAnchor.constraint(equalToConstant: 150)
+        ])
+        
+        profilePhotoImageView.layer.borderColor = UIColor.black.cgColor
+        profilePhotoImageView.layer.borderWidth = 2.0
+
+        // 圓半徑設為 寬的一半
+        profilePhotoImageView.layer.cornerRadius = 75
+        // 確保圓形圖不顯示超出邊界的部分
+        profilePhotoImageView.clipsToBounds = true
+        profilePhotoImageView.layer.masksToBounds = false
+    }
+    
+    func setupCameraBtn() {
+        profileCaeraBtn.setImage(UIImage(named: "camera"), for: .normal)
+        profileCaeraBtn.backgroundColor = .systemMint
+        addSubview(profileCaeraBtn)
+        profileCaeraBtn.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            profileCaeraBtn.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: -30),
+            profileCaeraBtn.leadingAnchor.constraint(equalTo: profilePhotoImageView.trailingAnchor, constant: 10),
+            //profileCaeraBtn.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            profileCaeraBtn.widthAnchor.constraint(equalToConstant: 30),
+            profileCaeraBtn.heightAnchor.constraint(equalToConstant: 30),
+            //profileCaeraBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+        ])
     }
     
     // MARK: 姓名Label AutoLayout
@@ -44,7 +98,7 @@ class ProfileView: UIView {
         
         userTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            userTitleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30),
+            userTitleLabel.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: 25),
             userTitleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
             //userTitleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             userTitleLabel.widthAnchor.constraint(equalToConstant: 50),
@@ -61,7 +115,7 @@ class ProfileView: UIView {
 
         saveProfileBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            saveProfileBtn.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30),
+            saveProfileBtn.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: 25),
             //saveProfileBtn.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
             saveProfileBtn.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             saveProfileBtn.widthAnchor.constraint(equalToConstant: 100),
@@ -80,7 +134,7 @@ class ProfileView: UIView {
         addSubview(profileNameTextField)
         profileNameTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            profileNameTextField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 100),
+            profileNameTextField.topAnchor.constraint(equalTo: userTitleLabel.bottomAnchor, constant: 20),
             profileNameTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
             profileNameTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             profileNameTextField.heightAnchor.constraint(equalToConstant: 50)
