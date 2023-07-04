@@ -9,6 +9,7 @@ import UIKit
 import FirebaseFirestore
 import FirebaseStorage
 
+
 class ProfileViewController: UIViewController {
     
     let profileView = ProfileView()
@@ -21,11 +22,11 @@ class ProfileViewController: UIViewController {
         weak var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
         
         // 🍀
-        guard let urlString = UserDefaults.standard.value(forKey: "url") as? String,
+        guard let urlString = UserDefaults.standard.value(forKey: "myAvatarURL") as? String,
               let url = URL(string: urlString) else {
             return
         }
-        
+
         // 🍀
         let task = URLSession.shared.dataTask(with: url, completionHandler: { data, _, error in
             guard let data = data, error == nil else {
@@ -113,29 +114,49 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     // 選到照片
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        profileView.profilePhotoImageView.image = info[.originalImage] as? UIImage  // 🍀
+        // 🍀取得相機拍下的照片
+        profileView.profilePhotoImageView.image = info[.originalImage] as? UIImage
         
-        guard let imageData = profileView.profilePhotoImageView.image?.pngData() else { return }    // 🍀
+        // 🍀把照片轉成png檔
+        guard let imageData = profileView.profilePhotoImageView.image?.pngData() else { return }
         
-        storage.child("images/file.png").putData(imageData,                                         // 🍀
+        // 🍀存入雲端路徑 images(資料夾)/file.png(檔案)
+        storage.child("images/file.png").putData(imageData,
                                                  metadata: nil,
                                                  completion: { _, error in
             guard error == nil else {
                 print("沒有上傳成功")
                 return
             }
+            
             self.storage.child("images/file.png").downloadURL(completion: { url, error in
                 guard let url = url, error == nil else {
                     return
                 }
                 
                 let urlString = url.absoluteString
+                UserDefaults.standard.set(urlString, forKey: "myAvatarURL")
                 
-//                DispatchQueue.main.async {
-//                    self.profileView.profilePhotoImageView.image = image
+                self.viewDidLoad()
+//                // 🍀
+//                guard let urlString = UserDefaults.standard.value(forKey: "url") as? String,
+//                      let url = URL(string: urlString) else {
+//                    return
 //                }
+//
+//                // 🍀
+//                let task = URLSession.shared.dataTask(with: url, completionHandler: { data, _, error in
+//                    guard let data = data, error == nil else {
+//                        return
+//                    }
+//                    DispatchQueue.main.async {
+//                        let image = UIImage(data: data)
+//                        self.profileView.profilePhotoImageView.image = image
+//                    }
+//                })
+//                task.response   // 🍀
                 
-                print("下載URL: \(urlString)")
+                print("下載URL: \(urlString)")    // 印出firebase照片網址
                 UserDefaults.standard.set(urlString, forKey: "url")
             })
         })
