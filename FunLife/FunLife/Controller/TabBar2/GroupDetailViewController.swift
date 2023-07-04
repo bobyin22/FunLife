@@ -15,11 +15,11 @@ class GroupDetailViewController: UIViewController {
 
     var classNameString: String = ""            // 讓Label吃到上一頁傳來的教室名稱
     var classMembersIDArray: [String] = []      // 空陣列，要接住下方轉換成的 ["成員1ID", "成員2ID"]
-    var classMembersNameArray: [String] = []    // 🍎空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
+    var classMembersNameArray: [String] = []    // 空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
     var classMembersTimeSum: Int = 0
     
     var classMembersIDDictionary: [String: String] = [:]   //
-    var classMembersTimeDictionary: [String: Int] = [:]   //
+    var classMembersTimeDictionary: [String: Int] = [:]    //
     
     var indexNumber = 0                         // 獲取名字
 
@@ -85,7 +85,6 @@ class GroupDetailViewController: UIViewController {
         // MARK: 判斷式 如果UserDefault 有 FriendGroupID 用 FriendGroupID 去取得member
         // MARK:       如果          沒有               用 myGroupID     去取得member
         if UserDefaults.standard.string(forKey: "FriendGroupID") == nil {
-            print("1")
             let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "myGroupID")!).getDocument { snapshot, error in
                 guard let snapshot = snapshot else { return }
                 
@@ -98,14 +97,13 @@ class GroupDetailViewController: UIViewController {
                 self.groupDetailTableView.reloadData()
             }
         } else {
-            print("2")
             let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "FriendGroupID")!).getDocument { snapshot, error in
                 guard let snapshot = snapshot else { return }
                 let memberNSArray = snapshot.data()!  // 這時候是一個NSArray
                 if let members = memberNSArray["members"] as? [String] {  // 轉成Swift Array 拿到 ["成員1號ID", "成員2號ID"]
                     self.classMembersIDArray = members
                 }
-                self.fetchTimeAPI()
+                self.fetchTimeAPI()                // 去呼叫另外函式 轉拿 ["成員1的Time", "成員2的Time"]
                 self.fetchNameAPI()                // 去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
                 self.groupDetailTableView.reloadData()
             }
@@ -114,18 +112,13 @@ class GroupDetailViewController: UIViewController {
     
     // MARK: userID去拿當日的Timer
     func fetchTimeAPI() {
-        // var timer: Timer?
         var today = Date()
         var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
         var month = dateComponents.month!
         let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
-        //var day = dateComponents.day!
-        
-        // print("🥹我的classMembersIDArray", classMembersIDArray)
         let db = Firestore.firestore()
         
         // MARK: 依據幾個member跑幾次
-        // classMembersTimerArray.removeAll()
         for classMemberID in classMembersIDArray {
             let documentRef = db.collection("users").document(classMemberID).collection("\(month).\(day)").addSnapshotListener { snapshot, error in
                 guard let snapshot = snapshot else { return }
@@ -137,8 +130,6 @@ class GroupDetailViewController: UIViewController {
                     self.classMembersTimeSum += Int(eachTaskTimer)!
                 }
                 self.classMembersTimeDictionary[classMemberID] = self.classMembersTimeSum
-//                self.classMembersTimerArray.append("\(self.classMembersTimeSum)")
-                print("classMembersTimerArray", self.classMembersTimeDictionary)
                 
                 // MARK: 加完改變
                 DispatchQueue.main.async {
@@ -154,26 +145,17 @@ class GroupDetailViewController: UIViewController {
     func fetchNameAPI() {
         // 走2次
         for memberID in classMembersIDArray {
-            print("🍎classMembersIDArray", classMembersIDArray)
-            
             let db = Firestore.firestore()
-            // print("⭐️classMembersIDArray[數字]", self.classMembersIDArray[self.indexNumber])
             db.collection("users").document("\(classMembersIDArray[indexNumber])").getDocument { snapshot, error in
                 
                 guard let snapshot = snapshot else { return }
-                // print("snapshot", snapshot)                                          // <FIRDocumentSnapshot: 0x600001c401e0>
-                // print("snapshot.data()", snapshot.data()!)                           // 得到 ["name": user1]
-                // print("⚠️snapshot.data()是", snapshot.data()!["name"]!)              // 得到 user1
                 self.classMembersIDDictionary[memberID] = "\(snapshot.data()!["name"]!)"
-                print("classMembersIDDictionary是", self.classMembersIDDictionary)
                 self.classMembersNameArray.append("\(snapshot.data()!["name"]!)")
-                // print("🍀classMembersNameArray", self.classMembersNameArray)
                 self.groupDetailTableView.reloadData()
             }
             self.indexNumber += 1
         }
     }
-    
     
 }
 
@@ -216,7 +198,8 @@ extension GroupDetailViewController: UITableViewDataSource {
         
         print("1️⃣classMembersNameArray", classMembersNameArray)
         print("2️⃣classMembersIDArray", classMembersIDArray)
-        print("3️⃣classMembersDictionary", classMembersTimeDictionary)
+        print("3️⃣classMembersTimeDictionary", classMembersTimeDictionary)
+        print("4️⃣classMembersIDDictionary", classMembersIDDictionary)
         
         return cell
     }
