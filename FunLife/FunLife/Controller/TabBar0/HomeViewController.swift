@@ -13,8 +13,8 @@ import FirebaseFirestoreSwift
 class HomeViewController: UIViewController {
     
     let homeView = HomeView()                               // MARK: 把自定義UIView放進這頁
-    var settingButtonItem = UIBarButtonItem()                  // MARK: 建立一個UI NavBar 設定按鈕
-    var addTaskButtonItem = UIBarButtonItem()                       // MARK: 建立一個UI NavBar 加任務按鈕
+    var settingButtonItem = UIBarButtonItem()               // MARK: 建立一個UI NavBar 設定按鈕
+    var addTaskButtonItem = UIBarButtonItem()               // MARK: 建立一個UI NavBar 加任務按鈕
 
     var timer: Timer?                                       // 方便後面用timer
     let soundID = SystemSoundID(kSystemSoundID_Vibrate)     // 震動
@@ -36,18 +36,12 @@ class HomeViewController: UIViewController {
         setupNavigation()
         setupHomeView()
         isUserDefault()
-        view.backgroundColor = UIColor(red: 160/255, green: 191/255, blue: 224/255, alpha: 1)
-                
-        homeView.circleTimerLabel.text = "0"
-        homeView.circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)
         
-        // 使用 NotificationCenter 監聽裝置方向變化的通知 UIDevice.orientationDidChangeNotification。
-        // 一旦收到該通知，就會調用 orientationChanged 方法
+        // 使用 NotificationCenter 監聽裝置方向變化的通知 UIDevice.orientationDidChangeNotification，一旦收到該通知，就會調用 orientationChanged 方法
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(orientationChanged),
                                                name: UIDevice.orientationDidChangeNotification,
                                                object: nil)
-
         // 6️⃣當作是自己
         addTaskVC.delegate = self
     }
@@ -57,15 +51,16 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
+    // MARK: 頁面出現後開啟Notification
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
+    // MARK: 頁面要消失的時候關掉Notification
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
-
     }
     
     // MARK: 建立UI NavBar +按鈕 與 設定按鈕
@@ -100,6 +95,8 @@ class HomeViewController: UIViewController {
             homeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
+        homeView.backgroundColor = UIColor(red: 160/255, green: 191/255, blue: 224/255, alpha: 1)
+        homeView.circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)
     }
     
     // MARK: 判斷這台手機是不是第一次下載我的app，如果是幫她建立一個myUserID，如果不是直接執行
@@ -129,42 +126,7 @@ class HomeViewController: UIViewController {
         }
         
     }
-        
-    // MARK: 每次翻轉後要更新秒數
-    func modifyUser() { 
-        
-//        let today = Date()
-//
-//        let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-////        let year = dateComponents.year!
-//        let month = dateComponents.month!
-//        let day = dateComponents.day!
-        
-        // firebaseUserID = "\(UserDefaults.standard.string(forKey: "myUserID")!)"
-        var day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
-        
-        let documentReference = db.collection("users")
-            .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
-            .collection("\(month).\(day)")
-            .document(homeView.circleTaskButton.currentTitle ?? "沒接到")
-        
-        documentReference.getDocument { document, error in
             
-            guard let document,
-                  document.exists,
-                  var user = try? document.data(as: Users.self)     // MARK: 這裡就有用到自定義的struct資料結構
-            else {
-                return
-            }
-            user.timer = self.homeView.circleTimerLabel.text!       // MARK: 我雲端timer資料是在這裡被傳上的
-            do {
-                try documentReference.setData(from: user)
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
     // MARK: 點擊任務按鈕會發生的事
     @objc func clickTaskBtn() {
         // 5️⃣ 當作是自己
@@ -177,31 +139,6 @@ class HomeViewController: UIViewController {
         // 6️⃣
         sheetTaskVC.delegate = self
         present(sheetTaskVC, animated: true)
-    }
-    
-    // MARK: 開始計時
-    func startTimer() {
-        // 開始計時器
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            
-            guard let timerText = self!.homeView.circleTimerLabel.text,
-                    var tempCounter = Int(timerText) else {
-                return
-            }
-
-            tempCounter += 1
-            self!.homeView.circleTimerLabel.text = String(tempCounter)
-            
-            self?.homeView.circleTimerLabel.text = "\(tempCounter)"
-            print("目前計時", self!.homeView.circleTimerLabel.text)
-        }
-    }
-
-    // MARK: 停止計時
-    func stopTimer() {
-        // 停止計時器
-        timer?.invalidate()
-        timer = nil
     }
     
     // MARK: 偵測目前翻面狀態
@@ -244,6 +181,29 @@ class HomeViewController: UIViewController {
         homeView.label.text = oriString
     }
     
+    // MARK: 開始計時
+    func startTimer() {
+        // 開始計時器
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            
+            guard let timerText = self!.homeView.circleTimerLabel.text, var tempCounter = Int(timerText) else { return }
+
+            tempCounter += 1
+            
+            //self!.homeView.circleTimerLabel.text = String(tempCounter)
+            //self?.homeView.circleTimerLabel.text = "\(hours).\(minutes).\(seconds)"
+            self?.homeView.circleTimerLabel.text = "\(tempCounter)"
+            print("目前計時", self!.homeView.circleTimerLabel.text)
+        }
+    }
+
+    // MARK: 停止計時
+    func stopTimer() {
+        // 停止計時器
+        timer?.invalidate()
+        timer = nil
+    }
+    
     // MARK: 翻正面 提示框
     func alertMsg () {
         let alert = UIAlertController(title: "計時停止", message: "你翻面了，專注暫停", preferredStyle: .alert)
@@ -253,6 +213,33 @@ class HomeViewController: UIViewController {
                                      )
         )
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: 每次翻轉後要更新秒數
+    func modifyUser() {
+        
+        var day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
+        
+        let documentReference = db.collection("users")
+            .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
+            .collection("\(month).\(day)")
+            .document(homeView.circleTaskButton.currentTitle ?? "沒接到")
+        
+        documentReference.getDocument { document, error in
+            
+            guard let document,
+                  document.exists,
+                  var user = try? document.data(as: Users.self)     // MARK: 這裡就有用到自定義的struct資料結構
+            else {
+                return
+            }
+            user.timer = self.homeView.circleTimerLabel.text!       // MARK: 我雲端timer資料是在這裡被傳上的
+            do {
+                try documentReference.setData(from: user)
+            } catch {
+                print(error)
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {

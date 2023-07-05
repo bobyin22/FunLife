@@ -80,6 +80,7 @@ class HomeView: UIView {
     // MARK: UI建立倒數計時器Label
     func setupTimer() {
         addSubview(circleTimerLabel)
+        circleTimerLabel.text = "0"
         circleTimerLabel.font = UIFont(name: "Helvetica", size: 50)
         circleTimerLabel.textColor = .white
         // circleTimerLabel.backgroundColor = .systemRed
