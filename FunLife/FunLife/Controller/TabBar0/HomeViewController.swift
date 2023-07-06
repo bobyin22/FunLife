@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Foundation
 import AVFoundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
@@ -17,13 +18,15 @@ class HomeViewController: UIViewController {
     var addTaskButtonItem = UIBarButtonItem()               // MARK: 建立一個UI NavBar 加任務按鈕
 
     var timer: Timer?                                       // 方便後面用timer
+    var counter = 0                                         // 計數器
+    
     let soundID = SystemSoundID(kSystemSoundID_Vibrate)     // 震動
     let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
     
     // 5️⃣建立實體
     let addTaskVC = AddTaskViewController()                 // 把VC變數拉出來，讓後面可以 .點
     var documentID = ""                                     // myUserID格式是一個字串
-    
+        
     // MARK: 時間
     lazy var today = Date()
     lazy var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
@@ -181,22 +184,7 @@ class HomeViewController: UIViewController {
         homeView.label.text = oriString
     }
     
-    // MARK: 開始計時
-    func startTimer() {
-        // 開始計時器
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            
-            guard let timerText = self!.homeView.circleTimerLabel.text, var tempCounter = Int(timerText) else { return }
-
-            tempCounter += 1
-            
-            //self!.homeView.circleTimerLabel.text = String(tempCounter)
-            //self?.homeView.circleTimerLabel.text = "\(hours).\(minutes).\(seconds)"
-            self?.homeView.circleTimerLabel.text = "\(tempCounter)"
-            print("目前計時", self!.homeView.circleTimerLabel.text)
-        }
-    }
-
+    
     // MARK: 停止計時
     func stopTimer() {
         // 停止計時器
@@ -215,6 +203,67 @@ class HomeViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    // MARK: 開始計時
+    func startTimer() {
+        
+        if timer == nil {
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateCircleTimerLabel), userInfo: nil, repeats: true)
+        }
+        print("timer是", timer)
+        print("counter是", counter)
+        
+//        // 创建一个DateComponentsFormatter实例
+//            let formatter = DateComponentsFormatter()
+//            formatter.allowedUnits = [.hour, .minute, .second]
+//            formatter.unitsStyle = .positional
+//
+//            // 开始计时器
+//            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+//                guard let timerText = self?.homeView.circleTimerLabel.text,
+//                      var tempCounter = Int(timerText) else {
+//                    return
+//                }
+//
+//                tempCounter += 1
+//
+//                // 将整数的tempCounter转换为时间字符串
+//                if let formattedTime = formatter.string(from: TimeInterval(tempCounter)) {
+//                    DispatchQueue.main.async {
+//                        self?.homeView.circleTimerLabel.text = formattedTime
+//                    }
+//
+//                    print("目前计时", formattedTime)
+//                }
+//            }
+    }
+    
+    @objc func updateCircleTimerLabel() {
+        
+        if homeView.circleTimerLabel.text == "00.00.00" {
+            counter = 0
+            counter += 1
+            let hours = counter / 3600
+            let minutes = (counter % 3600) / 60
+            let seconds = counter % 60
+            let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+            homeView.circleTimerLabel.text = formattedTime
+            print("timer是", timer)
+            print("counter是", counter)
+        } else {
+            counter += 1
+            let hours = counter / 3600
+            let minutes = (counter % 3600) / 60
+            let seconds = counter % 60
+            let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+            homeView.circleTimerLabel.text = formattedTime
+            print("timer是", timer)
+            print("counter是", counter)
+        }
+        
+        
+    }
+
+    
     // MARK: 每次翻轉後要更新秒數
     func modifyUser() {
         
@@ -223,17 +272,18 @@ class HomeViewController: UIViewController {
         let documentReference = db.collection("users")
             .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
             .collection("\(month).\(day)")
-            .document(homeView.circleTaskButton.currentTitle ?? "沒接到")
+            .document(homeView.circleTaskButton.currentTitle ?? "沒接到")      // MARK: 傳上 00:00:12
         
         documentReference.getDocument { document, error in
             
             guard let document,
                   document.exists,
-                  var user = try? document.data(as: Users.self)     // MARK: 這裡就有用到自定義的struct資料結構
+                  var user = try? document.data(as: Users.self)               // MARK: 這裡就有用到自定義的struct資料結構
             else {
                 return
             }
-            user.timer = self.homeView.circleTimerLabel.text!       // MARK: 我雲端timer資料是在這裡被傳上的
+            // user.timer = self.homeView.circleTimerLabel.text!                 // MARK: 我雲端timer資料是在這裡被傳上的
+            user.timer = String(self.counter)
             do {
                 try documentReference.setData(from: user)
             } catch {
@@ -271,7 +321,14 @@ extension HomeViewController: SheetTaskViewControllerDelegate {
     
     // 7️⃣ MARK: Delegate傳值
     func passValueTime(_ VC: SheetTaskViewController, parameterTime: String) {
-        print("傳出來的String Time是", parameterTime)
-        homeView.circleTimerLabel.text = parameterTime
+        //print("傳出來的String Time是", parameterTime)
+        //homeView.circleTimerLabel.text = parameterTime
+        
+        let hours = Int(parameterTime)! / 3600
+        let minutes = (Int(parameterTime)! % 3600) / 60
+        let seconds = Int(parameterTime)! % 60
+        let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        homeView.circleTimerLabel.text = formattedTime
+        counter = Int(parameterTime)!
     }
 }

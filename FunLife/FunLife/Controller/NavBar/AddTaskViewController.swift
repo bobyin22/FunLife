@@ -121,7 +121,7 @@ class AddTaskViewController: UIViewController {
         
         // 3️⃣使用的方法
         delegate?.passTask(parameter: addTaskTextField.text ?? "nil")
-        delegate?.passTaskStartTime(parameter: "0")
+        delegate?.passTaskStartTime(parameter: "00.00.00")
     }
     
     // MARK: 把新任務傳至firebase

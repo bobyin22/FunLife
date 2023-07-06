@@ -80,14 +80,14 @@ class HomeView: UIView {
     // MARK: UI建立倒數計時器Label
     func setupTimer() {
         addSubview(circleTimerLabel)
-        circleTimerLabel.text = "0"
+        circleTimerLabel.text = "00.00.00"
         circleTimerLabel.font = UIFont(name: "Helvetica", size: 50)
         circleTimerLabel.textColor = .white
         // circleTimerLabel.backgroundColor = .systemRed
         circleTimerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             circleTimerLabel.topAnchor.constraint(equalTo: circleDateLabel.bottomAnchor, constant: 10),
-            circleTimerLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -18)
+            circleTimerLabel.leadingAnchor.constraint(equalTo: circleView.leadingAnchor, constant: 55)
         ])
     }
     
@@ -104,7 +104,7 @@ class HomeView: UIView {
         circleTaskButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             circleTaskButton.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
-            circleTaskButton.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -55)
+            circleTaskButton.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -65)
         ])
     }
     

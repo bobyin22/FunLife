@@ -83,8 +83,8 @@ class SheetTaskViewController: UIViewController {
         myTaskTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             myTaskTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-            myTaskTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            myTaskTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            myTaskTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            myTaskTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             myTaskTableView.heightAnchor.constraint(equalToConstant: 200)
         ])
     }
@@ -113,7 +113,14 @@ extension SheetTaskViewController: UITableViewDataSource {
         }
         
         cell.settingInfo.text = taskFirebaseArray[indexPath.row]
-        cell.settingTime.text = taskFirebaseTimeArray[indexPath.row]
+        // cell.settingTime.text = taskFirebaseTimeArray[indexPath.row]
+        
+        let hours = Int(taskFirebaseTimeArray[indexPath.row])! / 3600
+        let minutes = (Int(taskFirebaseTimeArray[indexPath.row])! % 3600) / 60
+        let seconds = Int(taskFirebaseTimeArray[indexPath.row])! % 60
+        let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        // homeView.circleTimerLabel.text = formattedTime
+        cell.settingTime.text = formattedTime
         
         return cell
     }
