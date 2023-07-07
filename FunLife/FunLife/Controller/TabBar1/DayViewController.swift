@@ -159,7 +159,11 @@ extension DayViewController: UITableViewDelegate {
 extension DayViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        "本日專注累計\(sumTime)"
+        let hours = sumTime / 3600
+        let minutes = sumTime % 3600 / 60
+        let seconds = sumTime % 60
+        let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        return "本日專注累計\(formattedTime)"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -176,7 +180,14 @@ extension DayViewController: UITableViewDataSource {
         }
         
         cell.settingInfo.text = taskFirebaseArray[indexPath.row]
-        cell.settingTime.text = taskFirebaseTimeArray[indexPath.row]
+        //cell.settingTime.text = taskFirebaseTimeArray[indexPath.row]
+        
+        let hours = Int(taskFirebaseTimeArray[indexPath.row])! / 3600
+        let minutes = (Int(taskFirebaseTimeArray[indexPath.row])! % 3600) / 60
+        let seconds = Int(taskFirebaseTimeArray[indexPath.row])! % 60
+        let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        // homeView.circleTimerLabel.text = formattedTime
+        cell.settingTime.text = formattedTime
         
         return cell
     }

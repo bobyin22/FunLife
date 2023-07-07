@@ -28,7 +28,7 @@ class GroupDetailView: UIView {
     // MARK: 教室名稱
     let groupDetailNameLabel: UILabel = {
         let groupDetailNameLabel = UILabel()
-        groupDetailNameLabel.backgroundColor = .systemBlue
+        //groupDetailNameLabel.backgroundColor = .systemBlue
         return groupDetailNameLabel
     }()
     

@@ -22,7 +22,7 @@ class MyGroupListTableViewCell: UITableViewCell {
      
     func setupGroupNameLabel () {
         groupNameLabel.text = "Bob的群組"
-        groupNameLabel.backgroundColor = .systemBlue
+        // groupNameLabel.backgroundColor = .systemBlue
         contentView.addSubview(groupNameLabel)
         groupNameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

@@ -67,7 +67,7 @@ class GroupDetailViewController: UIViewController {
     // MARK: 建立群組tablview的AutoLayout
     func setupGroupDetailTableView() {
         view.addSubview(groupDetailTableView)
-        groupDetailTableView.backgroundColor = .systemGreen
+        // groupDetailTableView.backgroundColor = .systemGreen
         groupDetailTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             groupDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
@@ -191,7 +191,14 @@ extension GroupDetailViewController: UITableViewDataSource {
         cell.personNameLabel.text = classMembersIDDictionary[classMembersIDArray[indexPath.row]]
         //時間
         if let time = classMembersTimeDictionary[classMembersIDArray[indexPath.row]] {
-            cell.personTimerLabel.text = "\(time)"
+            
+            let hours = Int(time) / 3600
+            let minutes = (Int(time) % 3600) / 60
+            let seconds = Int(time) % 60
+            let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+            cell.personTimerLabel.text = "\(formattedTime)"
+            // cell.personTimerLabel.text = "\(time)"
+            
         } else {
             cell.personTimerLabel.text = nil
         }
