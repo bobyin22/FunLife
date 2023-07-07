@@ -23,7 +23,7 @@ class GroupDetailTableViewCell: UITableViewCell {
         
     // MARK: AutoLayout 按鈕照片
     func setupPersonIconBtn () {
-        personIconBtn.backgroundColor = .systemYellow
+        //personIconBtn.backgroundColor = .systemYellow
         personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
         contentView.addSubview(personIconBtn)
         personIconBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -39,8 +39,9 @@ class GroupDetailTableViewCell: UITableViewCell {
     
     // MARK: AutoLayout Label名字
     func setupPersonNameLabel () {
-        personNameLabel.backgroundColor = .systemMint
+        //personNameLabel.backgroundColor = .systemMint
         personNameLabel.text = "載入人名"
+        personNameLabel.textColor = .white
         contentView.addSubview(personNameLabel)
         personNameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -55,8 +56,9 @@ class GroupDetailTableViewCell: UITableViewCell {
     
     // MARK: AutoLayout Label秒數
     func setupPersonTimerLabel () {
-        personTimerLabel.backgroundColor = .systemCyan
+        //personTimerLabel.backgroundColor = .systemCyan
         personTimerLabel.text = "載入秒數"
+        personTimerLabel.textColor = .white
         contentView.addSubview(personTimerLabel)
         personTimerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

@@ -60,18 +60,20 @@ class MyGroupListViewController: UIViewController {
     // MARK: 建立UI TableView
     func setupGroupListTableView() {
         view.addSubview(groupListTableView)
+        groupListTableView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         groupListTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            groupListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            groupListTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            groupListTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            groupListTableView.heightAnchor.constraint(equalToConstant: 430)
+            groupListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            groupListTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            groupListTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            groupListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            // groupListTableView.heightAnchor.constraint(equalToConstant: 430)
         ])
     }
     // MARK: 建立UI 方形按鈕
     func setupAddGroupBtn() {
         let addGroupBtn = UIButton()
-        addGroupBtn.setImage(UIImage(named: "plus1.png"), for: .normal)
+        addGroupBtn.setImage(UIImage(named: "plus2.png"), for: .normal)
         view.addSubview(addGroupBtn)
         addGroupBtn.addTarget(self, action: #selector(clickBtn), for: .touchUpInside)
         
@@ -129,6 +131,7 @@ extension MyGroupListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 38/255)
         cell.groupNameLabel.text = userInGroupClassNameArray[indexPath.row]   // List的教室名稱🍀
         // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
         return cell

@@ -95,8 +95,9 @@ class ProfileView: UIView {
     // MARK: 姓名Label AutoLayout
     func setupUserTitleLabel() {
         userTitleLabel.text = "姓名"
+        userTitleLabel.textColor = .white
         addSubview(userTitleLabel)
-        userTitleLabel.backgroundColor = .white
+        //userTitleLabel.backgroundColor = .white
         
         userTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

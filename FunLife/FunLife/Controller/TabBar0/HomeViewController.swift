@@ -98,7 +98,9 @@ class HomeViewController: UIViewController {
             homeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
-        homeView.backgroundColor = UIColor(red: 160/255, green: 191/255, blue: 224/255, alpha: 1)
+        
+        homeView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        //homeView.backgroundColor = UIColor(red: 160/255, green: 191/255, blue: 224/255, alpha: 1)
         homeView.circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)
     }
     

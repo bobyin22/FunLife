@@ -14,7 +14,7 @@ class GroupDetailView: UIView {
     // MARK: 建立一個UI 照片
     let groupDetailImageView: UIImageView = {
         let groupDetailImageView = UIImageView()
-        groupDetailImageView.backgroundColor = .white //. systemBlue
+        // groupDetailImageView.backgroundColor = .white //. systemBlue
         return groupDetailImageView
     }()
                 
@@ -43,6 +43,7 @@ class GroupDetailView: UIView {
     // MARK: 教室名Label AutoLayout
     func setupGroupDetailNameLabel() {
         groupDetailNameLabel.text = "xx教室"
+        groupDetailNameLabel.textColor = .white
         addSubview(groupDetailNameLabel)
         groupDetailNameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -57,7 +58,7 @@ class GroupDetailView: UIView {
     
     // MARK: 照片AutoLayout
     func setupGroupDetailImageView() {
-        groupDetailImageView.image = UIImage(named: "StudyRoom1")
+        groupDetailImageView.image = UIImage(named: "StudyRoom3")
         groupDetailImageView.contentMode = .scaleAspectFit
         addSubview(groupDetailImageView)
         groupDetailImageView.translatesAutoresizingMaskIntoConstraints = false

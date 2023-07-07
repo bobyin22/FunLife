@@ -34,6 +34,7 @@
 		A894F97B2A45591C00550196 /* MyGroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F97A2A45591C00550196 /* MyGroupListViewController.swift */; };
 		A894F97D2A45708100550196 /* CreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F97C2A45708100550196 /* CreateGroupViewController.swift */; };
 		A894F9822A45724F00550196 /* MyGroupListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A894F9812A45724F00550196 /* MyGroupListTableViewCell.swift */; };
+		A8D7F8EC2A58048300DE4CFA /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F8EB2A58048300DE4CFA /* AddTaskView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		A894F97A2A45591C00550196 /* MyGroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGroupListViewController.swift; sourceTree = "<group>"; };
 		A894F97C2A45708100550196 /* CreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupViewController.swift; sourceTree = "<group>"; };
 		A894F9812A45724F00550196 /* MyGroupListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MyGroupListTableViewCell.swift; path = FunLife/Views/Group/MyGroupListTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		A8D7F8EB2A58048300DE4CFA /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
 		DDD65060761FD46356DD5941 /* Pods_FunLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				A808A9292A3BD14A00237AD7 /* SettingTableViewCell.swift */,
+				A8D7F8EB2A58048300DE4CFA /* AddTaskView.swift */,
 				A808A95B2A3D9DC900237AD7 /* DayTableViewCell.swift */,
 				A85E55A82A500D110090A15E /* Home */,
 				A887B2512A4583A4003AD6E3 /* Group */,
@@ -398,6 +401,7 @@
 				A887B2532A46A1CE003AD6E3 /* GroupDetailView.swift in Sources */,
 				A894F9582A415CEB00550196 /* SheetTaskTableViewCell.swift in Sources */,
 				A894F97B2A45591C00550196 /* MyGroupListViewController.swift in Sources */,
+				A8D7F8EC2A58048300DE4CFA /* AddTaskView.swift in Sources */,
 				A887B2502A458392003AD6E3 /* CreateGroupTableViewCell.swift in Sources */,
 				A85E55AA2A500DB00090A15E /* HomeView.swift in Sources */,
 				A808A92A2A3BD14A00237AD7 /* SettingTableViewCell.swift in Sources */,

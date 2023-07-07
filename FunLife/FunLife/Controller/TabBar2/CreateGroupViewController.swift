@@ -16,14 +16,14 @@ class CreateGroupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray2
+        view.backgroundColor = .white
         setupCreateGroupView()
     }
     
     // MARK: 把自定義的View設定邊界
     func setupCreateGroupView() {
         view.addSubview(createGroupView)
-        
+        createGroupView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         // 儲存按鈕可以點擊
         createGroupView.saveGroupBtn.addTarget(self, action: #selector(clickSaveGroupBtn), for: .touchUpInside)
         // 取消按鈕可以點擊
@@ -32,9 +32,9 @@ class CreateGroupViewController: UIViewController {
         createGroupView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             createGroupView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            createGroupView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            createGroupView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            createGroupView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            createGroupView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            createGroupView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            createGroupView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
         ])
     }
     

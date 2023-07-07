@@ -22,6 +22,7 @@ class MyGroupListTableViewCell: UITableViewCell {
      
     func setupGroupNameLabel () {
         groupNameLabel.text = "Bob的群組"
+        groupNameLabel.textColor = .white
         // groupNameLabel.backgroundColor = .systemBlue
         contentView.addSubview(groupNameLabel)
         groupNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +35,7 @@ class MyGroupListTableViewCell: UITableViewCell {
     }
     
     func setupGroupPhotoImageView () {
-        groupPhotoImageView.image = UIImage(named: "StudyRoom1.jpeg")
+        groupPhotoImageView.image = UIImage(named: "StudyRoom3")
         groupPhotoImageView.contentMode = .scaleAspectFit
         groupPhotoImageView.backgroundColor = .systemGreen
         contentView.addSubview(groupPhotoImageView)

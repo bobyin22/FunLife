@@ -17,12 +17,7 @@ protocol AddTaskViewControllerDelegate: AnyObject {
 }
 
 class AddTaskViewController: UIViewController {
-    
-    let addTaskLabel = UILabel()            // MARK: UI標題
-    let addTaskTextField = UITextField()    // MARK: UI輸入欄
-    let cancelTaskButton = UIButton()       // MARK: UI取消按鈕
-    let saveTaskButton = UIButton()         // MARK: UI儲存按鈕
-    
+    let addTaskView = AddTaskView()
     var titleTaskLabel = UILabel()          // MARK: 用來接住輸入的textField，給HomeVC顯示用
     
     // 2️⃣建立一個變數是自己
@@ -30,97 +25,49 @@ class AddTaskViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray5
-        setupAddTaskLabel()
-        setupAddTaskTextField()
-        setupCancelTaskButton()
-        setupSaveTaskButton()
+        view.backgroundColor = .white
+        setupAddTaskView()
     }
     
     // MARK: 切回Tab時顯示
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        addTaskTextField.text = ""
+        addTaskView.addTaskTextField.text = ""
     }
     
-    // MARK: UI標題
-    func setupAddTaskLabel() {
-        view.addSubview(addTaskLabel)
-        // addTaskLabel.backgroundColor = .systemRed
-        addTaskLabel.text = "新增任務"
-        addTaskLabel.font = UIFont(name: "Helvetica", size: 20)
-        addTaskLabel.translatesAutoresizingMaskIntoConstraints = false
+    func setupAddTaskView() {
+        view.addSubview(addTaskView)
+        addTaskView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        addTaskView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            addTaskLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
-            addTaskLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            addTaskLabel.heightAnchor.constraint(equalToConstant: 50),
-            addTaskLabel.widthAnchor.constraint(equalToConstant: 100)
+            addTaskView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            addTaskView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            addTaskView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            addTaskView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
         ])
+        
+        addTaskView.cancelTaskButton.addTarget(self, action: #selector(cancelTaskToFirebase), for: .touchUpInside)
+        
+        addTaskView.saveTaskButton.addTarget(self, action: #selector(saveTaskToFirebase), for: .touchUpInside)
     }
     
-    // MARK: UI輸入欄
-    func setupAddTaskTextField() {
-        view.addSubview(addTaskTextField)
-        addTaskTextField.backgroundColor = .systemGray2
-        addTaskTextField.placeholder = "請輸入標題"
-        // 輸入框的樣式 這邊選擇圓角樣式
-        addTaskTextField.borderStyle = .roundedRect
-        // 輸入框右邊顯示清除按鈕時機 這邊選擇當編輯時顯示
-        addTaskTextField.clearButtonMode = .whileEditing
-        addTaskTextField.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            addTaskTextField.topAnchor.constraint(equalTo: addTaskLabel.bottomAnchor, constant: 10),
-            addTaskTextField.leadingAnchor.constraint(equalTo: addTaskLabel.leadingAnchor, constant: 0),
-            addTaskTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            addTaskTextField.heightAnchor.constraint(equalToConstant: 50)
-        ])
-    }
     
-    // MARK: UI取消按鈕
-    func setupCancelTaskButton() {
-        view.addSubview(cancelTaskButton)
-        cancelTaskButton.setTitle("取消", for: .normal)
-        cancelTaskButton.tintColor = .black
-        cancelTaskButton.backgroundColor = .systemBlue
-        cancelTaskButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            cancelTaskButton.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -170),
-            cancelTaskButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            cancelTaskButton.heightAnchor.constraint(equalToConstant: 50),
-            cancelTaskButton.widthAnchor.constraint(equalToConstant: 150)
-        ])
-        cancelTaskButton.addTarget(self, action: #selector(cancelTaskToFirebase), for: .touchUpInside)
-    }
     
     @objc func cancelTaskToFirebase() {
         self.navigationController?.popViewController(animated: true)
     }
     
-    // MARK: UI儲存按鈕
-    func setupSaveTaskButton() {
-        view.addSubview(saveTaskButton)
-        saveTaskButton.setTitle("儲存", for: .normal)
-        saveTaskButton.tintColor = .black
-        saveTaskButton.backgroundColor = .systemBlue
-        saveTaskButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            saveTaskButton.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -170),
-            saveTaskButton.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: -170),
-            saveTaskButton.heightAnchor.constraint(equalToConstant: 50),
-            saveTaskButton.widthAnchor.constraint(equalToConstant: 150)
-        ])
-        saveTaskButton.addTarget(self, action: #selector(saveTaskToFirebase), for: .touchUpInside)
-    }
+
     
     // MARK: UI儲存按鈕的objc要執行的事情(讓HomeVC知道新增任務)
     @objc func saveTaskToFirebase() {
         createNewTask()
-        titleTaskLabel.text = addTaskTextField.text  // 把輸入的TextField 給變數
+        titleTaskLabel.text = addTaskView.addTaskTextField.text  // 把輸入的TextField 給變數
         print("titleTaskLabel.text", titleTaskLabel.text)
         self.navigationController?.popViewController(animated: true)    // 跳回上一頁，也就是HomeVC
         
         // 3️⃣使用的方法
-        delegate?.passTask(parameter: addTaskTextField.text ?? "nil")
+        delegate?.passTask(parameter: addTaskView.addTaskTextField.text ?? "nil")
         delegate?.passTaskStartTime(parameter: "00.00.00")
     }
     
@@ -141,7 +88,7 @@ class AddTaskViewController: UIViewController {
         
         
         let nextTaskCollectionRef = bobDocumentRef.collection("\(month).\(day)" ?? "沒輸入")
-        nextTaskCollectionRef.document(addTaskTextField.text ?? "沒輸入").setData(task) { error in
+        nextTaskCollectionRef.document(addTaskView.addTaskTextField.text ?? "沒輸入").setData(task) { error in
             if let error = error {
                 print("Error creating task: \(error)")
             } else {

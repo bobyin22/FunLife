@@ -52,12 +52,21 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         fetchDayAPI()
     }
     
+
+    
     // MARK: 設定第三方套件日曆View尺寸
     func setupCalendar() {
         calendar = FSCalendar(frame: CGRect(x: 0.0, y: 90.0, width: self.view.frame.size.width, height: 300.0))
         calendar.scrollDirection = .vertical
         calendar.scope = .month
+        calendar.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         self.view.addSubview(calendar)
+        
+        calendar.appearance.headerTitleColor = .systemOrange
+        //calendar.today = nil
+        calendar.appearance.selectionColor = .blue
+        calendar.appearance.weekdayTextColor = .white
+        calendar.appearance.titleDefaultColor = .white
     }
     
     // MARK: - Delegate
@@ -140,12 +149,14 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     // MARK: 建置自訂義的tableView尺寸
     func setupMyTableView() {
         view.addSubview(myTableView)
+        myTableView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         myTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            myTableView.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 10),
-            myTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            myTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            myTableView.heightAnchor.constraint(equalToConstant: 300)
+            myTableView.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 0),
+            myTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            myTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            myTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            //myTableView.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
 }
@@ -158,7 +169,28 @@ extension DayViewController: UITableViewDelegate {
 // MARK: 寫入自定義tableView的資料
 extension DayViewController: UITableViewDataSource {
     
+    // 分组头即将要显示
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView,
+                   forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel?.textColor = UIColor.orange
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        //header.textLabel?.frame = header.frame
+        header.textLabel?.translatesAutoresizingMaskIntoConstraints = false
+        header.contentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            header.contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            header.contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            header.contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            header.contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            //myTableView.heightAnchor.constraint(equalToConstant: 300)
+        ])
+        //header.textLabel?.backgroundColor = .blue
+        header.textLabel?.textAlignment = .left
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
         let hours = sumTime / 3600
         let minutes = sumTime % 3600 / 60
         let seconds = sumTime % 60
@@ -178,7 +210,7 @@ extension DayViewController: UITableViewDataSource {
             // 處理轉換失敗的情況，例如創建一個預設的 UITableViewCell
             return UITableViewCell()
         }
-        
+        cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         cell.settingInfo.text = taskFirebaseArray[indexPath.row]
         //cell.settingTime.text = taskFirebaseTimeArray[indexPath.row]
         

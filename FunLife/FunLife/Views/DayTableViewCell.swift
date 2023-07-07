@@ -24,6 +24,7 @@ class DayTableViewCell: UITableViewCell {
     func setupSettingTime() {
         contentView.addSubview(settingTime)
         settingTime.text = "X秒"
+        settingTime.textColor = .white
         settingTime.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             settingTime.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -50,6 +51,7 @@ class DayTableViewCell: UITableViewCell {
     func setupSettingInfo() {
         contentView.addSubview(settingInfo)
         settingInfo.text = "XXX"
+        settingInfo.textColor = .white
         settingInfo.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             settingInfo.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),

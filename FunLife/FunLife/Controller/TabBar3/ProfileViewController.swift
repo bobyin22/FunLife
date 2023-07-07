@@ -42,7 +42,7 @@ class ProfileViewController: UIViewController {
     // MARK: 把自定義的View設定邊界
     func setupProfileView() {
         view.addSubview(profileView)
-        
+        profileView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         // 儲存按鈕可以點擊
         profileView.saveProfileBtn.addTarget(self, action: #selector(clickSaveProfileBtn), for: .touchUpInside)
         // 照片按鈕可以點擊

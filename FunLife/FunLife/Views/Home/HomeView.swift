@@ -51,7 +51,7 @@ class HomeView: UIView {
     
     // MARK: UI建立圓形View
     func setupCircleUI() {
-        circleView.backgroundColor = UIColor(red: 107/255, green: 142/255, blue: 35/255, alpha: 1)
+        circleView.backgroundColor = .black //UIColor(red: 107/255, green: 142/255, blue: 35/255, alpha: 1)
         addSubview(circleView)
         circleView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -61,8 +61,9 @@ class HomeView: UIView {
             circleView.widthAnchor.constraint(equalToConstant: 300)
         ])
         
-        circleView.layer.borderColor = UIColor.green.cgColor
-        // circleView.layer.borderWidth = 2.0
+        // 圓的外框
+        circleView.layer.borderColor = UIColor.systemOrange.cgColor
+        circleView.layer.borderWidth = 2.0
 
         // 圓半徑設為 寬的一半
         circleView.layer.cornerRadius = 150
@@ -71,7 +72,7 @@ class HomeView: UIView {
         circleView.layer.masksToBounds = false
         
         // 添加阴影效果
-        circleView.layer.shadowColor = UIColor.white.cgColor
+        circleView.layer.shadowColor = UIColor.systemOrange.cgColor
         circleView.layer.shadowOpacity = 0.5
         circleView.layer.shadowOffset = CGSize(width: 8, height: 6)
         circleView.layer.shadowRadius = 4

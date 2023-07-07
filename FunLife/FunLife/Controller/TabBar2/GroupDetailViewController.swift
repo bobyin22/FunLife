@@ -44,13 +44,13 @@ class GroupDetailViewController: UIViewController {
     // MARK: 把自定義的View設定邊界
     func setupGroupDetailView() {
         view.addSubview(groupDetailView)
-        
+        groupDetailView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         groupDetailView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            groupDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            groupDetailView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            groupDetailView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            groupDetailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            groupDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            groupDetailView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            groupDetailView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            groupDetailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
         
         // MARK: 允許邀請按鈕點擊有反應
@@ -59,15 +59,29 @@ class GroupDetailViewController: UIViewController {
     
     // MARK: 點擊邀請按鈕觸發 彈跳出UIActivityViewController
     @objc func clickInvite() {
-        guard let url = URL(string: "FunLife://\(UserDefaults.standard.string(forKey: "myGroupID")!)") else { return }
-        let shareSheertVC = UIActivityViewController( activityItems: [url], applicationActivities: nil )
-        present(shareSheertVC, animated: true)
+        
+        if UserDefaults.standard.string(forKey: "myGroupID") == nil {
+            alertMsg()
+        } else {
+            guard let url = URL(string: "FunLife://\(UserDefaults.standard.string(forKey: "myGroupID")!)") else { return }
+            let shareSheertVC = UIActivityViewController( activityItems: [url], applicationActivities: nil )
+            present(shareSheertVC, animated: true)
+        }
+        
+    }
+    
+    func alertMsg() {
+        let alert = UIAlertController(title: "只有房主可以邀請人喔", message: "", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            NSLog("The \"OK\" alert occured.")
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: 建立群組tablview的AutoLayout
     func setupGroupDetailTableView() {
         view.addSubview(groupDetailTableView)
-        // groupDetailTableView.backgroundColor = .systemGreen
+        groupDetailTableView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         groupDetailTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             groupDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
@@ -166,6 +180,26 @@ extension GroupDetailViewController: UITableViewDelegate {
 // MARK: DataSource
 extension GroupDetailViewController: UITableViewDataSource {
     
+    //分组头即将要显示
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView,
+                   forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel?.textColor = UIColor.orange
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        //header.textLabel?.frame = header.frame
+        header.textLabel?.translatesAutoresizingMaskIntoConstraints = false
+        header.contentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            header.contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            header.contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
+            header.contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            header.contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            //myTableView.heightAnchor.constraint(equalToConstant: 300)
+        ])
+        //header.textLabel?.backgroundColor = .blue
+        header.textLabel?.textAlignment = .center
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         "群組成員"
     }
@@ -184,6 +218,7 @@ extension GroupDetailViewController: UITableViewDataSource {
             // 處理轉換失敗的情況，例如創建一個預設的 UITableViewCell
             return UITableViewCell()
         }
+        cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         
         //頭像
         cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
