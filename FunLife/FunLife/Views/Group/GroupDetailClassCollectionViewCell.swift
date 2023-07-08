@@ -33,7 +33,7 @@ class GroupDetailClassCollectionViewCell: UICollectionViewCell {
             // personDeskIconBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             personDeskIconBtn.widthAnchor.constraint(equalToConstant: 60),
             personDeskIconBtn.heightAnchor.constraint(equalToConstant: 60),
-            //personDeskIconBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            // personDeskIconBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     
@@ -49,7 +49,7 @@ class GroupDetailClassCollectionViewCell: UICollectionViewCell {
             // personIconBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             personIconBtn.widthAnchor.constraint(equalToConstant: 50),
             personIconBtn.heightAnchor.constraint(equalToConstant: 50),
-            //personIconBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
+            // personIconBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
         ])
         
         personIconBtn.layer.borderColor = UIColor(red: 136/255, green: 136/255, blue: 134/255, alpha: 1).cgColor
@@ -74,7 +74,7 @@ class GroupDetailClassCollectionViewCell: UICollectionViewCell {
             // personNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             personNameLabel.widthAnchor.constraint(equalToConstant: 100),
             personNameLabel.heightAnchor.constraint(equalToConstant: 30),
-            //personNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            // personNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     
@@ -91,7 +91,7 @@ class GroupDetailClassCollectionViewCell: UICollectionViewCell {
             // personTimerLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             personTimerLabel.widthAnchor.constraint(equalToConstant: 100),
             personTimerLabel.heightAnchor.constraint(equalToConstant: 30),
-            //personTimerLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            // personTimerLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     

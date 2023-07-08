@@ -102,12 +102,11 @@ class GroupDetailClassViewController: UIViewController {
     
     // MARK: 畫出自定義CollectionView
     func setupGroupDetailClassCollectionView() {
-        //let layout = UICollectionViewFlowLayout()   // 建立 UICollectionViewFlowLayout
-        //let groupDetailClassCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        // let layout = UICollectionViewFlowLayout()   // 建立 UICollectionViewFlowLayout
+        // let groupDetailClassCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         let layout = UICollectionViewFlowLayout()
         groupDetailClassCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
         
         view.addSubview(groupDetailClassCollectionView)
         groupDetailClassCollectionView.backgroundColor = UIColor(red: 81/255, green: 88/255, blue: 104/255, alpha: 1)
