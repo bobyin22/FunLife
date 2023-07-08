@@ -22,7 +22,7 @@ class GroupDetailClassViewController: UIViewController {
     // MARK: 叫出自定義View
     func setupGroupDetailClassView() {
         view.addSubview(groupDetailClassView)
-        groupDetailClassView.backgroundColor = .systemMint // UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        groupDetailClassView.backgroundColor = UIColor(red: 81/255, green: 88/255, blue: 104/255, alpha: 1)
         groupDetailClassView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             groupDetailClassView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
@@ -38,13 +38,14 @@ class GroupDetailClassViewController: UIViewController {
         let groupDetailClassCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         view.addSubview(groupDetailClassCollectionView)
-        groupDetailClassCollectionView.backgroundColor = .systemGreen // UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        // groupDetailClassCollectionView.backgroundColor = .systemGreen // UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        groupDetailClassCollectionView.backgroundColor = UIColor(red: 81/255, green: 88/255, blue: 104/255, alpha: 1)
         groupDetailClassCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            groupDetailClassCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
+            groupDetailClassCollectionView.topAnchor.constraint(equalTo: groupDetailClassView.classWindowImgaeView.bottomAnchor, constant: 10),
             groupDetailClassCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             groupDetailClassCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            groupDetailClassCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
+            groupDetailClassCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
         
         // 註冊 cell 以供後續重複使用
@@ -73,7 +74,7 @@ extension GroupDetailClassViewController: UICollectionViewDelegate {
 extension GroupDetailClassViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        17
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -104,7 +105,7 @@ extension GroupDetailClassViewController: UICollectionViewDelegateFlowLayout {
     // min line spacing
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         
-        return 80
+        return 130
     }
     
     // collection格子與collection Header距離
@@ -121,6 +122,6 @@ extension GroupDetailClassViewController: UICollectionViewDelegateFlowLayout {
     
     // header的高度
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 70)
+        return CGSize(width: view.frame.width, height: 10)
     }
 }

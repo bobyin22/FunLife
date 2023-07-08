@@ -23,11 +23,19 @@ class GroupDetailClassView: UIView {
         return inviteGroupBtn
     }()
     
+    // MARK: 落地窗ImageView
+    let classWindowImgaeView: UIImageView = {
+        let windowImgaeView = UIImageView()
+        return windowImgaeView
+    }()
+    
     // MARK: 初始init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupGroupDetailNameLabel()
         setupInviteGroupBtn()
+        setupClassWindowImgaeView()
+
     }
 
     // MARK: 教室名Label AutoLayout
@@ -59,6 +67,20 @@ class GroupDetailClassView: UIView {
             inviteGroupBtn.widthAnchor.constraint(equalToConstant: 100),
             inviteGroupBtn.heightAnchor.constraint(equalToConstant: 50),
             // inviteGroupBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+        ])
+    }
+    
+    // MARK: 落地窗ImageView AutoLayout
+    func setupClassWindowImgaeView() {
+        classWindowImgaeView.image = UIImage(named: "ClassWindow.png")
+        addSubview(classWindowImgaeView)
+        classWindowImgaeView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            classWindowImgaeView.topAnchor.constraint(equalTo: inviteGroupBtn.bottomAnchor, constant: 10),
+            classWindowImgaeView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+            classWindowImgaeView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+            classWindowImgaeView.heightAnchor.constraint(equalToConstant: 100),
+            // classWindowImgaeView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
         ])
     }
     
