@@ -33,6 +33,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCalendar()
+        view.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         
         // calendar.dataSource = self
         calendar.delegate = self
@@ -56,7 +57,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     
     // MARK: 設定第三方套件日曆View尺寸
     func setupCalendar() {
-        calendar = FSCalendar(frame: CGRect(x: 0.0, y: 90.0, width: self.view.frame.size.width, height: 300.0))
+        calendar = FSCalendar(frame: CGRect(x: 0.0, y:90.0, width: self.view.frame.size.width, height: 300.0))
         calendar.scrollDirection = .vertical
         calendar.scope = .month
         calendar.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
@@ -153,8 +154,8 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         myTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             myTableView.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 0),
-            myTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            myTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            myTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            myTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             myTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
             //myTableView.heightAnchor.constraint(equalToConstant: 300)
         ])

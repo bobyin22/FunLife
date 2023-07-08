@@ -78,8 +78,8 @@ class ProfileView: UIView {
     
     // MARK: 照相Button AutoLayout
     func setupCameraBtn() {
-        profileCaeraBtn.setImage(UIImage(named: "camera"), for: .normal)
-        // profileCaeraBtn.backgroundColor = .systemMint
+        profileCaeraBtn.setImage(UIImage(named: "camera1"), for: .normal)
+        //profileCaeraBtn.backgroundColor = .systemMint
         addSubview(profileCaeraBtn)
         profileCaeraBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

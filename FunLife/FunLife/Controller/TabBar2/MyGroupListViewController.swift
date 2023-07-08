@@ -109,9 +109,11 @@ extension MyGroupListViewController: UITableViewDataSource {
         let selectedGroupID = userInGroupClassNameArray[indexPath.row]             // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
         
         // MARK: 點擊進入各自的下一頁
-        let groupDetailVC = GroupDetailViewController()
-        groupDetailVC.classNameString = selectedGroupID                            // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
-        navigationController?.pushViewController(groupDetailVC, animated: true)
+        //let groupDetailVC = GroupDetailViewController()
+        //groupDetailVC.classNameString = selectedGroupID                            // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
+        //navigationController?.pushViewController(groupDetailVC, animated: true)
+        let groupDetailClassVC = GroupDetailClassViewController()                    // MARK: 🍀新collection改從這進入
+        navigationController?.pushViewController(groupDetailClassVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

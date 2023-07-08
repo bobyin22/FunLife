@@ -66,7 +66,7 @@ class ProfileViewController: UIViewController {
         for name in names {
             let action = UIAlertAction(title: name, style: .default) { action in
                 // print(action.title)
-                if action.title == "Camera" {                       //如果選到是相機
+                if action.title == "Camera" {                       // 如果選到是相機
                     
                     let myController = UIImagePickerController()    // 5️⃣建立實體
                     myController.sourceType = .camera

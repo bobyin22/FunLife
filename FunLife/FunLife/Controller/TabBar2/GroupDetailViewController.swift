@@ -26,6 +26,7 @@ class GroupDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        //view.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         fetchIDAPI()
         
         setupGroupDetailView()
@@ -48,8 +49,8 @@ class GroupDetailViewController: UIViewController {
         groupDetailView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             groupDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            groupDetailView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            groupDetailView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            groupDetailView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            groupDetailView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             groupDetailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
         
