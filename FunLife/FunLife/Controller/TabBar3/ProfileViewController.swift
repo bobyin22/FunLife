@@ -18,15 +18,16 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupProfileView()
         
+        // MARK: 當把應用程式關掉，重開App載入個人頁面會抓取到剛剛傳上firebase的照片
         weak var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
         
-        // 🍀
+        // 🍀去讀取我的UserDefault的myAvatarURL
         guard let urlString = UserDefaults.standard.value(forKey: "myAvatarURL") as? String,
               let url = URL(string: urlString) else {
             return
         }
 
-        // 🍀
+        // 🍀讓照片變成image
         let task = URLSession.shared.dataTask(with: url, completionHandler: { data, _, error in
             guard let data = data, error == nil else {
                 return
@@ -36,7 +37,8 @@ class ProfileViewController: UIViewController {
                 self.profileView.profilePhotoImageView.image = image
             }
         })
-        task.response   // 🍀
+        
+        task.resume()   // 🍀
     }
     
     // MARK: 把自定義的View設定邊界
@@ -110,14 +112,96 @@ class ProfileViewController: UIViewController {
 }
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     // 選到照片
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
+        // 🍎
+        var selectedImageFromPicker: UIImage?
+        
+        // 🍎取得從 UIImagePickerController 選擇的檔案
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            selectedImageFromPicker = pickedImage
+        }
+        
+        // 🍎可以自動產生一組獨一無二的 ID 號碼，方便等一下上傳圖片的命名
+        let uniqueString = NSUUID().uuidString
+        
+        // 🍎當判斷有 selectedImage 時，我們會在 if 判斷式裡將圖片上傳
+//        if let selectedImage = selectedImageFromPicker {
+//
+//            // 位置.UUID
+//            let storageRef = Storage.storage().reference().child("AppCodaFireUpload").child("\(uniqueString).png")
+//
+//            if let uploadData = selectedImage.pngData() {
+//
+//                // 這行就是 FirebaseStorage 關鍵的存取方法。
+//                storageRef.putData(uploadData,
+//                                   metadata: StorageMetadata? = nil,
+//                                   completion: { (data, error) in
+//
+//                    if error != nil {
+//                        print("Error: \(error!.localizedDescription)")  // 若有接收到錯誤，我們就直接印在 Console 就好，在這邊就不另外做處理。
+//                        return
+//                    }
+//
+//                    // 連結取得方式就是：data?.downloadURL()?.absoluteString。
+//                    if let uploadImageUrl = data?.downloadURL()?.absoluteString {
+//                        print("Photo Url: \(uploadImageUrl)")   // 我們可以 print 出來看看這個連結事不是我們剛剛所上傳的照片。
+//                    }
+//                })
+//            }
+//        }
+        
+        func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+                
+                let fileReference = Storage.storage().reference().child(UUID().uuidString + ".jpg")
+                if let data = image.jpegData(compressionQuality: 0.9) {
+                    
+                    fileReference.putData(data, metadata: nil) { result in
+                        switch result {
+                        case .success:
+                             fileReference.downloadURL(completion: completion)
+                        case .failure(let error):
+                            completion(.failure(error))
+                        }
+                    }
+                }
+        }
+
+//        let uiImage = UIImage(named: "peter")
+//        uploadPhoto(image: uiImage!) { result in
+//            switch result {
+//            case .success(let url):
+//               print(url)
+//            case .failure(let error):
+//               print(error)
+//            }
+//        }
+        if let selectedImage = info[.originalImage] as? UIImage {
+                didSelectPhoto(selectedImage)
+            }
+            picker.dismiss(animated: true, completion: nil)
+        
+        // 使用 UIImagePickerController 選擇照片後呼叫的方法
+        func didSelectPhoto(_ photo: UIImage) {
+            uploadPhoto(image: photo) { result in
+                switch result {
+                case .success(let url):
+                    print("上傳成功，下載連結：\(url)")
+                case .failure(let error):
+                    print("上傳失敗，錯誤訊息：\(error)")
+                }
+            }
+        }
+
         // 🍀取得相機拍下的照片
         profileView.profilePhotoImageView.image = info[.originalImage] as? UIImage
         
         // 🍀把照片轉成png檔
         guard let imageData = profileView.profilePhotoImageView.image?.pngData() else { return }
+        
+        
         
         // 🍀存入雲端路徑 images(資料夾)/file.png(檔案)
         storage.child("images/file.png").putData(imageData,
@@ -162,8 +246,16 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         
         picker.dismiss(animated: true, completion: nil)
     }
+    
     // 取消
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
 }
+
+
+/*
+ 1. 上傳image 檔案
+ 2. 拿到下載url
+ 3. 存url到 userDefault
+ */

@@ -30,7 +30,6 @@ class GroupDetailClassViewController: UIViewController {
         groupDetailClassView.groupDetailNameLabel.text = classNameString // 讓Label吃到上一頁傳來的教室名稱
     }
     
-    
     // MARK: 畫出自定義View
     func setupGroupDetailClassView() {
         view.addSubview(groupDetailClassView)
@@ -38,8 +37,8 @@ class GroupDetailClassViewController: UIViewController {
         groupDetailClassView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             groupDetailClassView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            groupDetailClassView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            groupDetailClassView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            groupDetailClassView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            groupDetailClassView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             groupDetailClassView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
         // MARK: 允許邀請按鈕點擊有反應
