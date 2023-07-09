@@ -16,9 +16,9 @@ class ProfileView: UIView {
     }()
     
     // MARK: 建立一個UI 相機按鈕
-    let profileCaeraBtn: UIButton = {
-        let profileCaeraBtn = UIButton()
-        return profileCaeraBtn
+    let profileCameraBtn: UIButton = {
+        let profileCameraBtn = UIButton()
+        return profileCameraBtn
     }()
     
     // MARK: 建立一個UI 儲存按鈕
@@ -78,17 +78,17 @@ class ProfileView: UIView {
     
     // MARK: 照相Button AutoLayout
     func setupCameraBtn() {
-        profileCaeraBtn.setImage(UIImage(named: "camera1"), for: .normal)
-        //profileCaeraBtn.backgroundColor = .systemMint
-        addSubview(profileCaeraBtn)
-        profileCaeraBtn.translatesAutoresizingMaskIntoConstraints = false
+        profileCameraBtn.setImage(UIImage(named: "camera1"), for: .normal)
+        //profileCameraBtn.backgroundColor = .systemMint
+        addSubview(profileCameraBtn)
+        profileCameraBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            profileCaeraBtn.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: -30),
-            profileCaeraBtn.leadingAnchor.constraint(equalTo: profilePhotoImageView.trailingAnchor, constant: 10),
-            //profileCaeraBtn.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            profileCaeraBtn.widthAnchor.constraint(equalToConstant: 30),
-            profileCaeraBtn.heightAnchor.constraint(equalToConstant: 30),
-            //profileCaeraBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+            profileCameraBtn.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: -30),
+            profileCameraBtn.leadingAnchor.constraint(equalTo: profilePhotoImageView.trailingAnchor, constant: 10),
+            //profileCameraBtn.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            profileCameraBtn.widthAnchor.constraint(equalToConstant: 30),
+            profileCameraBtn.heightAnchor.constraint(equalToConstant: 30),
+            //profileCameraBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
         ])
     }
     

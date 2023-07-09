@@ -235,7 +235,7 @@ extension GroupDetailClassViewController: UICollectionViewDataSource {
         print("📸classMembersImageArray", classMembersImageArray)
         print("3️⃣classMembersTimeDictionary", classMembersTimeDictionary)
         print("4️⃣classMembersIDDictionary", classMembersIDDictionary)
-        print("📸classMembersImageArray", classMembersImageDictionary)
+        print("📸classMembersImageDictionary", classMembersImageDictionary)
         
         return cell
     }

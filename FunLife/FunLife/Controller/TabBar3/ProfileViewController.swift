@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseStorage
+import Kingfisher
 
 class ProfileViewController: UIViewController {
     
@@ -18,28 +19,28 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupProfileView()
-        
-//        // MARK: 當把應用程式關掉，重開App載入個人頁面會抓取到剛剛傳上firebase的照片
-//        weak var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
-//
-//        // 🍀去讀取我的UserDefault的myAvatarURL
-//        guard let urlString = UserDefaults.standard.value(forKey: "myAvatarURL") as? String,
-//              let url = URL(string: urlString) else {
-//            return
-//        }
-//
-//        // 🍀讓照片變成image
-//        let task = URLSession.shared.dataTask(with: url, completionHandler: { data, _, error in
-//            guard let data = data, error == nil else {
-//                return
-//            }
-//            DispatchQueue.main.async {
-//                let image = UIImage(data: data)
-//                self.profileView.profilePhotoImageView.image = image
-//            }
-//        })
-//
-//        task.resume()   // 🍀
+        fetchMyImage()
+    }
+    
+    // MARK: 一載入去users -> 個人ID -> image: "" 拿資料
+    func fetchMyImage() {
+        let db = Firestore.firestore()
+        db.collection("users").document(UserDefaults.standard.string(forKey: "myUserID")!).getDocument() { snapshot, error in
+            guard let snapshot = snapshot else { return }
+            
+            // 如果裡面有url載入
+            // 如果沒有url，不做事
+            if snapshot.data()!["image"] == nil {
+                return
+            } else {
+                print("👻snapshot.data()!", snapshot.data()!["image"]!)
+                
+                if let imageUrlString = snapshot.data()?["image"] as? String,
+                   let imageUrl = URL(string: imageUrlString) {
+                    self.profileView.profilePhotoImageView.kf.setImage(with: imageUrl)
+                }
+            }
+        }
     }
     
     // MARK: 把自定義的View設定邊界
@@ -49,7 +50,7 @@ class ProfileViewController: UIViewController {
         // 儲存按鈕可以點擊
         profileView.saveProfileBtn.addTarget(self, action: #selector(clickSaveProfileBtn), for: .touchUpInside)
         // 照片按鈕可以點擊
-        profileView.profileCaeraBtn.addTarget(self, action: #selector(clickCameraBtn), for: .touchUpInside)
+        profileView.profileCameraBtn.addTarget(self, action: #selector(clickCameraBtn), for: .touchUpInside)
         
         profileView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -166,34 +167,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 }
             }
         }
-        
-//        // 🍀把照片轉成png檔
-//        guard let imageData = profileView.profilePhotoImageView.image?.pngData() else { return }
-//
-//        // 🍀存入雲端路徑 images(資料夾)/file.png(檔案)
-//        storage.child("images/file.png").putData(imageData,
-//                                                 metadata: nil,
-//                                                 completion: { _, error in
-//            guard error == nil else {
-//                print("沒有上傳成功")
-//                return
-//            }
-//
-//            self.storage.child("images/file.png").downloadURL(completion: { url, error in
-//                guard let url = url, error == nil else {
-//                    return
-//                }
-//
-//                let urlString = url.absoluteString
-//                UserDefaults.standard.set(urlString, forKey: "myAvatarURL")
-//
-//                self.viewDidLoad()
-//
-//                print("下載URL: \(urlString)")    // 印出firebase照片網址
-//                UserDefaults.standard.set(urlString, forKey: "url")
-//            })
-//        })
-        
+                
         picker.dismiss(animated: true, completion: nil)
     }
     
