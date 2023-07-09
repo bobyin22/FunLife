@@ -7,26 +7,30 @@
 
 import UIKit
 import FirebaseFirestore
+import Kingfisher
 
 class GroupDetailClassViewController: UIViewController {
 
-    let groupDetailClassView = GroupDetailClassView()   // 定義View建立一個變數
-    let layout = UICollectionViewFlowLayout()   // 建立 UICollectionViewFlowLayout
+    let groupDetailClassView = GroupDetailClassView()           // 定義View建立一個變數
+    let layout = UICollectionViewFlowLayout()                   // 建立 UICollectionViewFlowLayout
     var groupDetailClassCollectionView: UICollectionView!
-    var classNameString: String = ""            // 讓Label吃到上一頁傳來的教室名稱
-    var classMembersIDArray: [String] = []      // 空陣列，要接住下方轉換成的 ["成員1ID", "成員2ID"]
-    var classMembersNameArray: [String] = []    // 空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
+    var classNameString: String = ""                            // 讓Label吃到上一頁傳來的教室名稱
+    var classMembersIDArray: [String] = []                      // 空陣列，要接住下方轉換成的 ["成員1ID", "成員2ID"]
+    var classMembersNameArray: [String] = []                    // 空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
+    var classMembersImageArray: [String] = []                   // 🍎空陣列
     var classMembersTimeSum: Int = 0
-    var classMembersIDDictionary: [String: String] = [:]   //
-    var classMembersTimeDictionary: [String: Int] = [:]    //
-    var indexNumber = 0                         // 獲取名字
+    var classMembersIDDictionary: [String: String] = [:]        //
+    var classMembersTimeDictionary: [String: Int] = [:]         //
+    var classMembersImageDictionary: [String: String] = [:]     // 🍎
+    var indexNumber = 0                                         // 獲取名字
+    var indexNumberImg = 0                                      // 獲取照片
 
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchIDAPI()
         view.backgroundColor = .white
-        setupGroupDetailClassView()             // 呼叫畫出自定義View函式
-        setupGroupDetailClassCollectionView()   // 呼叫畫出自定義CollectionView函式
+        setupGroupDetailClassView()                                      // 呼叫畫出自定義View函式
+        setupGroupDetailClassCollectionView()                            // 呼叫畫出自定義CollectionView函式
         groupDetailClassView.groupDetailNameLabel.text = classNameString // 讓Label吃到上一頁傳來的教室名稱
     }
     
@@ -156,7 +160,6 @@ class GroupDetailClassViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.groupDetailClassCollectionView.reloadData()
                 }
-                
             }
         }
     }
@@ -170,8 +173,13 @@ class GroupDetailClassViewController: UIViewController {
             db.collection("users").document("\(classMembersIDArray[indexNumber])").getDocument { snapshot, error in
                 
                 guard let snapshot = snapshot else { return }
+                // 名字
                 self.classMembersIDDictionary[memberID] = "\(snapshot.data()!["name"]!)"
                 self.classMembersNameArray.append("\(snapshot.data()!["name"]!)")
+                // 照片
+                self.classMembersImageDictionary[memberID] = "\(snapshot.data()!["image"]!)"
+                self.classMembersImageArray.append("\(snapshot.data()!["image"]!)")
+                
                 self.groupDetailClassCollectionView.reloadData()
             }
             self.indexNumber += 1
@@ -199,11 +207,16 @@ extension GroupDetailClassViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        //頭像
-        cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
-        //姓名
+        // 姓名
         cell.personNameLabel.text = classMembersIDDictionary[classMembersIDArray[indexPath.row]]
-        //時間
+        
+        // 頭像
+        // cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
+        if let url = URL(string: classMembersImageDictionary[classMembersIDArray[indexPath.row]]!) {
+            cell.personIconBtn.kf.setImage(with: url, for: .normal)
+        }
+
+        // 時間
         if let time = classMembersTimeDictionary[classMembersIDArray[indexPath.row]] {
             
             let hours = Int(time) / 3600
@@ -219,8 +232,10 @@ extension GroupDetailClassViewController: UICollectionViewDataSource {
         
         print("1️⃣classMembersNameArray", classMembersNameArray)
         print("2️⃣classMembersIDArray", classMembersIDArray)
+        print("📸classMembersImageArray", classMembersImageArray)
         print("3️⃣classMembersTimeDictionary", classMembersTimeDictionary)
         print("4️⃣classMembersIDDictionary", classMembersIDDictionary)
+        print("📸classMembersImageArray", classMembersImageDictionary)
         
         return cell
     }

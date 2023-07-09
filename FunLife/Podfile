@@ -16,4 +16,5 @@ target 'FunLife' do
   pod 'Firebase/Analytics'
   pod 'FSCalendar'
   pod 'IQKeyboardManager'
+  pod 'Kingfisher'
 end
