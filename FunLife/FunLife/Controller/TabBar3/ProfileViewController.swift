@@ -40,6 +40,12 @@ class ProfileViewController: UIViewController {
                     self.profileView.profilePhotoImageView.kf.setImage(with: imageUrl)
                 }
             }
+            
+            if snapshot.data()!["name"] == nil {
+                return
+            } else {
+                self.profileView.profileNameTextField.text = snapshot.data()?["name"]! as? String
+            }
         }
     }
     

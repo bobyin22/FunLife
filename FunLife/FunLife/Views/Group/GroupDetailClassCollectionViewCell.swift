@@ -24,15 +24,15 @@ class GroupDetailClassCollectionViewCell: UICollectionViewCell {
     
     func setupPersonDeskIconBtn() {
         // personDeskIconBtn.backgroundColor = .systemYellow
-        personDeskIconBtn.setImage(UIImage(named: "ComputerDesk2.png"), for: .normal)
+        personDeskIconBtn.setImage(UIImage(named: "ComputerDesk5.png"), for: .normal)
         contentView.addSubview(personDeskIconBtn)
         personDeskIconBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             personDeskIconBtn.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
             personDeskIconBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
             // personDeskIconBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            personDeskIconBtn.widthAnchor.constraint(equalToConstant: 60),
-            personDeskIconBtn.heightAnchor.constraint(equalToConstant: 60),
+            personDeskIconBtn.widthAnchor.constraint(equalToConstant: 150),
+            personDeskIconBtn.heightAnchor.constraint(equalToConstant: 120),
             // personDeskIconBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
@@ -45,7 +45,7 @@ class GroupDetailClassCollectionViewCell: UICollectionViewCell {
         personIconBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             personIconBtn.topAnchor.constraint(equalTo: personDeskIconBtn.bottomAnchor, constant: -10),
-            personIconBtn.leadingAnchor.constraint(equalTo: personDeskIconBtn.leadingAnchor, constant: 5),
+            personIconBtn.leadingAnchor.constraint(equalTo: personDeskIconBtn.leadingAnchor, constant: 10),
             // personIconBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             personIconBtn.widthAnchor.constraint(equalToConstant: 50),
             personIconBtn.heightAnchor.constraint(equalToConstant: 50),

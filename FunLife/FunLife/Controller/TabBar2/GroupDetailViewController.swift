@@ -222,7 +222,7 @@ extension GroupDetailViewController: UITableViewDataSource {
         cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         
         //頭像
-        cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
+        cell.personIconBtn.setImage(UIImage(named: "person1.png"), for: .normal)
         //姓名
         cell.personNameLabel.text = classMembersIDDictionary[classMembersIDArray[indexPath.row]]
         //時間

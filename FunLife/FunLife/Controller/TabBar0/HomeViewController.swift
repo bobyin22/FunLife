@@ -186,7 +186,6 @@ class HomeViewController: UIViewController {
         homeView.label.text = oriString
     }
     
-    
     // MARK: 停止計時
     func stopTimer() {
         // 停止計時器

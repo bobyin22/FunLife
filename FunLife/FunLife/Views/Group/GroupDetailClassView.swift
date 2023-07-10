@@ -19,7 +19,7 @@ class GroupDetailClassView: UIView {
     // MARK: 右邀請朋友按鈕
     let inviteGroupBtn: UIButton = {
         let inviteGroupBtn = UIButton()
-        inviteGroupBtn.backgroundColor = .systemBlue
+        inviteGroupBtn.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)//.systemBlue
         return inviteGroupBtn
     }()
     
@@ -59,13 +59,17 @@ class GroupDetailClassView: UIView {
         inviteGroupBtn.setTitle("邀請", for: .normal)
         inviteGroupBtn.setTitleColor(.black, for: .normal)
         addSubview(inviteGroupBtn)
+        inviteGroupBtn.clipsToBounds = true
+        inviteGroupBtn.layer.cornerRadius = 8
+        inviteGroupBtn.contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20) // 调整上下左右内边距
+        
         inviteGroupBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             inviteGroupBtn.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             // inviteGroupBtn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             inviteGroupBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            inviteGroupBtn.widthAnchor.constraint(equalToConstant: 100),
-            inviteGroupBtn.heightAnchor.constraint(equalToConstant: 50),
+            inviteGroupBtn.widthAnchor.constraint(equalToConstant: 90),
+            inviteGroupBtn.heightAnchor.constraint(equalToConstant: 40),
             // inviteGroupBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
         ])
     }

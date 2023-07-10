@@ -33,7 +33,7 @@ class SheetTaskViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 175/255, green: 238/255, blue: 238/255, alpha: 1)//.orange
+        view.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)//UIColor(red: 175/255, green: 238/255, blue: 238/255, alpha: 1)//.orange
         
         myTaskTableView.register(SheetTaskTableViewCell.self, forCellReuseIdentifier: "SheetTaskTableViewCell")
         myTaskTableView.delegate = self
@@ -41,7 +41,9 @@ class SheetTaskViewController: UIViewController {
         setupTableView()
         
         fetchAPI()
+        
     }
+    
     
     // MARK: 點擊任務 半截VC要fetch的任務資料
     func fetchAPI() {
@@ -80,12 +82,14 @@ class SheetTaskViewController: UIViewController {
     // MARK: 建立半截VC的tableView
     func setupTableView() {
         view.addSubview(myTaskTableView)
+        myTaskTableView.backgroundColor = UIColor(red: 187/255, green: 129/255, blue: 72/255, alpha: 1)
         myTaskTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             myTaskTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-            myTaskTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            myTaskTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            myTaskTableView.heightAnchor.constraint(equalToConstant: 200)
+            myTaskTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            myTaskTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            //myTaskTableView.heightAnchor.constraint(equalToConstant: 200),
+            myTaskTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
         ])
     }
 }

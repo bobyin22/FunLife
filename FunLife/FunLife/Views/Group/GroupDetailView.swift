@@ -58,7 +58,7 @@ class GroupDetailView: UIView {
     
     // MARK: 照片AutoLayout
     func setupGroupDetailImageView() {
-        groupDetailImageView.image = UIImage(named: "StudyRoom3")
+        groupDetailImageView.image = UIImage(named: "StudyRoom5")
         groupDetailImageView.contentMode = .scaleAspectFit
         addSubview(groupDetailImageView)
         groupDetailImageView.translatesAutoresizingMaskIntoConstraints = false

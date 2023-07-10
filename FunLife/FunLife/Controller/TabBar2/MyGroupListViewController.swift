@@ -73,7 +73,7 @@ class MyGroupListViewController: UIViewController {
     // MARK: 建立UI 方形按鈕
     func setupAddGroupBtn() {
         let addGroupBtn = UIButton()
-        addGroupBtn.setImage(UIImage(named: "plus2.png"), for: .normal)
+        addGroupBtn.setImage(UIImage(named: "plus3.png"), for: .normal)
         view.addSubview(addGroupBtn)
         addGroupBtn.addTarget(self, action: #selector(clickBtn), for: .touchUpInside)
         

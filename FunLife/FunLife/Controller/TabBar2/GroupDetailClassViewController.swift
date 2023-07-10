@@ -23,7 +23,6 @@ class GroupDetailClassViewController: UIViewController {
     var classMembersTimeDictionary: [String: Int] = [:]         //
     var classMembersImageDictionary: [String: String] = [:]     // 🍎
     var indexNumber = 0                                         // 獲取名字
-    var indexNumberImg = 0                                      // 獲取照片
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -212,9 +211,9 @@ extension GroupDetailClassViewController: UICollectionViewDataSource {
         
         // 頭像
         // cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
-        if let url = URL(string: classMembersImageDictionary[classMembersIDArray[indexPath.row]]!) {
-            cell.personIconBtn.kf.setImage(with: url, for: .normal)
-        }
+//        if let url = URL(string: classMembersImageDictionary[classMembersIDArray[indexPath.row]]) {
+//            cell.personIconBtn.kf.setImage(with: url, for: .normal)
+//        }
 
         // 時間
         if let time = classMembersTimeDictionary[classMembersIDArray[indexPath.row]] {

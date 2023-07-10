@@ -35,16 +35,16 @@ class MyGroupListTableViewCell: UITableViewCell {
     }
     
     func setupGroupPhotoImageView () {
-        groupPhotoImageView.image = UIImage(named: "StudyRoom3")
-        groupPhotoImageView.contentMode = .scaleAspectFit
-        groupPhotoImageView.backgroundColor = .systemGreen
+        groupPhotoImageView.image = UIImage(named: "StudyRoom5")
+        groupPhotoImageView.contentMode = .scaleToFill
+        //groupPhotoImageView.backgroundColor = .systemGreen
         contentView.addSubview(groupPhotoImageView)
         groupPhotoImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             groupPhotoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
             groupPhotoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+            groupPhotoImageView.widthAnchor.constraint(equalToConstant: 200),
             groupPhotoImageView.heightAnchor.constraint(equalToConstant: 100),
-            groupPhotoImageView.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
     

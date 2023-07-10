@@ -80,7 +80,11 @@ class AddTaskView: UIView {
         addSubview(cancelTaskButton)
         cancelTaskButton.setTitle("取消", for: .normal)
         cancelTaskButton.tintColor = .black
-        cancelTaskButton.backgroundColor = .systemBlue
+        cancelTaskButton.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)
+        cancelTaskButton.clipsToBounds = true
+        cancelTaskButton.layer.cornerRadius = 8
+        cancelTaskButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20) // 调整上下左右内边距
+        
         cancelTaskButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             cancelTaskButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -80),
@@ -96,7 +100,11 @@ class AddTaskView: UIView {
         addSubview(saveTaskButton)
         saveTaskButton.setTitle("儲存", for: .normal)
         saveTaskButton.tintColor = .black
-        saveTaskButton.backgroundColor = .systemBlue
+        saveTaskButton.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)
+        saveTaskButton.clipsToBounds = true
+        saveTaskButton.layer.cornerRadius = 8
+        saveTaskButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20) // 调整上下左右内边距
+        
         saveTaskButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             saveTaskButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -80),

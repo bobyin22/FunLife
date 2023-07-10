@@ -48,13 +48,17 @@ class CreateGroupView: UIView {
     func setupCancelGroupBtn() {
         cancelGroupBtn.setTitle("取消", for: .normal)
         addSubview(cancelGroupBtn)
+        cancelGroupBtn.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)
+        cancelGroupBtn.clipsToBounds = true
+        cancelGroupBtn.layer.cornerRadius = 8
+        cancelGroupBtn.contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20) // 调整上下左右内边距
         cancelGroupBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            cancelGroupBtn.topAnchor.constraint(equalTo: self.bottomAnchor, constant: -50),
-            cancelGroupBtn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            cancelGroupBtn.topAnchor.constraint(equalTo: self.bottomAnchor, constant: -80),
+            cancelGroupBtn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             //cancelGroupBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -200),
             cancelGroupBtn.widthAnchor.constraint(equalToConstant: 150),
-            cancelGroupBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+            cancelGroupBtn.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
     
@@ -62,13 +66,17 @@ class CreateGroupView: UIView {
     func setupSaveGroupBtn() {
         saveGroupBtn.setTitle("建立", for: .normal)
         addSubview(saveGroupBtn)
+        saveGroupBtn.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)
+        saveGroupBtn.clipsToBounds = true
+        saveGroupBtn.layer.cornerRadius = 8
+        saveGroupBtn.contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20) // 调整上下左右内边距
         saveGroupBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            saveGroupBtn.topAnchor.constraint(equalTo: self.bottomAnchor, constant: -50),
+            saveGroupBtn.topAnchor.constraint(equalTo: self.bottomAnchor, constant: -80),
             // saveGroupBtn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            saveGroupBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            saveGroupBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             saveGroupBtn.widthAnchor.constraint(equalToConstant: 150),
-            saveGroupBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+            saveGroupBtn.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
     
