@@ -19,7 +19,6 @@ class GroupDetailClassView: UIView {
     // MARK: 右邀請朋友按鈕
     let inviteGroupBtn: UIButton = {
         let inviteGroupBtn = UIButton()
-        inviteGroupBtn.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)//.systemBlue
         return inviteGroupBtn
     }()
     
@@ -57,7 +56,11 @@ class GroupDetailClassView: UIView {
     // MARK: 邀請按鈕AutoLayout
     func setupInviteGroupBtn() {
         inviteGroupBtn.setTitle("邀請", for: .normal)
-        inviteGroupBtn.setTitleColor(.black, for: .normal)
+        inviteGroupBtn.setTitleColor(UIColor(red: 233/255, green: 227/255, blue: 217/255, alpha: 1), for: .normal)
+        inviteGroupBtn.backgroundColor = UIColor(red: 81/255, green: 88/255, blue: 104/255, alpha: 1)
+        inviteGroupBtn.layer.borderColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1).cgColor
+        inviteGroupBtn.layer.borderWidth = 2.0
+
         addSubview(inviteGroupBtn)
         inviteGroupBtn.clipsToBounds = true
         inviteGroupBtn.layer.cornerRadius = 8

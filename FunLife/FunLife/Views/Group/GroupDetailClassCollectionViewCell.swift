@@ -83,6 +83,7 @@ class GroupDetailClassCollectionViewCell: UICollectionViewCell {
     func setupPersonTimerLabel () {
         // personTimerLabel.backgroundColor = .systemCyan
         personTimerLabel.text = "秒數"
+        personTimerLabel.font = UIFont.systemFont(ofSize: 12)
         personTimerLabel.textColor = .white
         contentView.addSubview(personTimerLabel)
         personTimerLabel.translatesAutoresizingMaskIntoConstraints = false

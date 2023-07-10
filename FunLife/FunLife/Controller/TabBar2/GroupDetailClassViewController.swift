@@ -112,7 +112,7 @@ class GroupDetailClassViewController: UIViewController {
         groupDetailClassCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         view.addSubview(groupDetailClassCollectionView)
-        groupDetailClassCollectionView.backgroundColor = .systemMint//😎UIColor(red: 81/255, green: 88/255, blue: 104/255, alpha: 1)
+        groupDetailClassCollectionView.backgroundColor = UIColor(red: 81/255, green: 88/255, blue: 104/255, alpha: 1)   //.systemMint//
         groupDetailClassCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             groupDetailClassCollectionView.topAnchor.constraint(equalTo: groupDetailClassView.classWindowImgaeView.bottomAnchor, constant: 0),
