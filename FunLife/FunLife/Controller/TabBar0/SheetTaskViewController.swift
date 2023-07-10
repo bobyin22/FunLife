@@ -24,8 +24,6 @@ class SheetTaskViewController: UIViewController {
     // MARK: firebase的任務秒數
     var taskFirebaseTimeArray: [String] = [""]
     
-
-    
     var sumTime = 0
     
     // 2️⃣ 建立一個變數是自己
@@ -33,7 +31,7 @@ class SheetTaskViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)//UIColor(red: 175/255, green: 238/255, blue: 238/255, alpha: 1)//.orange
+        view.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1) // UIColor(red: 175/255, green: 238/255, blue: 238/255, alpha: 1)//.orange
         
         myTaskTableView.register(SheetTaskTableViewCell.self, forCellReuseIdentifier: "SheetTaskTableViewCell")
         myTaskTableView.delegate = self
@@ -43,7 +41,6 @@ class SheetTaskViewController: UIViewController {
         fetchAPI()
         
     }
-    
     
     // MARK: 點擊任務 半截VC要fetch的任務資料
     func fetchAPI() {
@@ -58,7 +55,6 @@ class SheetTaskViewController: UIViewController {
         let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
         
         let db = Firestore.firestore()
-        
         
         db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(month).\(day)").getDocuments { snapshot, error in
             guard let snapshot else {
@@ -88,7 +84,7 @@ class SheetTaskViewController: UIViewController {
             myTaskTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             myTaskTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             myTaskTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            //myTaskTableView.heightAnchor.constraint(equalToConstant: 200),
+            // myTaskTableView.heightAnchor.constraint(equalToConstant: 200),
             myTaskTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
         ])
     }
@@ -140,6 +136,45 @@ extension SheetTaskViewController: UITableViewDataSource {
         delegate?.passValueTime(self, parameterTime: taskFirebaseTimeArray[indexPath.row])
         
         dismiss(animated: true, completion: nil)
+    }
+    
+    //🍀 MARK: Row Deleting
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+//        // 設定row的編輯模式
+//        return .delete
+//    }
+    
+    // 🍀 雖然欄位刪除，但是firebase資料並沒有刪除對的任務
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        // 若編輯模式為.delete --> 可執行刪除
+        if editingStyle == .delete {
+
+            // 把firebase當日任務刪除
+            let today = Date()
+            let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
+            // var year = dateComponents.year!
+            var month = dateComponents.month!
+            let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
+            
+            let db = Firestore.firestore()
+            let documentID = taskFirebaseArray[indexPath.row] // 要刪除的文檔的 ID
+            let documentRef = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(month).\(day)").document(documentID)
+
+            documentRef.delete { error in
+                if let error = error {
+                    print("Error removing document: \(error)")
+                } else {
+                    print("Document successfully removed!")
+                    // 在刪除成功後，你可能還需要更新你的資料源和 tableView 的顯示
+                    // 執行刪除操作，例如從資料源中刪除對應的資料
+                    self.taskFirebaseArray.remove(at: indexPath.row)         // indexPath.row --> 我們點擊的row
+                    self.taskFirebaseTimeArray.remove(at: indexPath.row)     // indexPath.row --> 我們點擊的row
+                    // 2. 刪除tableView上的row
+                    tableView.deleteRows(at: [indexPath], with: .fade)       // [indexPath]--> 我們點擊的row (ex.[(section0, row5)])
+                }
+            }
+            
+        }
     }
     
 }
