@@ -25,14 +25,15 @@ class GroupDetailClassCollectionViewCell: UICollectionViewCell {
     func setupPersonDeskIconBtn() {
         // personDeskIconBtn.backgroundColor = .systemYellow
         personDeskIconBtn.setImage(UIImage(named: "ComputerDesk5.png"), for: .normal)
+        // personDeskIconBtn.backgroundColor = .red
         contentView.addSubview(personDeskIconBtn)
         personDeskIconBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             personDeskIconBtn.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-            personDeskIconBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+            personDeskIconBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: -35),
             // personDeskIconBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            personDeskIconBtn.widthAnchor.constraint(equalToConstant: 150),
-            personDeskIconBtn.heightAnchor.constraint(equalToConstant: 120),
+            personDeskIconBtn.widthAnchor.constraint(equalToConstant: 115),
+            personDeskIconBtn.heightAnchor.constraint(equalToConstant: 100),
             // personDeskIconBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
@@ -44,8 +45,8 @@ class GroupDetailClassCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(personIconBtn)
         personIconBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            personIconBtn.topAnchor.constraint(equalTo: personDeskIconBtn.bottomAnchor, constant: -10),
-            personIconBtn.leadingAnchor.constraint(equalTo: personDeskIconBtn.leadingAnchor, constant: 46),
+            personIconBtn.topAnchor.constraint(equalTo: personDeskIconBtn.bottomAnchor, constant: -40),
+            personIconBtn.leadingAnchor.constraint(equalTo: personDeskIconBtn.leadingAnchor, constant: 34),
             // personIconBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             personIconBtn.widthAnchor.constraint(equalToConstant: 50),
             personIconBtn.heightAnchor.constraint(equalToConstant: 50),

@@ -112,12 +112,12 @@ class GroupDetailClassViewController: UIViewController {
         groupDetailClassCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         view.addSubview(groupDetailClassCollectionView)
-        groupDetailClassCollectionView.backgroundColor = UIColor(red: 81/255, green: 88/255, blue: 104/255, alpha: 1)
+        groupDetailClassCollectionView.backgroundColor = .systemMint//😎UIColor(red: 81/255, green: 88/255, blue: 104/255, alpha: 1)
         groupDetailClassCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            groupDetailClassCollectionView.topAnchor.constraint(equalTo: groupDetailClassView.classWindowImgaeView.bottomAnchor, constant: 10),
-            groupDetailClassCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            groupDetailClassCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            groupDetailClassCollectionView.topAnchor.constraint(equalTo: groupDetailClassView.classWindowImgaeView.bottomAnchor, constant: 0),
+            groupDetailClassCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            groupDetailClassCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             groupDetailClassCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
         
@@ -247,18 +247,40 @@ extension GroupDetailClassViewController: UICollectionViewDelegateFlowLayout {
     // item水平間距 min Interitem spacing
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         
-        if section == 0 {
-            return 24
-        } else {
-            return 40
-        }
+//        if section == 0 {
+//            return 20
+//        } else {
+//            return 40 //40
+//        }
+        
+        return 40
+        
     }
     
     // 格子與格子row間距 min line spacing
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         
-        return 130
+        return 140
     }
+    
+    //❌
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        // 檢查是否為第三個 item
+//        if indexPath.item == 3 {
+//            // 在這裡設定換行的寬度和高度
+//            let itemWidth: CGFloat = collectionView.bounds.width // 設定為整個 collectionView 的寬度
+//            let itemHeight: CGFloat = 30 // 自訂換行後的高度
+//
+//            return CGSize(width: itemWidth, height: itemHeight)
+//        }
+//
+//        // 非第三個 item 的大小
+//        let itemWidth: CGFloat = 30 // 自訂寬度
+//        let itemHeight: CGFloat = 30 // 自訂高度
+//
+//        return CGSize(width: itemWidth, height: itemHeight)
+//    }
+    
     
     // collection格子與collection Header距離 (section垂直間距，section的inset，相當於是内容的margin)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
