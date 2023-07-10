@@ -111,14 +111,18 @@ extension CreateGroupView: UITableViewDelegate {
 extension CreateGroupView: UITableViewDataSource {
     
     // 分组头即将要显示
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView,
-                   forSection section: Int) {
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.textColor = UIColor.orange
         header.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         //header.textLabel?.frame = header.frame
         header.textLabel?.translatesAutoresizingMaskIntoConstraints = false
-        header.contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // 設定左邊距約束
+        let leadingConstraint = header.textLabel?.leadingAnchor.constraint(equalTo: header.contentView.leadingAnchor, constant: 10)
+        leadingConstraint?.isActive = true
+        // header.contentView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             header.contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             header.contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),

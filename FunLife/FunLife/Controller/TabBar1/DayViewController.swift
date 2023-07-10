@@ -33,7 +33,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCalendar()
-        view.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        // view.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         
         // calendar.dataSource = self
         calendar.delegate = self
@@ -57,11 +57,25 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     
     // MARK: 設定第三方套件日曆View尺寸
     func setupCalendar() {
-        calendar = FSCalendar(frame: CGRect(x: 0.0, y:90.0, width: self.view.frame.size.width, height: 300.0))
+        //calendar = FSCalendar(frame: CGRect(x: 0.0, y:60.0, width: self.view.frame.size.width, height: 300.0))
+        calendar = FSCalendar(frame: CGRect.zero)
+        calendar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(calendar)
+
+        // 設定頂部對齊約束
+        let topConstraint = calendar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
+        topConstraint.isActive = true
+
+        // 設定其他約束
+        NSLayoutConstraint.activate([
+            calendar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            calendar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            calendar.heightAnchor.constraint(equalToConstant: 300)
+        ])
+        
         calendar.scrollDirection = .vertical
         calendar.scope = .month
         calendar.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
-        self.view.addSubview(calendar)
         
         calendar.appearance.headerTitleColor = .systemOrange
         //calendar.today = nil
@@ -154,8 +168,8 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         myTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             myTableView.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 0),
-            myTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            myTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            myTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            myTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             myTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
             //myTableView.heightAnchor.constraint(equalToConstant: 300)
         ])
@@ -178,6 +192,11 @@ extension DayViewController: UITableViewDataSource {
         header.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         //header.textLabel?.frame = header.frame
         header.textLabel?.translatesAutoresizingMaskIntoConstraints = false
+        
+        // 設定左邊距約束
+        let leadingConstraint = header.textLabel?.leadingAnchor.constraint(equalTo: header.contentView.leadingAnchor, constant: 10)
+        leadingConstraint?.isActive = true
+        
         header.contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             header.contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
