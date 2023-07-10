@@ -45,7 +45,7 @@ class GroupDetailClassCollectionViewCell: UICollectionViewCell {
         personIconBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             personIconBtn.topAnchor.constraint(equalTo: personDeskIconBtn.bottomAnchor, constant: -10),
-            personIconBtn.leadingAnchor.constraint(equalTo: personDeskIconBtn.leadingAnchor, constant: 10),
+            personIconBtn.leadingAnchor.constraint(equalTo: personDeskIconBtn.leadingAnchor, constant: 46),
             // personIconBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             personIconBtn.widthAnchor.constraint(equalToConstant: 50),
             personIconBtn.heightAnchor.constraint(equalToConstant: 50),

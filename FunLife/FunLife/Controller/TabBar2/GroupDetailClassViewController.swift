@@ -209,11 +209,11 @@ extension GroupDetailClassViewController: UICollectionViewDataSource {
         // 姓名
         cell.personNameLabel.text = classMembersIDDictionary[classMembersIDArray[indexPath.row]]
         
-        // 頭像
-        // cell.personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
-//        if let url = URL(string: classMembersImageDictionary[classMembersIDArray[indexPath.row]]) {
-//            cell.personIconBtn.kf.setImage(with: url, for: .normal)
-//        }
+        // 頭像        
+        if let urlString = classMembersImageDictionary[classMembersIDArray[indexPath.row]],
+            let url = URL(string: urlString) {
+            cell.personIconBtn.kf.setImage(with: url, for: .normal)
+        }
 
         // 時間
         if let time = classMembersTimeDictionary[classMembersIDArray[indexPath.row]] {

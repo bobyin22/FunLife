@@ -118,8 +118,8 @@ class ProfileView: UIView {
         addSubview(profileCameraBtn)
         profileCameraBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            profileCameraBtn.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: -20),
-            profileCameraBtn.leadingAnchor.constraint(equalTo: profilePhotoImageView.trailingAnchor, constant: -15),
+            profileCameraBtn.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: -26),
+            profileCameraBtn.leadingAnchor.constraint(equalTo: profilePhotoImageView.trailingAnchor, constant: -28),
             //profileCameraBtn.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             profileCameraBtn.widthAnchor.constraint(equalToConstant: 30),
             profileCameraBtn.heightAnchor.constraint(equalToConstant: 30),
