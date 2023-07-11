@@ -27,7 +27,7 @@ class GroupDetailClassViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchIDAPI()
-        view.backgroundColor = .white
+        // view.backgroundColor = .white
         setupGroupDetailClassView()                                      // 呼叫畫出自定義View函式
         setupGroupDetailClassCollectionView()                            // 呼叫畫出自定義CollectionView函式
         groupDetailClassView.groupDetailNameLabel.text = classNameString // 讓Label吃到上一頁傳來的教室名稱
