@@ -41,7 +41,8 @@ class GroupDetailClassCollectionViewCell: UICollectionViewCell {
     func setupPersonIconBtn() {
         // personIconBtn.backgroundColor = .systemYellow
         personIconBtn.setImage(UIImage(named: "person2.png"), for: .normal)
-        
+//        personIconBtn.contentMode = .scaleAspectFit
+        personIconBtn.imageView?.contentMode = .scaleAspectFill
         contentView.addSubview(personIconBtn)
         personIconBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

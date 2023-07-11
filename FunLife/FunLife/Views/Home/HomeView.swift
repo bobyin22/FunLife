@@ -111,6 +111,19 @@ class HomeView: UIView {
             // 垂直置中
             circleTaskButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+        circleTaskButton.addTarget(self, action: #selector(btnTouchDown), for: .touchDown)
+        circleTaskButton.addTarget(self, action: #selector(btnTouchUpInside), for: .touchUpInside)
+    }
+    
+    @objc func btnTouchDown() {
+        circleTaskButton.setTitleColor(UIColor.white, for: .highlighted)
+        // saveProfileBtn.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)
+    }
+    
+    @objc func btnTouchUpInside() {
+        circleTaskButton.setTitleColor(UIColor.black, for: .normal)
+        //circleTaskButton.tintColor = .black
+        //saveProfileBtn.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
     }
     
     // MARK: UI建立日期Label
@@ -143,6 +156,7 @@ class HomeView: UIView {
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 24)
         addSubview(label)
+        label.isHidden = true
         
         label.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

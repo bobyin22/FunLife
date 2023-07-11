@@ -104,7 +104,9 @@ class ProfileViewController: UIViewController {
     // 點擊儲存按鈕
     @objc func clickSaveProfileBtn() {
         modifyAPIName()     // 把名字打入cloud firestore database
+        //profileView.saveProfileBtn.adjustsImageWhenHighlighted = true
     }
+    
     
     // 把名字打入cloud firestore database
     func modifyAPIName() {

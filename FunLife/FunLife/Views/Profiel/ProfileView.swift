@@ -166,6 +166,16 @@ class ProfileView: UIView {
             saveProfileBtn.heightAnchor.constraint(equalToConstant: 40),
             //saveProfileBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
         ])
+        saveProfileBtn.addTarget(self, action: #selector(btnTouchDown), for: .touchDown)
+        saveProfileBtn.addTarget(self, action: #selector(btnTouchUpInside), for: .touchUpInside)
+    }
+    
+    @objc func btnTouchDown() {
+        saveProfileBtn.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)
+    }
+    
+    @objc func btnTouchUpInside() {
+        saveProfileBtn.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
     }
     
     // MARK: 輸入欄 AutoLayout
