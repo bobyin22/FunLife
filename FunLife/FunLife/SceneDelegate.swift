@@ -88,7 +88,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     group.members.append("\(UserDefaults.standard.string(forKey: "myUserID")!)") //
                     
                     do {
+                        // 把使用者ID加入到群組
                         try documentReference.setData(from: group)
+                        // 🍀alert寫在這
+                        if let rootViewController = self.window?.rootViewController {
+                            let alert = UIAlertController(title: "恭喜加入群組成功",
+                                                          message: "朋友已經在教室等你了喔",
+                                                          preferredStyle: .alert)
+                            
+                            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"),
+                                                          style: .default,
+                                                          handler: { _ in
+                                NSLog("The \"OK\" alert occured.")
+                            }))
+                            
+                            rootViewController.present(alert, animated: true, completion: nil)
+                        }
                         
                     } catch {
                         print(error)

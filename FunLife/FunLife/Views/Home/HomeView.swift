@@ -104,8 +104,12 @@ class HomeView: UIView {
         circleTaskButton.titleLabel?.font = UIFont(name: "Helvetica", size: 20)
         circleTaskButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            circleTaskButton.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
-            circleTaskButton.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -65)
+            //circleTaskButton.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
+            //circleTaskButton.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -65)
+            // 水平置中
+            circleTaskButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            // 垂直置中
+            circleTaskButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     
@@ -133,12 +137,22 @@ class HomeView: UIView {
     
     // MARK: 建立UI 顯示目前在哪一面的Label
     func setupFlipLabel() {
-        label = UILabel(frame: CGRect(x: 140, y: 450, width: 200, height: 50))
+        // label = UILabel(frame: CGRect(x: 140, y: 450, width: 200, height: 50))
         // label.center = view.center
         // label.textAlignment = .center
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 24)
         addSubview(label)
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            //label.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
+            //label.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -65)
+            // 水平置中
+            label.centerXAnchor.constraint(equalTo: centerXAnchor),
+            // 垂直置中
+            label.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -35)
+        ])
     }
     
     // MARK: 需要寫上
