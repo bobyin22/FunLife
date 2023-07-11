@@ -17,4 +17,5 @@ target 'FunLife' do
   pod 'FSCalendar'
   pod 'IQKeyboardManager'
   pod 'Kingfisher'
+  pod 'lottie-ios'
 end
