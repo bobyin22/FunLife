@@ -795,6 +795,7 @@ PODS:
   - Libuv-gRPC/Implementation (0.0.10):
     - Libuv-gRPC/Interface (= 0.0.10)
   - Libuv-gRPC/Interface (0.0.10)
+  - lottie-ios (4.2.0)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -814,6 +815,7 @@ DEPENDENCIES:
   - FSCalendar
   - IQKeyboardManager
   - Kingfisher
+  - lottie-ios
 
 SPEC REPOS:
   trunk:
@@ -846,6 +848,7 @@ SPEC REPOS:
     - Kingfisher
     - leveldb-library
     - Libuv-gRPC
+    - lottie-ios
     - nanopb
     - PromisesObjC
 
@@ -879,9 +882,10 @@ SPEC CHECKSUMS:
   Kingfisher: 0656e1b064bfc1ca1cd04e033f617a86559696e9
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
+  lottie-ios: 809ecf2d460ed650a6aed7aa88b2ec45fab4779c
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
 
-PODFILE CHECKSUM: 6526a715928bcc54bbf554a6e40c3f44324dcdcc
+PODFILE CHECKSUM: a4faff5b702888ba6912b9e0ec94dfc4d3a689bd
 
 COCOAPODS: 1.12.1
