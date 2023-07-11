@@ -91,6 +91,16 @@ class MyGroupListViewController: UIViewController {
         let createGroupVC = CreateGroupViewController()
         navigationController?.pushViewController(createGroupVC, animated: true)
     }
+    
+    //提示框
+    func alertMsg () {
+        let alert = UIAlertController(title: "個人頁面資料不完整", message: "填上你的姓名、照片，讓好友知道你", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            NSLog("The \"OK\" alert occured.")
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 }
 
 // MARK: 寫入要做的事
@@ -105,38 +115,52 @@ extension MyGroupListViewController: UITableViewDataSource {
         guard let cell =  tableView.dequeueReusableCell(withIdentifier: "MyGroupListTableViewCell",
                                                         for: indexPath) as? MyGroupListTableViewCell
         else { return }
-                
+        
         let selectedGroupID = userInGroupClassNameArray[indexPath.row]             // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
         
         // MARK: 點擊進入各自的下一頁
-        //let groupDetailVC = GroupDetailViewController()
-        //groupDetailVC.classNameString = selectedGroupID                            // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
-        //navigationController?.pushViewController(groupDetailVC, animated: true)
-        let groupDetailClassVC = GroupDetailClassViewController()                    // MARK: 🍀新collection改從這進入
-        navigationController?.pushViewController(groupDetailClassVC, animated: true)
+        let groupDetailClassVC = GroupDetailClassViewController()                       // MARK: 🍀新collection改從這進入
+        
+        // 如果firebase image && name 有值，通知
+        let db = Firestore.firestore()
+        db.collection("users").document(UserDefaults.standard.string(forKey: "myUserID")!).getDocument() { snapshot, error in
+            guard let snapshot = snapshot else { return }
+            
+            // 如果裡面有url載入
+            // 如果沒有url，不做事
+            if snapshot.data()!["image"] == nil || snapshot.data()!["name"] == nil {
+                //return
+                self.alertMsg()
+            } else {
+                groupDetailClassVC.classNameString = selectedGroupID                            // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
+                self.navigationController?.pushViewController(groupDetailClassVC, animated: true)
+            }
+        }
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        120
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        userInGroupClassNameArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-                
-        guard let cell =  tableView.dequeueReusableCell(withIdentifier: "MyGroupListTableViewCell",
-                                                        for: indexPath) as? MyGroupListTableViewCell
-        else {
-            // 處理轉換失敗的情況，例如創建一個預設的 UITableViewCell
-            return UITableViewCell()
+        
+        
+        
+        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            120
         }
         
-        cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 38/255)
-        cell.groupNameLabel.text = userInGroupClassNameArray[indexPath.row]   // List的教室名稱🍀
-        // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
-        return cell
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            userInGroupClassNameArray.count
+        }
+        
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            
+            guard let cell =  tableView.dequeueReusableCell(withIdentifier: "MyGroupListTableViewCell",
+                                                            for: indexPath) as? MyGroupListTableViewCell
+            else {
+                // 處理轉換失敗的情況，例如創建一個預設的 UITableViewCell
+                return UITableViewCell()
+            }
+            
+            cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 38/255)
+            cell.groupNameLabel.text = userInGroupClassNameArray[indexPath.row]   // List的教室名稱🍀
+            // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
+            return cell
+        }
+        
     }
-    
-}

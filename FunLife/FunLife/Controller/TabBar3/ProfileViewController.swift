@@ -103,13 +103,13 @@ class ProfileViewController: UIViewController {
     
     // 點擊儲存按鈕
     @objc func clickSaveProfileBtn() {
-        modifyAPIName()     //把名字打入cloud firestore database
+        modifyAPIName()     // 把名字打入cloud firestore database
     }
     
     // 把名字打入cloud firestore database
     func modifyAPIName() {
         let db = Firestore.firestore()
-        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").setData(["name": profileView.profileNameTextField.text]) { error in
+        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").updateData(["name": profileView.profileNameTextField.text]) { error in
             if let error = error {
                 print("Document 建立失敗")
             } else {
