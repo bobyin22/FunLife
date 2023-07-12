@@ -261,10 +261,8 @@ class HomeViewController: UIViewController {
             print("counter是", counter)
         }
         
-        
     }
 
-    
     // MARK: 每次翻轉後要更新秒數
     func modifyUser() {
         
@@ -322,8 +320,8 @@ extension HomeViewController: SheetTaskViewControllerDelegate {
     
     // 7️⃣ MARK: Delegate傳值
     func passValueTime(_ VC: SheetTaskViewController, parameterTime: String) {
-        //print("傳出來的String Time是", parameterTime)
-        //homeView.circleTimerLabel.text = parameterTime
+        // print("傳出來的String Time是", parameterTime)
+        // homeView.circleTimerLabel.text = parameterTime
         
         let hours = Int(parameterTime)! / 3600
         let minutes = (Int(parameterTime)! % 3600) / 60
