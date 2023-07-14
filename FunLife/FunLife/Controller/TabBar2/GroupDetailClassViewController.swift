@@ -23,13 +23,23 @@ class GroupDetailClassViewController: UIViewController {
     var classMembersTimeDictionary: [String: Int] = [:]         //
     var classMembersImageDictionary: [String: String] = [:]     // 🍎
     var indexNumber = 0                                         // 獲取名字
-
+    
+    var fetchClassID = String()                                      // 接住上一頁GroupList傳來要進入的教室
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchIDAPI()
+        
+        // fetchIDAPI()
         // view.backgroundColor = .white
         setupGroupDetailClassView()                                      // 呼叫畫出自定義View函式
         setupGroupDetailClassCollectionView()                            // 呼叫畫出自定義CollectionView函式
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("😎接到fetchClassID是", fetchClassID)
+        fetchIDAPI()
         groupDetailClassView.groupDetailNameLabel.text = classNameString // 讓Label吃到上一頁傳來的教室名稱
     }
     
@@ -75,32 +85,43 @@ class GroupDetailClassViewController: UIViewController {
     func fetchIDAPI() {
         let db = Firestore.firestore()
         
-        // MARK: 判斷式 如果UserDefault 有 FriendGroupID 用 FriendGroupID 去取得member
-        // MARK:       如果          沒有               用 myGroupID     去取得member
-        if UserDefaults.standard.string(forKey: "FriendGroupID") == nil {
-            let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "myGroupID")!).getDocument { snapshot, error in
-                guard let snapshot = snapshot else { return }
-                
-                let memberNSArray = snapshot.data()!
-                if let members = memberNSArray["members"] as? [String] {
-                    self.classMembersIDArray = members
-                }
-                self.fetchTimeAPI()
-                self.fetchNameAPI()                 // 去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
-                self.groupDetailClassCollectionView.reloadData()
+        let documentRef = db.collection("group").document(fetchClassID).getDocument { snapshot, error in
+            guard let snapshot = snapshot else { return }
+            
+            let memberNSArray = snapshot.data()!
+            if let members = memberNSArray["members"] as? [String] {
+                self.classMembersIDArray = members
             }
-        } else {
-            let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "FriendGroupID")!).getDocument { snapshot, error in
-                guard let snapshot = snapshot else { return }
-                let memberNSArray = snapshot.data()!  // 這時候是一個NSArray
-                if let members = memberNSArray["members"] as? [String] {  // 轉成Swift Array 拿到 ["成員1號ID", "成員2號ID"]
-                    self.classMembersIDArray = members
-                }
-                self.fetchTimeAPI()                // 去呼叫另外函式 轉拿 ["成員1的Time", "成員2的Time"]
-                self.fetchNameAPI()                // 去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
-                self.groupDetailClassCollectionView.reloadData()
-            }
+            self.fetchTimeAPI()
+            self.fetchNameAPI()                 // 去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
+            self.groupDetailClassCollectionView.reloadData()
         }
+        // MARK:       如果          沒有               用 myGroupID     去取得member
+        // MARK: 判斷式 如果UserDefault 有 FriendGroupID 用 FriendGroupID 去取得member
+//        if UserDefaults.standard.string(forKey: "FriendGroupID") == nil {       // UserDefaults.standard.string(forKey: "myGroupID")!
+//            let documentRef = db.collection("group").document(fetchClassID).getDocument { snapshot, error in
+//                guard let snapshot = snapshot else { return }
+//
+//                let memberNSArray = snapshot.data()!
+//                if let members = memberNSArray["members"] as? [String] {
+//                    self.classMembersIDArray = members
+//                }
+//                self.fetchTimeAPI()
+//                self.fetchNameAPI()                 // 去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
+//                self.groupDetailClassCollectionView.reloadData()
+//            }
+//        } else {
+//            let documentRef = db.collection("group").document(UserDefaults.standard.string(forKey: "FriendGroupID")!).getDocument { snapshot, error in
+//                guard let snapshot = snapshot else { return }
+//                let memberNSArray = snapshot.data()!  // 這時候是一個NSArray
+//                if let members = memberNSArray["members"] as? [String] {  // 轉成Swift Array 拿到 ["成員1號ID", "成員2號ID"]
+//                    self.classMembersIDArray = members
+//                }
+//                self.fetchTimeAPI()                // 去呼叫另外函式 轉拿 ["成員1的Time", "成員2的Time"]
+//                self.fetchNameAPI()                // 去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
+//                self.groupDetailClassCollectionView.reloadData()
+//            }
+//        }
     }
     
     // MARK: 畫出自定義CollectionView
@@ -167,6 +188,10 @@ class GroupDetailClassViewController: UIViewController {
     // 拿到 ["成員1的Name", "成員2的Name"]
     func fetchNameAPI() {
         // 走2次
+        indexNumber = 0
+        classMembersNameArray.removeAll()
+        classMembersImageArray.removeAll()
+        
         for memberID in classMembersIDArray {
             let db = Firestore.firestore()
             db.collection("users").document("\(classMembersIDArray[indexNumber])").getDocument { snapshot, error in

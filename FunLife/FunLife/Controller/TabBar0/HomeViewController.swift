@@ -47,6 +47,8 @@ class HomeViewController: UIViewController {
                                                object: nil)
         // 6️⃣當作是自己
         addTaskVC.delegate = self
+        print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
+
     }
         
     // MARK: 讓每次返回本頁會顯示
@@ -100,7 +102,7 @@ class HomeViewController: UIViewController {
         ])
         
         homeView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
-        //homeView.backgroundColor = UIColor(red: 160/255, green: 191/255, blue: 224/255, alpha: 1)
+        // homeView.backgroundColor = UIColor(red: 160/255, green: 191/255, blue: 224/255, alpha: 1)
         homeView.circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)
     }
     
@@ -117,8 +119,8 @@ class HomeViewController: UIViewController {
     // MARK: firebase成功拿到創建的獨一無二的ID
     func createANewUserIDDocument() {
         // let task = ["timer": "0", "user": "包伯"]
-        let newDocumentID = db.collection("users").document()   // firebase建立一個亂數DocumentID
-        self.documentID = newDocumentID.documentID      // firebase建立一個亂數DocumentID 並賦值給變數
+        let newDocumentID = db.collection("users").document()               // firebase建立一個亂數DocumentID
+        self.documentID = newDocumentID.documentID                          // firebase建立一個亂數DocumentID 並賦值給變數
         UserDefaults.standard.set(self.documentID, forKey: "myUserID")      // 把亂數DocumentID 塞在 App的UserDefault裡
         
         // 建立firebase資料 ID 其他空
@@ -129,7 +131,6 @@ class HomeViewController: UIViewController {
                 print("Document 建立成功")
             }
         }
-        
     }
             
     // MARK: 點擊任務按鈕會發生的事

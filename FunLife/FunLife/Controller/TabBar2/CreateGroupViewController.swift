@@ -62,7 +62,6 @@ class CreateGroupViewController: UIViewController {
                 print("Document 建立成功")
             }
         }
-        
         self.navigationController?.popViewController(animated: true)    // MARK: 點擊按鈕發生的事   跳轉回群組List頁
     }
     

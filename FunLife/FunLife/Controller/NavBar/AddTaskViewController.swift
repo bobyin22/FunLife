@@ -86,7 +86,6 @@ class AddTaskViewController: UIViewController {
         
         let bobDocumentRef = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
         
-        
         let nextTaskCollectionRef = bobDocumentRef.collection("\(month).\(day)" ?? "沒輸入")
         nextTaskCollectionRef.document(addTaskView.addTaskTextField.text ?? "沒輸入").setData(task) { error in
             if let error = error {

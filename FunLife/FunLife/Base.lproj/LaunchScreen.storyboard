@@ -20,8 +20,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xOR-p1-yMd">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="StudyRoom6" translatesAutoresizingMaskIntoConstraints="NO" id="OTc-C2-bAH">
-                                        <rect key="frame" x="-677.66666666666663" y="-194" width="1748.333333333333" height="1240"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="start1" translatesAutoresizingMaskIntoConstraints="NO" id="OTc-C2-bAH">
+                                        <rect key="frame" x="9" y="92.666666666666686" width="375" height="667"/>
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small"/>
                                     </imageView>
                                 </subviews>
@@ -48,7 +48,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="StudyRoom6" width="1748" height="1240"/>
+        <image name="start1" width="375" height="667"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
