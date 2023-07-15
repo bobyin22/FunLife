@@ -117,7 +117,9 @@ class HomeView: UIView {
             // 水平置中
             circleTaskButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             // 垂直置中
-            circleTaskButton.centerYAnchor.constraint(equalTo: centerYAnchor)
+            // circleTaskButton.centerYAnchor.constraint(equalTo: centerYAnchor)
+            circleTaskButton.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 10),
+
         ])
         circleTaskButton.addTarget(self, action: #selector(btnTouchDown), for: .touchDown)
         circleTaskButton.addTarget(self, action: #selector(btnTouchUpInside), for: .touchUpInside)

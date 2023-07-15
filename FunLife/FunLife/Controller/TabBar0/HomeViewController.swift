@@ -49,6 +49,19 @@ class HomeViewController: UIViewController {
         addTaskVC.delegate = self
         print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
 
+        // 設置 NavigationBar 的外觀
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        
+        // 設置 TabBar 的外觀
+//        tabBarController?.tabBar.backgroundImage = UIImage()
+//        tabBarController?.tabBar.shadowImage = UIImage()
+//        tabBarController?.tabBar.isTranslucent = true
+        
+        tabBarController?.tabBar.barTintColor = UIColor(red: 42/255, green: 42/255, blue: 42/255, alpha: 1.0)
+        tabBarController?.tabBar.shadowImage = UIImage()
+        tabBarController?.tabBar.isTranslucent = false
     }
         
     // MARK: 讓每次返回本頁會顯示
@@ -73,9 +86,13 @@ class HomeViewController: UIViewController {
         settingButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
                                             target: self,
                                             action: #selector(navToSettingVC))
+        settingButtonItem.tintColor = UIColor.white
+        
         addTaskButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                             target: self,
                                             action: #selector(navToAddTaskVC))
+        addTaskButtonItem.tintColor = UIColor.white
+        
         navigationItem.rightBarButtonItems = [settingButtonItem, addTaskButtonItem]    // 兩個按鈕
     }
     
@@ -95,10 +112,10 @@ class HomeViewController: UIViewController {
         view.addSubview(homeView)
         homeView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            homeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            homeView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),    // view.safeAreaLayoutGuide.topAnchor
             homeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             homeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+            homeView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)   // view.safeAreaLayoutGuide.bottomAnchor
         ])
         
         homeView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
@@ -213,30 +230,6 @@ class HomeViewController: UIViewController {
         }
         print("timer是", timer)
         print("counter是", counter)
-        
-//        // 创建一个DateComponentsFormatter实例
-//            let formatter = DateComponentsFormatter()
-//            formatter.allowedUnits = [.hour, .minute, .second]
-//            formatter.unitsStyle = .positional
-//
-//            // 开始计时器
-//            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-//                guard let timerText = self?.homeView.circleTimerLabel.text,
-//                      var tempCounter = Int(timerText) else {
-//                    return
-//                }
-//
-//                tempCounter += 1
-//
-//                // 将整数的tempCounter转换为时间字符串
-//                if let formattedTime = formatter.string(from: TimeInterval(tempCounter)) {
-//                    DispatchQueue.main.async {
-//                        self?.homeView.circleTimerLabel.text = formattedTime
-//                    }
-//
-//                    print("目前计时", formattedTime)
-//                }
-//            }
     }
     
     @objc func updateCircleTimerLabel() {
@@ -261,7 +254,6 @@ class HomeViewController: UIViewController {
             print("timer是", timer)
             print("counter是", counter)
         }
-        
     }
 
     // MARK: 每次翻轉後要更新秒數
