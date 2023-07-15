@@ -56,7 +56,11 @@ class HomeView: UIView {
         circleView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             circleView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor, constant: -200),
-            circleView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor, constant: -150),
+            
+            // 水平置中
+            circleView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            // circleView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor, constant: -150),
             circleView.heightAnchor.constraint(equalToConstant: 300),
             circleView.widthAnchor.constraint(equalToConstant: 300)
         ])
@@ -88,7 +92,11 @@ class HomeView: UIView {
         circleTimerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             circleTimerLabel.topAnchor.constraint(equalTo: circleDateLabel.bottomAnchor, constant: 10),
-            circleTimerLabel.leadingAnchor.constraint(equalTo: circleView.leadingAnchor, constant: 55)
+            // circleTimerLabel.leadingAnchor.constraint(equalTo: circleView.leadingAnchor, constant: 55)
+            
+            // 水平置中
+            circleTimerLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
         ])
     }
     
@@ -134,8 +142,12 @@ class HomeView: UIView {
         // circleDateLabel.backgroundColor = .systemRed
         circleDateLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
+            
+            // 水平置中
+            circleDateLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
             circleDateLabel.topAnchor.constraint(equalTo: circleView.topAnchor, constant: 70),
-            circleDateLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -80)
+            // circleDateLabel.leadingAnchor.constraint(equalTo: circleView.centerXAnchor, constant: -80)
         ])
         
         let today = Date()
