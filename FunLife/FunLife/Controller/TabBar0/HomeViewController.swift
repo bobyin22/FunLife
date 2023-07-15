@@ -89,17 +89,18 @@ class HomeViewController: UIViewController {
     
     // MARK: 建立UI NavBar +按鈕 與 設定按鈕
     func setupNavigation() {
-        settingButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
-                                            target: self,
-                                            action: #selector(navToSettingVC))
-        settingButtonItem.tintColor = UIColor.white
+//        settingButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
+//                                            target: self,
+//                                            action: #selector(navToSettingVC))
+//        settingButtonItem.tintColor = UIColor.white
         
         addTaskButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                             target: self,
                                             action: #selector(navToAddTaskVC))
-        addTaskButtonItem.tintColor = UIColor.white
+        addTaskButtonItem.tintColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1) // UIColor.white
         
-        navigationItem.rightBarButtonItems = [settingButtonItem, addTaskButtonItem]    // 兩個按鈕
+        // navigationItem.rightBarButtonItems = [settingButtonItem, addTaskButtonItem]    // 兩個按鈕
+        navigationItem.rightBarButtonItems = [addTaskButtonItem]    // 兩個按鈕
     }
     
     // MARK: 跳轉頁 點擊Nav進入跳轉設定頁面VC
