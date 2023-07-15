@@ -49,6 +49,11 @@ class HomeViewController: UIViewController {
         addTaskVC.delegate = self
         print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
 
+        navbarAndtabbarsetup()
+    }
+    
+    // MARK: 設定nav tab 底色與字顏色
+    func navbarAndtabbarsetup() {
         // 設置 NavigationBar 的外觀
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -59,6 +64,7 @@ class HomeViewController: UIViewController {
 //        tabBarController?.tabBar.shadowImage = UIImage()
 //        tabBarController?.tabBar.isTranslucent = true
         
+        tabBarController?.tabBar.backgroundColor = UIColor(red: 42/255, green: 42/255, blue: 42/255, alpha: 1.0)
         tabBarController?.tabBar.barTintColor = UIColor(red: 42/255, green: 42/255, blue: 42/255, alpha: 1.0)
         tabBarController?.tabBar.shadowImage = UIImage()
         tabBarController?.tabBar.isTranslucent = false
@@ -115,7 +121,7 @@ class HomeViewController: UIViewController {
             homeView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),    // view.safeAreaLayoutGuide.topAnchor
             homeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             homeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            homeView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)   // view.safeAreaLayoutGuide.bottomAnchor
+            homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)   // view.safeAreaLayoutGuide.bottomAnchor
         ])
         
         homeView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)

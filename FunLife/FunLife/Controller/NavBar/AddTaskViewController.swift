@@ -35,12 +35,13 @@ class AddTaskViewController: UIViewController {
         addTaskView.addTaskTextField.text = ""
     }
     
+
     func setupAddTaskView() {
         view.addSubview(addTaskView)
         addTaskView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         addTaskView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            addTaskView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            addTaskView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),    // view.safeAreaLayoutGuide.topAnchor
             addTaskView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             addTaskView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             addTaskView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
@@ -50,7 +51,6 @@ class AddTaskViewController: UIViewController {
         
         addTaskView.saveTaskButton.addTarget(self, action: #selector(saveTaskToFirebase), for: .touchUpInside)
     }
-    
     
     
     @objc func cancelTaskToFirebase() {

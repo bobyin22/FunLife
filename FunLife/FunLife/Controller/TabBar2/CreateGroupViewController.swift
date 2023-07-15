@@ -18,6 +18,21 @@ class CreateGroupViewController: UIViewController {
         super.viewDidLoad()
         // view.backgroundColor = .white
         setupCreateGroupView()
+        setupProfileVCNavBarColor()
+    }
+    
+    func setupProfileVCNavBarColor() {
+        let vcNavBarColorView = UIView()
+        view.addSubview(vcNavBarColorView)
+        vcNavBarColorView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        vcNavBarColorView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            vcNavBarColorView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            vcNavBarColorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            vcNavBarColorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            vcNavBarColorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            //vcNavBarColorView.heightAnchor.constraint(equalToConstant: 300)
+        ])
     }
     
     // MARK: 把自定義的View設定邊界

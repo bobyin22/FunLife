@@ -113,7 +113,7 @@ extension CreateGroupView: UITableViewDataSource {
     // 分组头即将要显示
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
-        header.textLabel?.textColor = UIColor.orange
+        header.textLabel?.textColor = UIColor(red: 185/255, green: 131/255, blue: 69/255, alpha: 1)// UIColor.orange
         header.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         //header.textLabel?.frame = header.frame
         header.textLabel?.translatesAutoresizingMaskIntoConstraints = false

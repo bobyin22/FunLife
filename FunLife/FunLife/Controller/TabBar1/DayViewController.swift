@@ -46,6 +46,9 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         myTableView.rowHeight = UITableView.automaticDimension
         myTableView.estimatedRowHeight = UITableView.automaticDimension
         //fetchDayAPI()
+        
+        navbarAndtabbarsetup()
+        setupDayVCNavBarColor()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,7 +56,22 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         fetchDayAPI()
     }
     
-
+    // MARK: 設定nav tab 底色與字顏色
+    func navbarAndtabbarsetup() {
+        // 設置 NavigationBar 的外觀
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        
+        // 設置 TabBar 的外觀
+//        tabBarController?.tabBar.backgroundImage = UIImage()
+//        tabBarController?.tabBar.shadowImage = UIImage()
+//        tabBarController?.tabBar.isTranslucent = true
+        
+        tabBarController?.tabBar.barTintColor = UIColor(red: 42/255, green: 42/255, blue: 42/255, alpha: 1.0)
+        tabBarController?.tabBar.shadowImage = UIImage()
+        tabBarController?.tabBar.isTranslucent = false
+    }
     
     // MARK: 設定第三方套件日曆View尺寸
     func setupCalendar() {
@@ -77,7 +95,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         calendar.scope = .month
         calendar.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         
-        calendar.appearance.headerTitleColor = .systemOrange
+        calendar.appearance.headerTitleColor = UIColor(red: 185/255, green: 131/255, blue: 69/255, alpha: 1) // .systemOrange
         //calendar.today = nil
         calendar.appearance.selectionColor = .blue
         calendar.appearance.weekdayTextColor = .white
@@ -161,6 +179,20 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         }
     }
     
+    func setupDayVCNavBarColor() {
+        let dayVCNavBarColorView = UIView()
+        view.addSubview(dayVCNavBarColorView)
+        dayVCNavBarColorView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        dayVCNavBarColorView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            dayVCNavBarColorView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            dayVCNavBarColorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            dayVCNavBarColorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            dayVCNavBarColorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            //dayVCNavBarColorView.heightAnchor.constraint(equalToConstant: 300)
+        ])
+    }
+    
     // MARK: 建置自訂義的tableView尺寸
     func setupMyTableView() {
         view.addSubview(myTableView)
@@ -188,7 +220,7 @@ extension DayViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView,
                    forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
-        header.textLabel?.textColor = UIColor.orange
+        header.textLabel?.textColor = UIColor(red: 185/255, green: 131/255, blue: 69/255, alpha: 1) // UIColor.orange
         header.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         //header.textLabel?.frame = header.frame
         header.textLabel?.translatesAutoresizingMaskIntoConstraints = false

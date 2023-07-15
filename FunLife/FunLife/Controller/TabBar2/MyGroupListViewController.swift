@@ -27,13 +27,30 @@ class MyGroupListViewController: UIViewController {
         groupListTableView.register(MyGroupListTableViewCell.self, forCellReuseIdentifier: "MyGroupListTableViewCell")
         groupListTableView.delegate = self
         groupListTableView.dataSource = self
-        
+        navbarAndtabbarsetup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchAPI()
         groupDetailClassVC.fetchClassID = ""
+    }
+    
+    // MARK: 設定nav tab 底色與字顏色
+    func navbarAndtabbarsetup() {
+        // 設置 NavigationBar 的外觀
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        
+        // 設置 TabBar 的外觀
+//        tabBarController?.tabBar.backgroundImage = UIImage()
+//        tabBarController?.tabBar.shadowImage = UIImage()
+//        tabBarController?.tabBar.isTranslucent = true
+        
+        tabBarController?.tabBar.barTintColor = UIColor(red: 42/255, green: 42/255, blue: 42/255, alpha: 1.0)
+        tabBarController?.tabBar.shadowImage = UIImage()
+        tabBarController?.tabBar.isTranslucent = false
     }
     
     // MARK: 抓取firebase上的資料
@@ -75,7 +92,7 @@ class MyGroupListViewController: UIViewController {
         groupListTableView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         groupListTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            groupListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            groupListTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),  // view.safeAreaLayoutGuide.topAnchor
             groupListTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             groupListTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             groupListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),

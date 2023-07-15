@@ -20,6 +20,21 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupProfileView()
         fetchMyImage()
+        setupProfileVCNavBarColor()
+    }
+    
+    func setupProfileVCNavBarColor() {
+        let profileVCNavBarColorView = UIView()
+        view.addSubview(profileVCNavBarColorView)
+        profileVCNavBarColorView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        profileVCNavBarColorView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            profileVCNavBarColorView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            profileVCNavBarColorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            profileVCNavBarColorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            profileVCNavBarColorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            //profileVCNavBarColorView.heightAnchor.constraint(equalToConstant: 300)
+        ])
     }
     
     // MARK: 一載入去users -> 個人ID -> image: "" 拿資料

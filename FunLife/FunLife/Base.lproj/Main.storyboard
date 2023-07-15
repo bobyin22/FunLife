@@ -125,6 +125,9 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="yhI-vJ-Sr6">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.72941176470000002" green="0.50588235290000005" blue="0.2784313725" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -144,6 +147,9 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mrX-rp-d2b">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.72941176470000002" green="0.50588235290000005" blue="0.2784313725" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -163,6 +169,9 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mdg-dP-5bQ">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.72941176470000002" green="0.50588235290000005" blue="0.2784313725" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -174,6 +183,7 @@
             <point key="canvasLocation" x="948.85496183206101" y="886.61971830985919"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.72941176470000002" green="0.50588235290000005" blue="0.2784313725" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
     <resources>
         <image name="list.bullet" catalog="system" width="128" height="87"/>
         <image name="person.2.fill" catalog="system" width="128" height="81"/>
