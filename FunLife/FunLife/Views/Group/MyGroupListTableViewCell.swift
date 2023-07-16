@@ -39,7 +39,7 @@ class MyGroupListTableViewCell: UITableViewCell {
         }
      
     func setupGroupNameLabel () {
-        groupNameLabel.text = "Bob的群組"
+        groupNameLabel.text = " " // "Bob的群組"
         groupNameLabel.textColor = .white
         // groupNameLabel.backgroundColor = .systemBlue
         contentView.addSubview(groupNameLabel)

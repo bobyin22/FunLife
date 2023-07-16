@@ -98,6 +98,8 @@ class MyGroupListViewController: UIViewController {
             groupListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
             // groupListTableView.heightAnchor.constraint(equalToConstant: 430)
         ])
+        groupListTableView.separatorStyle = .none
+
     }
     // MARK: 建立UI 方形按鈕
     func setupAddGroupBtn() {
@@ -169,7 +171,6 @@ extension MyGroupListViewController: UITableViewDataSource {
             }
         }
     }
-    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         120
