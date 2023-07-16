@@ -39,6 +39,7 @@
 		A8D7F8F02A58256B00DE4CFA /* GroupDetailClassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F8EF2A58256B00DE4CFA /* GroupDetailClassView.swift */; };
 		A8D7F8F22A59052100DE4CFA /* GroupDetailClassCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F8F12A59052100DE4CFA /* GroupDetailClassCollectionViewCell.swift */; };
 		A8D7F8F42A5D67F600DE4CFA /* animation_ljy5ngny.json in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F8F32A5D67F600DE4CFA /* animation_ljy5ngny.json */; };
+		A8D7F9172A63CDE700DE4CFA /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9162A63CDE700DE4CFA /* FirebaseManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +78,7 @@
 		A8D7F8EF2A58256B00DE4CFA /* GroupDetailClassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailClassView.swift; sourceTree = "<group>"; };
 		A8D7F8F12A59052100DE4CFA /* GroupDetailClassCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailClassCollectionViewCell.swift; sourceTree = "<group>"; };
 		A8D7F8F32A5D67F600DE4CFA /* animation_ljy5ngny.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = animation_ljy5ngny.json; sourceTree = "<group>"; };
+		A8D7F9162A63CDE700DE4CFA /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		DDD65060761FD46356DD5941 /* Pods_FunLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -123,6 +125,7 @@
 			children = (
 				A808A9072A39CCC300237AD7 /* AppDelegate.swift */,
 				A808A9092A39CCC300237AD7 /* SceneDelegate.swift */,
+				A8D7F9152A63CD3900DE4CFA /* Managers */,
 				A808A9212A3AC31700237AD7 /* Model */,
 				A808A91D2A3AC26500237AD7 /* Views */,
 				A808A9222A3AC32800237AD7 /* Controller */,
@@ -243,6 +246,14 @@
 				A808A92B2A3C0FDA00237AD7 /* AddTaskViewController.swift */,
 			);
 			path = NavBar;
+			sourceTree = "<group>";
+		};
+		A8D7F9152A63CD3900DE4CFA /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				A8D7F9162A63CDE700DE4CFA /* FirebaseManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		BBBB1F696B776909A2AD1CD7 /* Pods */ = {
@@ -413,6 +424,7 @@
 				A8D7F8F22A59052100DE4CFA /* GroupDetailClassCollectionViewCell.swift in Sources */,
 				A808A9562A3C693200237AD7 /* Users.swift in Sources */,
 				A887B2532A46A1CE003AD6E3 /* GroupDetailView.swift in Sources */,
+				A8D7F9172A63CDE700DE4CFA /* FirebaseManager.swift in Sources */,
 				A894F9582A415CEB00550196 /* SheetTaskTableViewCell.swift in Sources */,
 				A894F97B2A45591C00550196 /* MyGroupListViewController.swift in Sources */,
 				A8D7F8EC2A58048300DE4CFA /* AddTaskView.swift in Sources */,
