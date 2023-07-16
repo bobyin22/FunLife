@@ -21,18 +21,11 @@ class HomeViewController: UIViewController {
     var counter = 0                                         // 計數器
     
     let soundID = SystemSoundID(kSystemSoundID_Vibrate)     // 震動
-    let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
     
     // 5️⃣建立實體
     let addTaskVC = AddTaskViewController()                 // 把VC變數拉出來，讓後面可以 .點
     var documentID = ""                                     // myUserID格式是一個字串
         
-    // MARK: 時間
-    lazy var today = Date()
-    lazy var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-    // let year = dateComponents.year!
-    lazy var month = dateComponents.month!
-    lazy var day = dateComponents.day!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,26 +129,13 @@ class HomeViewController: UIViewController {
           print("有我建立的myUserID")
         } else {
             print("沒有我建立myUserID，所以我要建立一個")
-            createANewUserIDDocument()
+            // createANewUserIDDocument()
+            let firebaseManager = FirebaseManager()
+            firebaseManager.createANewUserIDDocument()
         }
     }
     
-    // MARK: firebase成功拿到創建的獨一無二的ID
-    func createANewUserIDDocument() {
-        // let task = ["timer": "0", "user": "包伯"]
-        let newDocumentID = db.collection("users").document()               // firebase建立一個亂數DocumentID
-        self.documentID = newDocumentID.documentID                          // firebase建立一個亂數DocumentID 並賦值給變數
-        UserDefaults.standard.set(self.documentID, forKey: "myUserID")      // 把亂數DocumentID 塞在 App的UserDefault裡
-        
-        // 建立firebase資料 ID 其他空
-        db.collection("users").document("\(self.documentID)").setData(["name": ""]) { error in
-            if let error = error {
-                print("Document 建立失敗")
-            } else {
-                print("Document 建立成功")
-            }
-        }
-    }
+
             
     // MARK: 點擊任務按鈕會發生的事
     @objc func clickTaskBtn() {
@@ -192,7 +172,12 @@ class HomeViewController: UIViewController {
             print("現在是正面")
             stopTimer()
             alertMsg()
-            modifyUser()                // MARK: 更新firebase資料   counter: counter
+            
+            // MARK: 更新firebase資料   counter: counter
+            let firebaseManager = FirebaseManager()
+            firebaseManager.modifyUser(counter: String(counter) ?? "nil",
+                                       taskText: homeView.circleTaskButton.currentTitle ?? "nil"
+            )
         case .faceDown:
             oriString = "FaceDown"
             print("現在是反面")
@@ -263,33 +248,6 @@ class HomeViewController: UIViewController {
         }
     }
 
-    // MARK: 每次翻轉後要更新秒數
-    func modifyUser() {
-        
-        var day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
-        
-        let documentReference = db.collection("users")
-            .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
-            .collection("\(month).\(day)")
-            .document(homeView.circleTaskButton.currentTitle ?? "沒接到")      // MARK: 傳上 00:00:12
-        
-        documentReference.getDocument { document, error in
-            
-            guard let document,
-                  document.exists,
-                  var user = try? document.data(as: Users.self)               // MARK: 這裡就有用到自定義的struct資料結構
-            else {
-                return
-            }
-            // user.timer = self.homeView.circleTimerLabel.text!                 // MARK: 我雲端timer資料是在這裡被傳上的
-            user.timer = String(self.counter)
-            do {
-                try documentReference.setData(from: user)
-            } catch {
-                print(error)
-            }
-        }
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

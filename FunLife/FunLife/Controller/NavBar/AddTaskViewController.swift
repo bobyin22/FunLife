@@ -35,7 +35,6 @@ class AddTaskViewController: UIViewController {
         addTaskView.addTaskTextField.text = ""
     }
     
-
     func setupAddTaskView() {
         view.addSubview(addTaskView)
         addTaskView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
@@ -52,22 +51,20 @@ class AddTaskViewController: UIViewController {
         addTaskView.saveTaskButton.addTarget(self, action: #selector(saveTaskToFirebase), for: .touchUpInside)
     }
     
-    
     @objc func cancelTaskToFirebase() {
         self.navigationController?.popViewController(animated: true)
     }
     
 
-    
     // MARK: UI儲存按鈕的objc要執行的事情(讓HomeVC知道新增任務)
     @objc func saveTaskToFirebase() {
         
-        // createNewTask()
-        guard let taskText = addTaskView.addTaskTextField.text else { return }
-        let firebaseManager = FirebaseManager()
-        firebaseManager.createTask(taskText: taskText)
+        // FirebaseManger負責這三行
+        guard let taskText = addTaskView.addTaskTextField.text else { return }  // 吃到UI輸入的任務
+        let firebaseManager = FirebaseManager()                                 // 產生Manager實體
+        firebaseManager.createTask(taskText: taskText)  // 把輸入的任務傳給Manager，讓Manager上傳到雲端
         
-        titleTaskLabel.text = addTaskView.addTaskTextField.text  // 把輸入的TextField 給變數
+        titleTaskLabel.text = addTaskView.addTaskTextField.text         // 把輸入的TextField 給變數
         print("titleTaskLabel.text", titleTaskLabel.text)
         self.navigationController?.popViewController(animated: true)    // 跳回上一頁，也就是HomeVC
         
@@ -75,33 +72,5 @@ class AddTaskViewController: UIViewController {
         delegate?.passTask(parameter: addTaskView.addTaskTextField.text ?? "nil")
         delegate?.passTaskStartTime(parameter: "00.00.00")
     }
-    
-    // MARK: 把新任務傳至firebase
-//    func createNewTask() {
-//        // MARK: 把日期功能補在這
-//        let today = Date()
-//
-//        let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-//        let year = dateComponents.year!
-//        let month = dateComponents.month!
-//        let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"   //如果小於10 加上0    大於10直接用
-//
-//        let task = ["timer": "0", "user": "包伯"]
-//        let db = Firestore.firestore()                          // 拉出來不用在每個函式宣告
-//
-//        let bobDocumentRef = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
-//
-//        let nextTaskCollectionRef = bobDocumentRef.collection("\(month).\(day)" ?? "沒輸入")
-//        nextTaskCollectionRef.document(addTaskView.addTaskTextField.text ?? "沒輸入").setData(task) { error in
-//            if let error = error {
-//                print("Error creating task: \(error)")
-//            } else {
-//                print("Task textField文字有成功存至cloud firebase")
-//            }
-//        }
-//        print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
-//    }
-    
-    
-    
+        
 }
