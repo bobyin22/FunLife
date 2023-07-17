@@ -11,6 +11,7 @@ import AVFoundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+
 class HomeViewController: UIViewController {
     
     let homeView = HomeView()                               // MARK: 把自定義UIView放進這頁
@@ -25,8 +26,9 @@ class HomeViewController: UIViewController {
     // 5️⃣建立實體
     let addTaskVC = AddTaskViewController()                 // 把VC變數拉出來，讓後面可以 .點
     var documentID = ""                                     // myUserID格式是一個字串
-        
     
+    let player = AVPlayer()
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
@@ -43,6 +45,13 @@ class HomeViewController: UIViewController {
         print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
 
         navbarAndtabbarsetup()
+    }
+    
+    func playMusic() {
+        let url = Bundle.main.url(forResource: "sound7", withExtension: "mp3")!
+        let playerItem = AVPlayerItem(url: url)
+        player.replaceCurrentItem(with: playerItem)
+        player.play()
     }
     
     // MARK: 設定nav tab 底色與字顏色
@@ -236,6 +245,11 @@ class HomeViewController: UIViewController {
             homeView.circleTimerLabel.text = formattedTime
             print("timer是", timer)
             print("counter是", counter)
+            
+            if counter % 5 == 0 {
+                playMusic()
+            }
+            
         } else {
             counter += 1
             let hours = counter / 3600
@@ -245,10 +259,14 @@ class HomeViewController: UIViewController {
             homeView.circleTimerLabel.text = formattedTime
             print("timer是", timer)
             print("counter是", counter)
+            
+            if counter % 5 == 0 {
+                playMusic()
+            }
+            
         }
     }
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

@@ -31,19 +31,18 @@ class SheetTaskViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1) // UIColor(red: 175/255, green: 238/255, blue: 238/255, alpha: 1)//.orange
-        
+        view.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)
         myTaskTableView.register(SheetTaskTableViewCell.self, forCellReuseIdentifier: "SheetTaskTableViewCell")
         myTaskTableView.delegate = self
         myTaskTableView.dataSource = self
         setupTableView()
         
-        fetchAPI()
+        fetchTodayTasks()
         
     }
     
     // MARK: 點擊任務 半截VC要fetch的任務資料
-    func fetchAPI() {
+    func fetchTodayTasks() {
         sumTime = 0
         taskFirebaseArray.removeAll()
         taskFirebaseTimeArray.removeAll()
@@ -137,12 +136,7 @@ extension SheetTaskViewController: UITableViewDataSource {
         dismiss(animated: true, completion: nil)
     }
     
-    //🍀 MARK: Row Deleting
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-//        // 設定row的編輯模式
-//        return .delete
-//    }
-    
+    // 🍀 MARK: Row Deleting
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         // 若編輯模式為.delete --> 可執行刪除
         if editingStyle == .delete {

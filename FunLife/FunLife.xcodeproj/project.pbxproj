@@ -40,6 +40,13 @@
 		A8D7F8F22A59052100DE4CFA /* GroupDetailClassCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F8F12A59052100DE4CFA /* GroupDetailClassCollectionViewCell.swift */; };
 		A8D7F8F42A5D67F600DE4CFA /* animation_ljy5ngny.json in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F8F32A5D67F600DE4CFA /* animation_ljy5ngny.json */; };
 		A8D7F9172A63CDE700DE4CFA /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9162A63CDE700DE4CFA /* FirebaseManager.swift */; };
+		A8D7F9192A65346E00DE4CFA /* sound1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F9182A65346D00DE4CFA /* sound1.mp3 */; };
+		A8D7F9212A653A6100DE4CFA /* sound5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F91B2A653A6000DE4CFA /* sound5.mp3 */; };
+		A8D7F9222A653A6100DE4CFA /* sound2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F91C2A653A6000DE4CFA /* sound2.mp3 */; };
+		A8D7F9232A653A6100DE4CFA /* sound3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F91D2A653A6000DE4CFA /* sound3.mp3 */; };
+		A8D7F9242A653A6100DE4CFA /* sound4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F91E2A653A6000DE4CFA /* sound4.mp3 */; };
+		A8D7F9252A653A6100DE4CFA /* sound6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F91F2A653A6100DE4CFA /* sound6.mp3 */; };
+		A8D7F9262A653A6100DE4CFA /* sound7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F9202A653A6100DE4CFA /* sound7.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +86,13 @@
 		A8D7F8F12A59052100DE4CFA /* GroupDetailClassCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailClassCollectionViewCell.swift; sourceTree = "<group>"; };
 		A8D7F8F32A5D67F600DE4CFA /* animation_ljy5ngny.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = animation_ljy5ngny.json; sourceTree = "<group>"; };
 		A8D7F9162A63CDE700DE4CFA /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		A8D7F9182A65346D00DE4CFA /* sound1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound1.mp3; sourceTree = "<group>"; };
+		A8D7F91B2A653A6000DE4CFA /* sound5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound5.mp3; sourceTree = "<group>"; };
+		A8D7F91C2A653A6000DE4CFA /* sound2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound2.mp3; sourceTree = "<group>"; };
+		A8D7F91D2A653A6000DE4CFA /* sound3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound3.mp3; sourceTree = "<group>"; };
+		A8D7F91E2A653A6000DE4CFA /* sound4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound4.mp3; sourceTree = "<group>"; };
+		A8D7F91F2A653A6100DE4CFA /* sound6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound6.mp3; sourceTree = "<group>"; };
+		A8D7F9202A653A6100DE4CFA /* sound7.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound7.mp3; sourceTree = "<group>"; };
 		DDD65060761FD46356DD5941 /* Pods_FunLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -130,6 +144,7 @@
 				A808A91D2A3AC26500237AD7 /* Views */,
 				A808A9222A3AC32800237AD7 /* Controller */,
 				A808A90D2A39CCC300237AD7 /* Main.storyboard */,
+				A8D7F91A2A653A4200DE4CFA /* soundMP3 */,
 				A808A9102A39CCC400237AD7 /* Assets.xcassets */,
 				A808A9122A39CCC400237AD7 /* LaunchScreen.storyboard */,
 				A808A9152A39CCC400237AD7 /* Info.plist */,
@@ -256,6 +271,20 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		A8D7F91A2A653A4200DE4CFA /* soundMP3 */ = {
+			isa = PBXGroup;
+			children = (
+				A8D7F91C2A653A6000DE4CFA /* sound2.mp3 */,
+				A8D7F91D2A653A6000DE4CFA /* sound3.mp3 */,
+				A8D7F91E2A653A6000DE4CFA /* sound4.mp3 */,
+				A8D7F91B2A653A6000DE4CFA /* sound5.mp3 */,
+				A8D7F91F2A653A6100DE4CFA /* sound6.mp3 */,
+				A8D7F9202A653A6100DE4CFA /* sound7.mp3 */,
+				A8D7F9182A65346D00DE4CFA /* sound1.mp3 */,
+			);
+			path = soundMP3;
+			sourceTree = "<group>";
+		};
 		BBBB1F696B776909A2AD1CD7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,8 +356,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A8D7F9262A653A6100DE4CFA /* sound7.mp3 in Resources */,
+				A8D7F9192A65346E00DE4CFA /* sound1.mp3 in Resources */,
+				A8D7F9232A653A6100DE4CFA /* sound3.mp3 in Resources */,
 				A808A9142A39CCC400237AD7 /* LaunchScreen.storyboard in Resources */,
+				A8D7F9252A653A6100DE4CFA /* sound6.mp3 in Resources */,
 				A8D7F8F42A5D67F600DE4CFA /* animation_ljy5ngny.json in Resources */,
+				A8D7F9222A653A6100DE4CFA /* sound2.mp3 in Resources */,
+				A8D7F9242A653A6100DE4CFA /* sound4.mp3 in Resources */,
+				A8D7F9212A653A6100DE4CFA /* sound5.mp3 in Resources */,
 				A808A9112A39CCC400237AD7 /* Assets.xcassets in Resources */,
 				A808A90F2A39CCC300237AD7 /* Main.storyboard in Resources */,
 				A808A9582A3C9AFB00237AD7 /* GoogleService-Info.plist in Resources */,

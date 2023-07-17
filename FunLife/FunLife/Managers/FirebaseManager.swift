@@ -13,6 +13,7 @@ import FirebaseFirestoreSwift
 class FirebaseManager {
         
     let db = Firestore.firestore()
+    
     var documentID = ""
     let today = Date()
     private lazy var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
@@ -21,6 +22,8 @@ class FirebaseManager {
     }
     private lazy var month = dateComponents.month!
     private lazy var day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"   // 如果小於10 加上0    大於10直接用
+    
+    
     
     // MARK: 把新任務傳至firebase (AddTaskVC)
     func createTask(taskText: String) {
