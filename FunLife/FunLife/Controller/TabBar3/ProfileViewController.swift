@@ -41,7 +41,8 @@ class ProfileViewController: UIViewController {
     func fetchMyImage() {
         let db = Firestore.firestore()
         db.collection("users").document(UserDefaults.standard.string(forKey: "myUserID")!).getDocument() { snapshot, error in
-            guard let snapshot = snapshot else { return }
+             guard let snapshot = snapshot,
+                   let data = snapshot.data() else { return }
             
             // 如果裡面有url載入
             // 如果沒有url，不做事
@@ -49,18 +50,19 @@ class ProfileViewController: UIViewController {
                 return
             } else {
                 print("👻snapshot.data()!", snapshot.data()!["image"]!)
-                
+
                 if let imageUrlString = snapshot.data()?["image"] as? String,
                    let imageUrl = URL(string: imageUrlString) {
                     self.profileView.profilePhotoImageView.kf.setImage(with: imageUrl)
                 }
             }
-            
+
             if snapshot.data()!["name"] == nil {
                 return
             } else {
                 self.profileView.profileNameTextField.text = snapshot.data()?["name"]! as? String
             }
+            
         }
     }
     

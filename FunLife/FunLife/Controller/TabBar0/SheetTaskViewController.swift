@@ -72,7 +72,6 @@ class SheetTaskViewController: UIViewController {
             
             self.myTaskTableView.reloadData()
         }
-
     }
     
     // MARK: 建立半截VC的tableView
@@ -144,7 +143,6 @@ extension SheetTaskViewController: UITableViewDataSource {
 //        return .delete
 //    }
     
-    // 🍀 雖然欄位刪除，但是firebase資料並沒有刪除對的任務
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         // 若編輯模式為.delete --> 可執行刪除
         if editingStyle == .delete {
