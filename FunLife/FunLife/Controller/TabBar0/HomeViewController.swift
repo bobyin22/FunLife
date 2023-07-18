@@ -246,7 +246,7 @@ class HomeViewController: UIViewController {
             print("timer是", timer)
             print("counter是", counter)
             
-            if counter % 5 == 0 {
+            if counter % 1500 == 0 {
                 playMusic()
             }
             
@@ -260,7 +260,7 @@ class HomeViewController: UIViewController {
             print("timer是", timer)
             print("counter是", counter)
             
-            if counter % 5 == 0 {
+            if counter % 1500 == 0 {
                 playMusic()
             }
             
