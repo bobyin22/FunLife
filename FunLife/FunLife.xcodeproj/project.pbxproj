@@ -47,7 +47,40 @@
 		A8D7F9242A653A6100DE4CFA /* sound4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F91E2A653A6000DE4CFA /* sound4.mp3 */; };
 		A8D7F9252A653A6100DE4CFA /* sound6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F91F2A653A6100DE4CFA /* sound6.mp3 */; };
 		A8D7F9262A653A6100DE4CFA /* sound7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F9202A653A6100DE4CFA /* sound7.mp3 */; };
+		A8D7F92D2A6612AB00DE4CFA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8D7F92C2A6612AB00DE4CFA /* WidgetKit.framework */; };
+		A8D7F92F2A6612AB00DE4CFA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8D7F92E2A6612AB00DE4CFA /* SwiftUI.framework */; };
+		A8D7F9322A6612AC00DE4CFA /* HomeWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9312A6612AC00DE4CFA /* HomeWidgetBundle.swift */; };
+		A8D7F9342A6612AC00DE4CFA /* HomeWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9332A6612AC00DE4CFA /* HomeWidgetLiveActivity.swift */; };
+		A8D7F9362A6612AC00DE4CFA /* HomeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9352A6612AC00DE4CFA /* HomeWidget.swift */; };
+		A8D7F9392A6612AD00DE4CFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A8D7F9382A6612AD00DE4CFA /* Assets.xcassets */; };
+		A8D7F93B2A6612AD00DE4CFA /* HomeWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9372A6612AC00DE4CFA /* HomeWidget.intentdefinition */; };
+		A8D7F93C2A6612AD00DE4CFA /* HomeWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9372A6612AC00DE4CFA /* HomeWidget.intentdefinition */; };
+		A8D7F93F2A6612AD00DE4CFA /* HomeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A8D7F92B2A6612AB00DE4CFA /* HomeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A8D7F93D2A6612AD00DE4CFA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A808A8FC2A39CCC300237AD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8D7F92A2A6612AB00DE4CFA;
+			remoteInfo = HomeWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A8D7F9402A6612AD00DE4CFA /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A8D7F93F2A6612AD00DE4CFA /* HomeWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		54458245F1A42E52319D0FA9 /* Pods-FunLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunLife.debug.xcconfig"; path = "Target Support Files/Pods-FunLife/Pods-FunLife.debug.xcconfig"; sourceTree = "<group>"; };
@@ -93,6 +126,15 @@
 		A8D7F91E2A653A6000DE4CFA /* sound4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound4.mp3; sourceTree = "<group>"; };
 		A8D7F91F2A653A6100DE4CFA /* sound6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound6.mp3; sourceTree = "<group>"; };
 		A8D7F9202A653A6100DE4CFA /* sound7.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound7.mp3; sourceTree = "<group>"; };
+		A8D7F92B2A6612AB00DE4CFA /* HomeWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HomeWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8D7F92C2A6612AB00DE4CFA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		A8D7F92E2A6612AB00DE4CFA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		A8D7F9312A6612AC00DE4CFA /* HomeWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWidgetBundle.swift; sourceTree = "<group>"; };
+		A8D7F9332A6612AC00DE4CFA /* HomeWidgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWidgetLiveActivity.swift; sourceTree = "<group>"; };
+		A8D7F9352A6612AC00DE4CFA /* HomeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWidget.swift; sourceTree = "<group>"; };
+		A8D7F9372A6612AC00DE4CFA /* HomeWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = HomeWidget.intentdefinition; sourceTree = "<group>"; };
+		A8D7F9382A6612AD00DE4CFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A8D7F93A2A6612AD00DE4CFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDD65060761FD46356DD5941 /* Pods_FunLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -105,6 +147,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A8D7F9282A6612AB00DE4CFA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8D7F92F2A6612AB00DE4CFA /* SwiftUI.framework in Frameworks */,
+				A8D7F92D2A6612AB00DE4CFA /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -112,6 +163,8 @@
 			isa = PBXGroup;
 			children = (
 				DDD65060761FD46356DD5941 /* Pods_FunLife.framework */,
+				A8D7F92C2A6612AB00DE4CFA /* WidgetKit.framework */,
+				A8D7F92E2A6612AB00DE4CFA /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -120,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				A808A9062A39CCC300237AD7 /* FunLife */,
+				A8D7F9302A6612AC00DE4CFA /* HomeWidget */,
 				A808A9052A39CCC300237AD7 /* Products */,
 				BBBB1F696B776909A2AD1CD7 /* Pods */,
 				2D8122D5FBA178A698CD236F /* Frameworks */,
@@ -130,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				A808A9042A39CCC300237AD7 /* FunLife.app */,
+				A8D7F92B2A6612AB00DE4CFA /* HomeWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -285,6 +340,19 @@
 			path = soundMP3;
 			sourceTree = "<group>";
 		};
+		A8D7F9302A6612AC00DE4CFA /* HomeWidget */ = {
+			isa = PBXGroup;
+			children = (
+				A8D7F9312A6612AC00DE4CFA /* HomeWidgetBundle.swift */,
+				A8D7F9332A6612AC00DE4CFA /* HomeWidgetLiveActivity.swift */,
+				A8D7F9352A6612AC00DE4CFA /* HomeWidget.swift */,
+				A8D7F9372A6612AC00DE4CFA /* HomeWidget.intentdefinition */,
+				A8D7F9382A6612AD00DE4CFA /* Assets.xcassets */,
+				A8D7F93A2A6612AD00DE4CFA /* Info.plist */,
+			);
+			path = HomeWidget;
+			sourceTree = "<group>";
+		};
 		BBBB1F696B776909A2AD1CD7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,15 +376,34 @@
 				A808A91C2A3AA4CC00237AD7 /* ShellScript */,
 				F09B3351C7D65BC919FDDDBE /* [CP] Embed Pods Frameworks */,
 				A8D7F8C22A55508600DE4CFA /* ShellScript */,
+				A8D7F9402A6612AD00DE4CFA /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A8D7F93E2A6612AD00DE4CFA /* PBXTargetDependency */,
 			);
 			name = FunLife;
 			productName = FunLife;
 			productReference = A808A9042A39CCC300237AD7 /* FunLife.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A8D7F92A2A6612AB00DE4CFA /* HomeWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8D7F9432A6612AD00DE4CFA /* Build configuration list for PBXNativeTarget "HomeWidgetExtension" */;
+			buildPhases = (
+				A8D7F9272A6612AB00DE4CFA /* Sources */,
+				A8D7F9282A6612AB00DE4CFA /* Frameworks */,
+				A8D7F9292A6612AB00DE4CFA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HomeWidgetExtension;
+			productName = HomeWidgetExtension;
+			productReference = A8D7F92B2A6612AB00DE4CFA /* HomeWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -329,6 +416,9 @@
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					A808A9032A39CCC300237AD7 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					A8D7F92A2A6612AB00DE4CFA = {
 						CreatedOnToolsVersion = 14.2;
 					};
 				};
@@ -347,6 +437,7 @@
 			projectRoot = "";
 			targets = (
 				A808A9032A39CCC300237AD7 /* FunLife */,
+				A8D7F92A2A6612AB00DE4CFA /* HomeWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -368,6 +459,14 @@
 				A808A9112A39CCC400237AD7 /* Assets.xcassets in Resources */,
 				A808A90F2A39CCC300237AD7 /* Main.storyboard in Resources */,
 				A808A9582A3C9AFB00237AD7 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8D7F9292A6612AB00DE4CFA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8D7F9392A6612AD00DE4CFA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,12 +581,32 @@
 				A887B24E2A458003003AD6E3 /* CreateGroupView.swift in Sources */,
 				A808A92C2A3C0FDA00237AD7 /* AddTaskViewController.swift in Sources */,
 				A887B25A2A48319C003AD6E3 /* ProfileView.swift in Sources */,
+				A8D7F93C2A6612AD00DE4CFA /* HomeWidget.intentdefinition in Sources */,
 				A8D7F8F02A58256B00DE4CFA /* GroupDetailClassView.swift in Sources */,
 				A808A95A2A3D96C000237AD7 /* DayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A8D7F9272A6612AB00DE4CFA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8D7F9362A6612AC00DE4CFA /* HomeWidget.swift in Sources */,
+				A8D7F93B2A6612AD00DE4CFA /* HomeWidget.intentdefinition in Sources */,
+				A8D7F9322A6612AC00DE4CFA /* HomeWidgetBundle.swift in Sources */,
+				A8D7F9342A6612AC00DE4CFA /* HomeWidgetLiveActivity.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A8D7F93E2A6612AD00DE4CFA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8D7F92A2A6612AB00DE4CFA /* HomeWidgetExtension */;
+			targetProxy = A8D7F93D2A6612AD00DE4CFA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A808A90D2A39CCC300237AD7 /* Main.storyboard */ = {
@@ -627,6 +746,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 54458245F1A42E52319D0FA9 /* Pods-FunLife.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -664,6 +784,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 725D3A52CF6B4BF808496703 /* Pods-FunLife.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -696,6 +817,62 @@
 			};
 			name = Release;
 		};
+		A8D7F9412A6612AD00DE4CFA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GUP3F3MX45;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HomeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HomeWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobyin.FunLife.HomeWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A8D7F9422A6612AD00DE4CFA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GUP3F3MX45;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HomeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HomeWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobyin.FunLife.HomeWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -713,6 +890,15 @@
 			buildConfigurations = (
 				A808A9192A39CCC400237AD7 /* Debug */,
 				A808A91A2A39CCC400237AD7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8D7F9432A6612AD00DE4CFA /* Build configuration list for PBXNativeTarget "HomeWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8D7F9412A6612AD00DE4CFA /* Debug */,
+				A8D7F9422A6612AD00DE4CFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
