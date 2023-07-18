@@ -40,69 +40,49 @@ struct SimpleEntry: TimelineEntry {
     let configuration: ConfigurationIntent
 }
 
-import SwiftUI
-
 struct HomeWidgetEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
         ZStack {
-            // Background image
-            GeometryReader { geo in
-                Image("background")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: geo.size.width, height: geo.size.height)
-                    .clipped()
-            }
-
+            // Background color
+            Color(red: 38/255, green: 38/255, blue: 38/255)
+            
             VStack {
                 Spacer()
-
-                HStack {
-                    // "專注" Button and label
+                
+                Button(action: {
+                    print("印出專注！")
+                    // 添加 "專注" 按钮点击的操作
+                }) {
                     VStack {
-                        Button(action: {
-                            // Add action for "專注" button tap
-                        }) {
-                            Image(systemName: "plus")
-                                .font(.largeTitle)
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.blue)
-                                .clipShape(Circle())
-                        }
-                        Text("專注")
+                        Image(systemName: "figure.mind.and.body")
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color(red: 186/255, green: 129/255, blue: 71/255))
+                            .clipShape(Circle())
+                            .shadow(color: Color.orange.opacity(0.5), radius: 10, x: 5, y: 5)
+                        
+                        Text("開始專注")
                             .foregroundColor(.white)
                             .font(.headline)
-                    }
-
-                    Spacer()
-
-                    // "任務" Button and label
-                    VStack {
-                        Button(action: {
-                            // Add action for "任務" button tap
-                        }) {
-                            Image(systemName: "plus")
-                                .font(.largeTitle)
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.green)
-                                .clipShape(Circle())
-                        }
-                        Text("任務")
-                            .foregroundColor(.white)
-                            .font(.headline)
+                            .padding(.top, 8)
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 16)
-
+                
+                Spacer()
             }
         }
     }
 }
+
+
+
+
+
+
+
 
 //struct HomeWidgetEntryView : View {
 //    var entry: Provider.Entry
@@ -152,7 +132,16 @@ struct HomeWidget: Widget {
 
 struct HomeWidget_Previews: PreviewProvider {
     static var previews: some View {
-        HomeWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        Group {
+            HomeWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+            
+            HomeWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
+                .previewContext(WidgetPreviewContext(family: .systemMedium))
+            
+            HomeWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
+                .previewContext(WidgetPreviewContext(family: .systemLarge))
+        }
+        
     }
 }
