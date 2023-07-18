@@ -40,13 +40,103 @@ struct SimpleEntry: TimelineEntry {
     let configuration: ConfigurationIntent
 }
 
-struct HomeWidgetEntryView : View {
+import SwiftUI
+
+struct HomeWidgetEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
-        Text(entry.date, style: .time)
+        ZStack {
+            // Background image
+            GeometryReader { geo in
+                Image("background")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .clipped()
+            }
+
+            VStack {
+                Spacer()
+
+                HStack {
+                    // "專注" Button and label
+                    VStack {
+                        Button(action: {
+                            // Add action for "專注" button tap
+                        }) {
+                            Image(systemName: "plus")
+                                .font(.largeTitle)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.blue)
+                                .clipShape(Circle())
+                        }
+                        Text("專注")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                    }
+
+                    Spacer()
+
+                    // "任務" Button and label
+                    VStack {
+                        Button(action: {
+                            // Add action for "任務" button tap
+                        }) {
+                            Image(systemName: "plus")
+                                .font(.largeTitle)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.green)
+                                .clipShape(Circle())
+                        }
+                        Text("任務")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 16)
+
+            }
+        }
     }
 }
+
+//struct HomeWidgetEntryView : View {
+//    var entry: Provider.Entry
+//
+//    var body: some View {
+//        // Text(entry.date, style: .time)
+//        ZStack {
+//
+//            GeometryReader { geo in
+//
+//                Image("background")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fill)
+//                    .frame(width: geo.size.width,
+//                           height: geo.size.height,
+//                           alignment: .center)
+//                    .clipped()
+//            }
+//
+//            VStack {
+//                HStack {
+//                    Text("☘️開始專注吧！！")
+//                        .foregroundColor(Color.white)
+//                }
+//            }
+//
+////            Text(entry.date, style: .time)
+////                .font(Font.system(size: 24,
+////                                  weight: .semibold,
+////                                  design: .default))
+////                .foregroundColor(Color.white)
+//        }
+//    }
+//}
 
 struct HomeWidget: Widget {
     let kind: String = "HomeWidget"
