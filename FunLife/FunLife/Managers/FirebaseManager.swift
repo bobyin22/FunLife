@@ -134,61 +134,39 @@ class FirebaseManager {
         }
     }
     
+    
     // MARK: 載入日期firebase任務與時間 (DayVC)
     func fetchDayAPI() {
         sumTime = 0
         taskFirebaseArray.removeAll()
         taskFirebaseTimeArray.removeAll()
-   
-        // 如果還沒點擊dayString是空的，打今日的API
-        if dayString == "" {
 
-            db.collection("users")
-                .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
-                .collection("\(month).\(day)")
-                .getDocuments { snapshot, error in
-                    guard let snapshot else {
-                        return
-                    }
-                    // print("snapshot", snapshot)
-                    let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
-                    var indexNumber = 0
-                    
-                    for index in userDayTask {
-                        self.taskFirebaseArray.append(userDayTask[indexNumber].id!)       // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
-                        self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
-                        
-                        self.sumTime += Int(userDayTask[indexNumber].timer) ?? 0
-                        // print(self.sumTime)
-                        indexNumber += 1
-                    }
-                    // self.myTableView.reloadData()
-                    self.delegate?.reloadData()
-                }
+        let collectionPath: String
+        if dayString.isEmpty {
+            collectionPath = "\(month).\(day)"
         } else {
-            db.collection("users")
-                .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
-                .collection("\(monthString).\(dayString)")
-                .getDocuments { snapshot, error in
-                    guard let snapshot else {
-                        return
-                    }
-                    // print("snapshot", snapshot)
-                    let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
-                    var indexNumber = 0
-                    
-                    for index in userDayTask {
-                        self.taskFirebaseArray.append(userDayTask[indexNumber].id!)       // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
-                        self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
-                        self.sumTime += Int(userDayTask[indexNumber].timer) ?? 0
-                        // print(self.sumTime)
-                        indexNumber += 1
-                    }
-                    
-                    // self.myTableView.reloadData()
-                    self.delegate?.reloadData()
-                }
+            collectionPath = "\(monthString).\(dayString)"
         }
+
+        db.collection("users")
+            .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
+            .collection(collectionPath)
+            .getDocuments { snapshot, error in
+                guard let snapshot = snapshot else {
+                    return
+                }
+                let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self) }
+                var indexNumber = 0
+                
+                for index in userDayTask {
+                    self.taskFirebaseArray.append(userDayTask[indexNumber].id!) // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
+                    self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
+                    self.sumTime += Int(userDayTask[indexNumber].timer) ?? 0
+                    indexNumber += 1
+                }
+
+                self.delegate?.reloadData()
+            }
     }
     
 }
