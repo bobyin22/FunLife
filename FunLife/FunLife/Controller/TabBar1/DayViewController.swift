@@ -13,22 +13,9 @@ import FirebaseFirestoreSwift
 class DayViewController: UIViewController, FSCalendarDelegate {
     
     var calendar: FSCalendar!
-    
     var formatter = DateFormatter()
-    
     let myTableView = UITableView()
-    
-    // MARK: firebase的任務文字
-    var taskFirebaseArray: [String] = [""]
-    
-    // MARK: firebase的任務秒數
-    var taskFirebaseTimeArray: [String] = [""]
-    
-    // MARK: 先建立字串到時候給firebase用
-    var dayString = ""
-    var monthString = ""
-    
-    var sumTime = 0
+    let firebaseManager = FirebaseManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,15 +32,17 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         
         myTableView.rowHeight = UITableView.automaticDimension
         myTableView.estimatedRowHeight = UITableView.automaticDimension
-        //fetchDayAPI()
+        // fetchDayAPI()
         
         navbarAndtabbarsetup()
         setupDayVCNavBarColor()
+        firebaseManager.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchDayAPI()
+        firebaseManager.fetchDayAPI()
+        self.myTableView.reloadData()
     }
     
     // MARK: 設定nav tab 底色與字顏色
@@ -110,75 +99,18 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "dd" // 顯示日期的格式，只保留日
-        dayString = formatter.string(from: date)
+        firebaseManager.dayString = formatter.string(from: date)
+        // dayString = formatter.string(from: date)
         
         formatter.dateFormat = "M" // 顯示月份的格式，只保留月
-        monthString = formatter.string(from: date)
+        firebaseManager.monthString = formatter.string(from: date)
+        //monthString = formatter.string(from: date)
         
-        self.fetchDayAPI()
+        // self.fetchDayAPI()
+        firebaseManager.fetchDayAPI()
     }
     
-    // MARK: 載入日期firebase任務與時間
-    func fetchDayAPI() {
-        sumTime = 0
-        taskFirebaseArray.removeAll()
-        taskFirebaseTimeArray.removeAll()
-        let today = Date()
-        let db = Firestore.firestore()
-        let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
         
-        // 如果還沒點擊dayString是空的，打今日的API
-        if dayString == "" {
-            // let year = dateComponents.year!
-            let month = dateComponents.month!
-            let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
-            
-            db.collection("users")
-                .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
-                .collection("\(month).\(day)")
-                .getDocuments { snapshot, error in
-                    guard let snapshot else {
-                        return
-                    }
-                    // print("snapshot", snapshot)
-                    let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
-                    var indexNumber = 0
-                    
-                    for index in userDayTask {
-                        self.taskFirebaseArray.append(userDayTask[indexNumber].id!)       // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
-                        self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
-                        
-                        self.sumTime += Int(userDayTask[indexNumber].timer) ?? 0
-                        // print(self.sumTime)
-                        indexNumber += 1
-                    }
-                    self.myTableView.reloadData()
-                }
-        } else {
-            db.collection("users")
-                .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
-                .collection("\(monthString).\(dayString)")
-                .getDocuments { snapshot, error in
-                    guard let snapshot else {
-                        return
-                    }
-                    // print("snapshot", snapshot)
-                    let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
-                    var indexNumber = 0
-                    
-                    for index in userDayTask {
-                        self.taskFirebaseArray.append(userDayTask[indexNumber].id!)       // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
-                        self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
-                        self.sumTime += Int(userDayTask[indexNumber].timer) ?? 0
-                        // print(self.sumTime)
-                        indexNumber += 1
-                    }
-                    
-                    self.myTableView.reloadData()
-                }
-        }
-    }
-    
     func setupDayVCNavBarColor() {
         let dayVCNavBarColorView = UIView()
         view.addSubview(dayVCNavBarColorView)
@@ -243,15 +175,15 @@ extension DayViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        let hours = sumTime / 3600
-        let minutes = sumTime % 3600 / 60
-        let seconds = sumTime % 60
+        let hours = firebaseManager.sumTime / 3600
+        let minutes = firebaseManager.sumTime % 3600 / 60
+        let seconds = firebaseManager.sumTime % 60
         let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
         return "本日專注累計\(formattedTime)"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return taskFirebaseArray.count
+        return firebaseManager.taskFirebaseArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -263,16 +195,25 @@ extension DayViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
-        cell.settingInfo.text = taskFirebaseArray[indexPath.row]
+        cell.settingInfo.text = firebaseManager.taskFirebaseArray[indexPath.row]
         //cell.settingTime.text = taskFirebaseTimeArray[indexPath.row]
         
-        let hours = Int(taskFirebaseTimeArray[indexPath.row])! / 3600
-        let minutes = (Int(taskFirebaseTimeArray[indexPath.row])! % 3600) / 60
-        let seconds = Int(taskFirebaseTimeArray[indexPath.row])! % 60
+        let hours = Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! / 3600
+        let minutes = (Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 3600) / 60
+        let seconds = Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 60
         let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
         // homeView.circleTimerLabel.text = formattedTime
         cell.settingTime.text = formattedTime
         
         return cell
+        
     }
+}
+
+
+extension DayViewController: FirebaseManagerDelegate {
+    // 設定tableView資料源後調用的方法
+        func reloadData() {
+            myTableView.reloadData()
+        }
 }
