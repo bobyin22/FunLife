@@ -11,7 +11,6 @@ import AVFoundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-
 class HomeViewController: UIViewController {
     
     let homeView = HomeView()                               // MARK: 把自定義UIView放進這頁
@@ -145,7 +144,6 @@ class HomeViewController: UIViewController {
     }
     
 
-            
     // MARK: 點擊任務按鈕會發生的事
     @objc func clickTaskBtn() {
         // 5️⃣ 當作是自己

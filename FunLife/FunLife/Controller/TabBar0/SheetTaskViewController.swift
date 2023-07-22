@@ -18,13 +18,14 @@ class SheetTaskViewController: UIViewController {
     
     let myTaskTableView = UITableView()
         
-    // MARK: firebase的任務文字
-    var taskFirebaseArray: [String] = [""]
+//    // MARK: firebase的任務文字
+//    var taskFirebaseArray: [String] = [""]
+//
+//    // MARK: firebase的任務秒數
+//    var taskFirebaseTimeArray: [String] = [""]
     
-    // MARK: firebase的任務秒數
-    var taskFirebaseTimeArray: [String] = [""]
-    
-    var sumTime = 0
+    // var sumTime = 0
+    let firebaseManager = FirebaseManager()
     
     // 2️⃣ 建立一個變數是自己
     weak var delegate: SheetTaskViewControllerDelegate?
@@ -37,41 +38,43 @@ class SheetTaskViewController: UIViewController {
         myTaskTableView.dataSource = self
         setupTableView()
         
-        fetchTodayTasks()
-        
+        // fetchTodayTasks()
+        firebaseManager.delegate = self
+        firebaseManager.fetchTodayTasks()
     }
     
+
+    
     // MARK: 點擊任務 半截VC要fetch的任務資料
-    func fetchTodayTasks() {
-        sumTime = 0
-        taskFirebaseArray.removeAll()
-        taskFirebaseTimeArray.removeAll()
-        
-        let today = Date()
-        let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-        var year = dateComponents.year!
-        var month = dateComponents.month!
-        let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
-        
-        let db = Firestore.firestore()
-        
-        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(month).\(day)").getDocuments { snapshot, error in
-            guard let snapshot else {
-                return
-            }
-            
-            let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
-            var indexNumber = 0
-            
-            for index in userDayTask {
-                self.taskFirebaseArray.append(userDayTask[indexNumber].id!) // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
-                self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
-                indexNumber += 1
-            }
-            
-            self.myTaskTableView.reloadData()
-        }
-    }
+//    func fetchTodayTasks() {
+//        sumTime = 0
+//        taskFirebaseArray.removeAll()
+//        taskFirebaseTimeArray.removeAll()
+//
+//        let today = Date()
+//        let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
+//        var year = dateComponents.year!
+//        var month = dateComponents.month!
+//        let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
+//
+//        let db = Firestore.firestore()
+//        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(month).\(day)").getDocuments { snapshot, error in
+//            guard let snapshot else {
+//                return
+//            }
+//
+//            let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
+//            var indexNumber = 0
+//
+//            for index in userDayTask {
+//                self.taskFirebaseArray.append(userDayTask[indexNumber].id!)         // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
+//                self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer)   // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
+//                indexNumber += 1
+//            }
+//
+//            self.myTaskTableView.reloadData()
+//        }
+//    }
     
     // MARK: 建立半截VC的tableView
     func setupTableView() {
@@ -98,7 +101,8 @@ extension SheetTaskViewController: UITableViewDataSource {
     
     // MARK: 幾個row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        taskFirebaseArray.count
+        // taskFirebaseArray.count
+        firebaseManager.taskFirebaseArray.count
     }
     
     // MARK: 每個Cell內要顯示的資料
@@ -110,12 +114,14 @@ extension SheetTaskViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.settingInfo.text = taskFirebaseArray[indexPath.row]
+        // cell.settingInfo.text = taskFirebaseArray[indexPath.row]
+        cell.settingInfo.text = firebaseManager.taskFirebaseArray[indexPath.row]
         // cell.settingTime.text = taskFirebaseTimeArray[indexPath.row]
         
-        let hours = Int(taskFirebaseTimeArray[indexPath.row])! / 3600
-        let minutes = (Int(taskFirebaseTimeArray[indexPath.row])! % 3600) / 60
-        let seconds = Int(taskFirebaseTimeArray[indexPath.row])! % 60
+        
+        let hours = Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! / 3600
+        let minutes = (Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 3600) / 60
+        let seconds = Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 60
         let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
         // homeView.circleTimerLabel.text = formattedTime
         cell.settingTime.text = formattedTime
@@ -126,12 +132,12 @@ extension SheetTaskViewController: UITableViewDataSource {
     // MARK: 點選Cell執行的動作
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        print("選到","\(taskFirebaseArray[indexPath.row])")
+        print("選到","\(firebaseManager.taskFirebaseArray[indexPath.row])")
         
-        // 3️⃣ 使用的方法 
-        delegate?.passValue(self, parameter: taskFirebaseArray[indexPath.row])
+        // 3️⃣ 使用的方法
+        delegate?.passValue(self, parameter: firebaseManager.taskFirebaseArray[indexPath.row])
         
-        delegate?.passValueTime(self, parameterTime: taskFirebaseTimeArray[indexPath.row])
+        delegate?.passValueTime(self, parameterTime: firebaseManager.taskFirebaseTimeArray[indexPath.row])
         
         dismiss(animated: true, completion: nil)
     }
@@ -149,7 +155,7 @@ extension SheetTaskViewController: UITableViewDataSource {
             let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
             
             let db = Firestore.firestore()
-            let documentID = taskFirebaseArray[indexPath.row] // 要刪除的文檔的 ID
+            let documentID = firebaseManager.taskFirebaseArray[indexPath.row] // 要刪除的文檔的 ID
             let documentRef = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(month).\(day)").document(documentID)
 
             documentRef.delete { error in
@@ -159,14 +165,23 @@ extension SheetTaskViewController: UITableViewDataSource {
                     print("Document successfully removed!")
                     // 在刪除成功後，你可能還需要更新你的資料源和 tableView 的顯示
                     // 執行刪除操作，例如從資料源中刪除對應的資料
-                    self.taskFirebaseArray.remove(at: indexPath.row)         // indexPath.row --> 我們點擊的row
-                    self.taskFirebaseTimeArray.remove(at: indexPath.row)     // indexPath.row --> 我們點擊的row
+                    self.firebaseManager.taskFirebaseArray.remove(at: indexPath.row)         // indexPath.row --> 我們點擊的row
+                    self.firebaseManager.taskFirebaseTimeArray.remove(at: indexPath.row)     // indexPath.row --> 我們點擊的row
                     // 2. 刪除tableView上的row
                     tableView.deleteRows(at: [indexPath], with: .fade)       // [indexPath]--> 我們點擊的row (ex.[(section0, row5)])
                 }
             }
             
         }
+    }
+    
+}
+
+extension SheetTaskViewController: FirebaseManagerSheetTaskVCDelegate {
+    
+    // 實作 FirebaseManagerDelegate 協議的方法，當 FirebaseManager 完成任務獲取後，通知重新載入數據
+    func reloadData() {
+        self.myTaskTableView.reloadData()
     }
     
 }

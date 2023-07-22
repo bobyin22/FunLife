@@ -10,6 +10,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+
 class FirebaseManager {
         
     let db = Firestore.firestore()
@@ -23,7 +24,9 @@ class FirebaseManager {
     private lazy var month = dateComponents.month!
     private lazy var day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"   // 如果小於10 加上0    大於10直接用
     
-    
+    var sumTime = 0
+    var taskFirebaseArray: [String] = [""]      // MARK: firebase的任務文字
+    var taskFirebaseTimeArray: [String] = [""]  // MARK: firebase的任務秒數
     
     // MARK: 把新任務傳至firebase (AddTaskVC)
     func createTask(taskText: String) {
@@ -82,4 +85,40 @@ class FirebaseManager {
         }
     }
     
+    // MARK: 點擊任務 半截VC要fetch的任務資料 (SheetTaskVC)
+    func fetchTodayTasks() {
+        sumTime = 0
+        taskFirebaseArray.removeAll()
+        taskFirebaseTimeArray.removeAll()
+
+        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(month).\(day)").getDocuments { snapshot, error in
+            guard let snapshot else {
+                return
+            }
+
+            let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
+            var indexNumber = 0
+
+            for index in userDayTask {
+                self.taskFirebaseArray.append(userDayTask[indexNumber].id!) // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
+                self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
+                indexNumber += 1
+            }
+
+            // self.myTaskTableView.reloadData()
+            
+//            let sheetTaskViewController = SheetTaskViewController()
+//            sheetTaskViewController.myTaskTableView.reloadData()
+            self.delegate?.reloadData()
+        }
+    }
+    
+
+    
+    weak var delegate: FirebaseManagerSheetTaskVCDelegate?
+}
+
+// MARK: Manager抓抓完今日任務資料要通知SheetTaskVC (SheetTaskVC)
+protocol FirebaseManagerSheetTaskVCDelegate: AnyObject {
+    func reloadData()
 }
