@@ -12,7 +12,7 @@ class CreateGroupViewController: UIViewController {
     
     // MARK: 生成自定義View的實體
     let createGroupView = CreateGroupView()
-    let db = Firestore.firestore()
+    let firebaseManager = FirebaseManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,25 +59,11 @@ class CreateGroupViewController: UIViewController {
         // 取得輸入欄
         guard let cell = createGroupView.createGroupTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? CreateGroupTableViewCell else { return }
         
-        let newDocumentGroupID = db.collection("group").document()      // firebase建立一個亂數DocumentID
-        let documentID = newDocumentGroupID.documentID                  // firebase建立一個亂數DocumentID 並賦值給變數
-        UserDefaults.standard.set(documentID, forKey: "myGroupID")      // 把亂數DocumentID 塞在 App的UserDefault裡
+        // 從Manager去執行建立群組傳上firebase
+        firebaseManager.postGroupAPI(groupName: cell.createGroupTextField.text!)
         
-        let task = ["groupID": "\(newDocumentGroupID.documentID)",
-                    "founder": "\(UserDefaults.standard.string(forKey: "myUserID")!)",
-                    "roomName": "\(cell.createGroupTextField.text!)",
-                    "members": ["\(UserDefaults.standard.string(forKey: "myUserID")!)"],     // 把founder放入member中
-        ] as [String : Any]
-        
-        // 把創立的群組資料傳到firebase
-        db.collection("group").document("\(newDocumentGroupID.documentID)").setData(task) { error in
-            if let error = error {
-                print("Document 建立失敗")
-            } else {
-                print("Document 建立成功")
-            }
-        }
-        self.navigationController?.popViewController(animated: true)    // MARK: 點擊按鈕發生的事   跳轉回群組List頁
+        // 點擊按鈕發生的事   跳轉回群組List頁
+        self.navigationController?.popViewController(animated: true)
     }
     
     // 取消按鈕 點擊動作

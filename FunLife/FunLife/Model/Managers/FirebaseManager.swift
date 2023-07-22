@@ -175,7 +175,7 @@ class FirebaseManager {
             }
     }
     
-    // MARK: 抓取firebase上的資料
+    // MARK: 抓取firebase上的資料 (MyGroupListVC)
     func fetchGroupListAPI() {
                 
         // MARK: group下document，且 members欄是使用者，才顯示教室
@@ -206,5 +206,30 @@ class FirebaseManager {
             self.delegate?.reloadData()
         }
     }
+    
+    // MARK: 建立firebase群組 (CreateGroupVC)
+    func postGroupAPI(groupName: String) {
+        let db = Firestore.firestore()
+        let newDocumentGroupID = db.collection("group").document()      // firebase建立一個亂數DocumentID
+        let documentID = newDocumentGroupID.documentID                  // firebase建立一個亂數DocumentID 並賦值給變數
+        UserDefaults.standard.set(documentID, forKey: "myGroupID")      // 把亂數DocumentID 塞在 App的UserDefault裡
+        
+        let task = ["groupID": "\(newDocumentGroupID.documentID)",
+                    "founder": "\(UserDefaults.standard.string(forKey: "myUserID")!)",
+                    "roomName": "\(groupName)",   // cell.createGroupTextField.text!
+                    "members": ["\(UserDefaults.standard.string(forKey: "myUserID")!)"],     // 把founder放入member中
+        ] as [String : Any]
+        
+        // 把創立的群組資料傳到firebase
+        db.collection("group").document("\(newDocumentGroupID.documentID)").setData(task) { error in
+            if let error = error {
+                print("Document 建立失敗")
+            } else {
+                print("Document 建立成功")
+            }
+        }
+    }
+    
+    
     
 }

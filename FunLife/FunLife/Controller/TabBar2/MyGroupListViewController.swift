@@ -11,8 +11,6 @@ import FirebaseFirestore
 class MyGroupListViewController: UIViewController {
     
     let groupListTableView = UITableView()
-
-    // var groupMembersArrays: [[String]] = [[]]
     
     let firebaseManager = FirebaseManager()
     
@@ -52,40 +50,7 @@ class MyGroupListViewController: UIViewController {
         tabBarController?.tabBar.shadowImage = UIImage()
         tabBarController?.tabBar.isTranslucent = false
     }
-    
-//    // MARK: 抓取firebase上的資料
-//    func fetchGroupAPI() {
-//
-//        let db = Firestore.firestore()
-//
-//        // MARK: group下document，且 members欄是使用者，才顯示教室
-//        db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)").addSnapshotListener { snapshot, error in
-//            guard let snapshot = snapshot else { return }
-//
-//            let userGroup = snapshot.documents.compactMap { snapshot in
-//                try? snapshot.data(as: Group.self)
-//            }
-//
-//            var indexNumber = 0
-//
-//            self.userInGroupClassNameArray.removeAll()
-//            self.userInGroupIDNameArray.removeAll()
-//
-//            // MARK: 取得教室名稱 userGroupArray
-//            for index in userGroup {
-//                self.userInGroupClassNameArray.append(userGroup[indexNumber].roomName)
-//                print("🥵userGroupArray", self.userInGroupClassNameArray)
-//                print("🥵userGroup", userGroup)
-//
-//                self.userInGroupIDNameArray.append(userGroup[indexNumber].groupID)
-//                print("😎userGroupArray", self.userInGroupIDNameArray)
-//                print("😎userGroup", userGroup)
-//                indexNumber += 1
-//            }
-//            self.groupListTableView.reloadData()
-//        }
-//    }
-    
+        
     // MARK: 建立UI TableView
     func setupGroupListTableView() {
         view.addSubview(groupListTableView)
@@ -149,7 +114,6 @@ extension MyGroupListViewController: UITableViewDataSource {
         
         let selectedGroupID = firebaseManager.userInGroupClassNameArray[indexPath.row]             // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
         
-        
         // 如果firebase image && name 有值，通知
         let db = Firestore.firestore()
         db.collection("users").document(UserDefaults.standard.string(forKey: "myUserID")!).getDocument() { snapshot, error in
@@ -177,8 +141,6 @@ extension MyGroupListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         firebaseManager.userInGroupClassNameArray.count
-        
-        // userInGroupClassNameArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
