@@ -11,9 +11,10 @@ import FirebaseFirestore
 class MyGroupListViewController: UIViewController {
     
     let groupListTableView = UITableView()
-    var userInGroupClassNameArray: [String] = []      // 用來存教室名稱 ["教室1", "教室2"]
-    var userInGroupIDNameArray: [String] = []         // 用來存教室ID [ "iqbjs3", "klabc1"]
+
     // var groupMembersArrays: [[String]] = [[]]
+    
+    let firebaseManager = FirebaseManager()
     
     // MARK: 點擊進入各自的下一頁
     let groupDetailClassVC = GroupDetailClassViewController()                       // MARK: 🍀新collection改從這進入
@@ -28,11 +29,15 @@ class MyGroupListViewController: UIViewController {
         groupListTableView.delegate = self
         groupListTableView.dataSource = self
         navbarAndtabbarsetup()
+        
+        firebaseManager.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchAPI()
+        firebaseManager.fetchGroupListAPI()
+        self.groupListTableView.reloadData()
+        
         groupDetailClassVC.fetchClassID = ""
     }
     
@@ -42,49 +47,44 @@ class MyGroupListViewController: UIViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
-        
-        // 設置 TabBar 的外觀
-//        tabBarController?.tabBar.backgroundImage = UIImage()
-//        tabBarController?.tabBar.shadowImage = UIImage()
-//        tabBarController?.tabBar.isTranslucent = true
-        
+    
         tabBarController?.tabBar.barTintColor = UIColor(red: 42/255, green: 42/255, blue: 42/255, alpha: 1.0)
         tabBarController?.tabBar.shadowImage = UIImage()
         tabBarController?.tabBar.isTranslucent = false
     }
     
-    // MARK: 抓取firebase上的資料
-    func fetchAPI() {
-        
-        let db = Firestore.firestore()
-        
-        // MARK: group下document，且 members欄是使用者，才顯示教室
-        db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)").addSnapshotListener { snapshot, error in
-            guard let snapshot = snapshot else { return }
-            
-            let userGroup = snapshot.documents.compactMap { snapshot in
-                try? snapshot.data(as: Group.self)
-            }
-            
-            var indexNumber = 0
-            
-            self.userInGroupClassNameArray.removeAll()
-            self.userInGroupIDNameArray.removeAll()
-            
-            // MARK: 取得教室名稱 userGroupArray
-            for index in userGroup {
-                self.userInGroupClassNameArray.append(userGroup[indexNumber].roomName)
-                print("🥵userGroupArray", self.userInGroupClassNameArray)
-                print("🥵userGroup", userGroup)
-                
-                self.userInGroupIDNameArray.append(userGroup[indexNumber].groupID)
-                print("😎userGroupArray", self.userInGroupIDNameArray)
-                print("😎userGroup", userGroup)
-                indexNumber += 1
-            }
-            self.groupListTableView.reloadData()
-        }
-    }
+//    // MARK: 抓取firebase上的資料
+//    func fetchGroupAPI() {
+//
+//        let db = Firestore.firestore()
+//
+//        // MARK: group下document，且 members欄是使用者，才顯示教室
+//        db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)").addSnapshotListener { snapshot, error in
+//            guard let snapshot = snapshot else { return }
+//
+//            let userGroup = snapshot.documents.compactMap { snapshot in
+//                try? snapshot.data(as: Group.self)
+//            }
+//
+//            var indexNumber = 0
+//
+//            self.userInGroupClassNameArray.removeAll()
+//            self.userInGroupIDNameArray.removeAll()
+//
+//            // MARK: 取得教室名稱 userGroupArray
+//            for index in userGroup {
+//                self.userInGroupClassNameArray.append(userGroup[indexNumber].roomName)
+//                print("🥵userGroupArray", self.userInGroupClassNameArray)
+//                print("🥵userGroup", userGroup)
+//
+//                self.userInGroupIDNameArray.append(userGroup[indexNumber].groupID)
+//                print("😎userGroupArray", self.userInGroupIDNameArray)
+//                print("😎userGroup", userGroup)
+//                indexNumber += 1
+//            }
+//            self.groupListTableView.reloadData()
+//        }
+//    }
     
     // MARK: 建立UI TableView
     func setupGroupListTableView() {
@@ -147,8 +147,7 @@ extension MyGroupListViewController: UITableViewDataSource {
                                                         for: indexPath) as? MyGroupListTableViewCell
         else { return }
         
-        let selectedGroupID = userInGroupClassNameArray[indexPath.row]             // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
-        
+        let selectedGroupID = firebaseManager.userInGroupClassNameArray[indexPath.row]             // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
         
         
         // 如果firebase image && name 有值，通知
@@ -163,9 +162,9 @@ extension MyGroupListViewController: UITableViewDataSource {
                 self.alertMsg()
             } else {
                 self.groupDetailClassVC.classNameString = selectedGroupID                            // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
-                self.groupDetailClassVC.fetchClassID = self.userInGroupIDNameArray[indexPath.row]
+                self.groupDetailClassVC.fetchClassID = self.firebaseManager.userInGroupIDNameArray[indexPath.row]
                 print("🎃indexPath.row是", indexPath.row)
-                print("🎉self.userInGroupIDNameArray[indexPath.row]是", self.groupDetailClassVC.fetchClassID, self.userInGroupIDNameArray[indexPath.row])
+                print("🎉self.userInGroupIDNameArray[indexPath.row]是", self.groupDetailClassVC.fetchClassID, self.firebaseManager.userInGroupIDNameArray[indexPath.row])
                 self.navigationController?.pushViewController(self.groupDetailClassVC, animated: true)
                 
             }
@@ -177,7 +176,9 @@ extension MyGroupListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        userInGroupClassNameArray.count
+        firebaseManager.userInGroupClassNameArray.count
+        
+        // userInGroupClassNameArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -190,9 +191,16 @@ extension MyGroupListViewController: UITableViewDataSource {
         }
         
         cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 38/255)
-        cell.groupNameLabel.text = userInGroupClassNameArray[indexPath.row]   // List的教室名稱🍀
+        cell.groupNameLabel.text = firebaseManager.userInGroupClassNameArray[indexPath.row]   // List的教室名稱🍀
         // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
         return cell
     }
     
+}
+
+extension MyGroupListViewController: FirebaseManagerDelegate {
+    // 設定tableView資料源後調用的方法
+        func reloadData() {
+            groupListTableView.reloadData()
+        }
 }

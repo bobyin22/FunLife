@@ -192,7 +192,6 @@
 			children = (
 				A808A9072A39CCC300237AD7 /* AppDelegate.swift */,
 				A808A9092A39CCC300237AD7 /* SceneDelegate.swift */,
-				A8D7F9152A63CD3900DE4CFA /* Managers */,
 				A808A9212A3AC31700237AD7 /* Model */,
 				A808A91D2A3AC26500237AD7 /* Views */,
 				A808A9222A3AC32800237AD7 /* Controller */,
@@ -224,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				A808A9552A3C693200237AD7 /* Users.swift */,
+				A8D7F9152A63CD3900DE4CFA /* Managers */,
 			);
 			path = Model;
 			sourceTree = "<group>";

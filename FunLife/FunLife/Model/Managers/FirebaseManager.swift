@@ -17,6 +17,7 @@ protocol FirebaseManagerDelegate: AnyObject {
 
 class FirebaseManager {
     
+    // MARK: 各個函式都會用到
     let db = Firestore.firestore()
     var documentID = ""
     let today = Date()
@@ -25,7 +26,7 @@ class FirebaseManager {
         self.dateComponents.year!
     }
     lazy var month = dateComponents.month!
-    lazy var day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"   // 如果小於10 加上0    大於10直接用
+    lazy var day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)" // 如果小於10 加上0  大於10直接用
     
     // MARK: SheetTaskVC使用的變數
     var sumTime = 0
@@ -36,6 +37,12 @@ class FirebaseManager {
     // MARK: DayVC使用的變數 (先建立字串到時候給firebase用)
     var dayString = ""
     var monthString = ""
+    
+    
+    // MARK: GroupListVC使用的變數
+    var userInGroupClassNameArray: [String] = []      // 用來存教室名稱 ["教室1", "教室2"]
+    var userInGroupIDNameArray: [String] = []         // 用來存教室ID [ "iqbjs3", "klabc1"]
+    
     
     // MARK: 把新任務傳至firebase (AddTaskVC)
     func createTask(taskText: String) {
@@ -134,7 +141,6 @@ class FirebaseManager {
         }
     }
     
-    
     // MARK: 載入日期firebase任務與時間 (DayVC)
     func fetchDayAPI() {
         sumTime = 0
@@ -167,6 +173,38 @@ class FirebaseManager {
 
                 self.delegate?.reloadData()
             }
+    }
+    
+    // MARK: 抓取firebase上的資料
+    func fetchGroupListAPI() {
+                
+        // MARK: group下document，且 members欄是使用者，才顯示教室
+        db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)").addSnapshotListener { snapshot, error in
+            guard let snapshot = snapshot else { return }
+            
+            let userGroup = snapshot.documents.compactMap { snapshot in
+                try? snapshot.data(as: Group.self)
+            }
+            
+            var indexNumber = 0
+            
+            self.userInGroupClassNameArray.removeAll()
+            self.userInGroupIDNameArray.removeAll()
+            
+            // MARK: 取得教室名稱 userGroupArray
+            for index in userGroup {
+                self.userInGroupClassNameArray.append(userGroup[indexNumber].roomName)
+                print("🥵userGroupArray", self.userInGroupClassNameArray)
+                print("🥵userGroup", userGroup)
+                
+                self.userInGroupIDNameArray.append(userGroup[indexNumber].groupID)
+                print("😎userGroupArray", self.userInGroupIDNameArray)
+                print("😎userGroup", userGroup)
+                indexNumber += 1
+            }
+            // self.groupListTableView.reloadData()
+            self.delegate?.reloadData()
+        }
     }
     
 }
