@@ -10,28 +10,33 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+// MARK: Manager抓抓完今日任務資料要通知SheetTaskVC (SheetTaskVC)
+protocol FirebaseManagerSheetTaskVCDelegate: AnyObject {
+    func reloadData()
+}
 
 class FirebaseManager {
-        
-    let db = Firestore.firestore()
     
+    let db = Firestore.firestore()
     var documentID = ""
     let today = Date()
-    private lazy var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-    private lazy var year = {
+    lazy var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
+    lazy var year = {
         self.dateComponents.year!
     }
-    private lazy var month = dateComponents.month!
-    private lazy var day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"   // 如果小於10 加上0    大於10直接用
+    lazy var month = dateComponents.month!
+    lazy var day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"   // 如果小於10 加上0    大於10直接用
     
+    // MARK: SheetTaskVC使用的變數
     var sumTime = 0
     var taskFirebaseArray: [String] = [""]      // MARK: firebase的任務文字
     var taskFirebaseTimeArray: [String] = [""]  // MARK: firebase的任務秒數
+    weak var delegate: FirebaseManagerSheetTaskVCDelegate?
     
     // MARK: 把新任務傳至firebase (AddTaskVC)
     func createTask(taskText: String) {
         // MARK: 把日期功能補在這
-
+        
         let task = ["timer": "0", "user": "包伯"]
         let bobDocumentRef = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
         let nextTaskCollectionRef = bobDocumentRef.collection("\(month).\(day)" ?? "沒輸入")
@@ -64,7 +69,7 @@ class FirebaseManager {
     
     // MARK: 每次翻轉後要更新秒數 (HomeVC)
     func modifyUser(counter: String, taskText: String) {
-           
+        
         let documentReference = db.collection("users")
             .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
             .collection("\(month).\(day)")
@@ -90,35 +95,39 @@ class FirebaseManager {
         sumTime = 0
         taskFirebaseArray.removeAll()
         taskFirebaseTimeArray.removeAll()
-
+        
         db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(month).\(day)").getDocuments { snapshot, error in
             guard let snapshot else {
                 return
             }
-
+            
             let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
             var indexNumber = 0
-
+            
             for index in userDayTask {
                 self.taskFirebaseArray.append(userDayTask[indexNumber].id!) // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
                 self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
                 indexNumber += 1
             }
-
-            // self.myTaskTableView.reloadData()
             
-//            let sheetTaskViewController = SheetTaskViewController()
-//            sheetTaskViewController.myTaskTableView.reloadData()
             self.delegate?.reloadData()
         }
     }
     
-
+    // MARK: 左滑可以刪除任務 (SheetTaskVC)
+    func deleteTodayTask(deleteIndex: IndexPath) {
+        // 把firebase當日任務刪除
+        let documentID = taskFirebaseArray[deleteIndex.row] // 要刪除的文檔的 ID
+        let documentRef = db.collection("users")
+            .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
+            .collection("\(month).\(day)").document(documentID)
+        documentRef.delete { error in
+            if let error = error {
+                print("Error removing document: \(error)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
     
-    weak var delegate: FirebaseManagerSheetTaskVCDelegate?
-}
-
-// MARK: Manager抓抓完今日任務資料要通知SheetTaskVC (SheetTaskVC)
-protocol FirebaseManagerSheetTaskVCDelegate: AnyObject {
-    func reloadData()
 }
