@@ -110,7 +110,6 @@ extension GroupDetailClassViewController: UICollectionViewDelegate {
 extension GroupDetailClassViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // classMembersNameArray.count
         firebaseManager.classMembersNameArray.count
     }
     
@@ -138,7 +137,6 @@ extension GroupDetailClassViewController: UICollectionViewDataSource {
             let seconds = Int(time) % 60
             let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
             cell.personTimerLabel.text = "\(formattedTime)"
-            // cell.personTimerLabel.text = "\(time)"
             
         } else {
             cell.personTimerLabel.text = nil
@@ -183,6 +181,11 @@ extension GroupDetailClassViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension GroupDetailClassViewController: FirebaseManagerDelegate {
+    func renderText() {}
+    
+    
+    func kfRenderImg() {}
+    
     func reloadData() {
         self.groupDetailClassCollectionView.reloadData()
     }

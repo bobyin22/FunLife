@@ -15,12 +15,14 @@ class ProfileViewController: UIViewController {
     let profileView = ProfileView()
     let storage = Storage.storage().reference()
     var myUrl = ""
+    let firebaseManager = FirebaseManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupProfileView()
-        fetchMyImage()
+        firebaseManager.fetchMyImage()
         setupProfileVCNavBarColor()
+        firebaseManager.delegate = self
     }
     
     func setupProfileVCNavBarColor() {
@@ -33,37 +35,8 @@ class ProfileViewController: UIViewController {
             profileVCNavBarColorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             profileVCNavBarColorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             profileVCNavBarColorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            //profileVCNavBarColorView.heightAnchor.constraint(equalToConstant: 300)
+            // profileVCNavBarColorView.heightAnchor.constraint(equalToConstant: 300)
         ])
-    }
-    
-    // MARK: 一載入去users -> 個人ID -> image: "" 拿資料
-    func fetchMyImage() {
-        let db = Firestore.firestore()
-        db.collection("users").document(UserDefaults.standard.string(forKey: "myUserID")!).getDocument() { snapshot, error in
-             guard let snapshot = snapshot,
-                   let data = snapshot.data() else { return }
-            
-            // 如果裡面有url載入
-            // 如果沒有url，不做事
-            if snapshot.data()!["image"] == nil {
-                return
-            } else {
-                print("👻snapshot.data()!", snapshot.data()!["image"]!)
-
-                if let imageUrlString = snapshot.data()?["image"] as? String,
-                   let imageUrl = URL(string: imageUrlString) {
-                    self.profileView.profilePhotoImageView.kf.setImage(with: imageUrl)
-                }
-            }
-
-            if snapshot.data()!["name"] == nil {
-                return
-            } else {
-                self.profileView.profileNameTextField.text = snapshot.data()?["name"]! as? String
-            }
-            
-        }
     }
     
     // MARK: 把自定義的View設定邊界
@@ -120,23 +93,9 @@ class ProfileViewController: UIViewController {
     
     // 點擊儲存按鈕
     @objc func clickSaveProfileBtn() {
-        modifyAPIName()     // 把名字打入cloud firestore database
-        //profileView.saveProfileBtn.adjustsImageWhenHighlighted = true
+        firebaseManager.modifyAPIName(paramaterUserName: profileView.profileNameTextField.text ?? "nil")     // 把名字打入cloud firestore database
+        // profileView.saveProfileBtn.adjustsImageWhenHighlighted = true
     }
-    
-    
-    // 把名字打入cloud firestore database
-    func modifyAPIName() {
-        let db = Firestore.firestore()
-        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").updateData(["name": profileView.profileNameTextField.text]) { error in
-            if let error = error {
-                print("Document 建立失敗")
-            } else {
-                print("Document 建立成功")
-            }
-        }
-    }
-    
 }
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -144,7 +103,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     // 選到照片
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        // 🍎 路徑 = 亂數 + .jpg
+        // 路徑 = 亂數 + .jpg
         func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
                 let fileReference = Storage.storage().reference().child(UUID().uuidString + ".jpg")
                 if let data = image.jpegData(compressionQuality: 0.9) {
@@ -160,39 +119,26 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 }
         }
 
-        // 🍎 把選到照片傳上fire storage
+        // 把選到照片傳上fire storage
         if let selectedImage = info[.originalImage] as? UIImage { didSelectPhoto(selectedImage) }
             picker.dismiss(animated: true, completion: nil)
         
-        // 🍎 使用 UIImagePickerController 選擇照片後呼叫的方法
+        // 使用 UIImagePickerController 選擇照片後呼叫的方法
         func didSelectPhoto(_ photo: UIImage) {
             uploadPhoto(image: photo) { result in
                 switch result {
                 case .success(let url):
                     print("上傳成功，下載連結：\(url)")
                     self.myUrl = url.absoluteString
-                    passUrlToUserFirebaseDataBase()
+                    self.firebaseManager.passUrlToUserFirebaseDataBase(myUrlString: self.myUrl)
                 case .failure(let error):
                     print("上傳失敗，錯誤訊息：\(error)")
                 }
             }
         }
 
-        // 🍀 取得相機拍下的照片  賦值給 我VC的UI照片元件
+        // 取得相機拍下的照片  賦值給 我VC的UI照片元件
         profileView.profilePhotoImageView.image = info[.originalImage] as? UIImage
-        
-        // 🎃 把url傳到使用者
-        func passUrlToUserFirebaseDataBase() {
-            let db = Firestore.firestore()
-            db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").updateData(["image": myUrl]) { error in
-                if let error = error {
-                    print("Document 建立失敗")
-                } else {
-                    print("Document 建立成功")
-                }
-            }
-        }
-                
         picker.dismiss(animated: true, completion: nil)
     }
     
@@ -207,3 +153,17 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
  2. 拿到下載url
  3. 存url到 userDefault
  */
+
+extension ProfileViewController: FirebaseManagerDelegate {
+    
+    func reloadData() {}
+    
+    func kfRenderImg() {
+        self.profileView.profilePhotoImageView.kf.setImage(with: firebaseManager.profileVCImageUrl)  // imageUrl
+    }
+    
+    func renderText() {
+        self.profileView.profileNameTextField.text = firebaseManager.profileVCPassString
+    }
+    
+}

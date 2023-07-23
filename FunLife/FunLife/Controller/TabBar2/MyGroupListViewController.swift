@@ -161,6 +161,11 @@ extension MyGroupListViewController: UITableViewDataSource {
 }
 
 extension MyGroupListViewController: FirebaseManagerDelegate {
+    func renderText() {}
+    
+    
+    func kfRenderImg() {}
+    
     // 設定tableView資料源後調用的方法
         func reloadData() {
             groupListTableView.reloadData()

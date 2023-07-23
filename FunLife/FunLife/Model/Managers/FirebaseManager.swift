@@ -13,6 +13,9 @@ import FirebaseFirestoreSwift
 // MARK: Manager抓抓完今日任務資料要通知SheetTaskVC (SheetTaskVC)
 protocol FirebaseManagerDelegate: AnyObject {
     func reloadData()
+    
+    func kfRenderImg()
+    func renderText()
 }
 
 class FirebaseManager {
@@ -26,38 +29,43 @@ class FirebaseManager {
         self.dateComponents.year!
     }
     lazy var month = dateComponents.month!
-    lazy var day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)" // 如果小於10 加上0  大於10直接用
+    lazy var day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
     
-    // MARK: SheetTaskVC使用的變數
+    // MARK: SheetTaskVC 使用的變數
     var sumTime = 0
     var taskFirebaseArray: [String] = [""]      // MARK: firebase的任務文字
     var taskFirebaseTimeArray: [String] = [""]  // MARK: firebase的任務秒數
     weak var delegate: FirebaseManagerDelegate?
     
-    // MARK: DayVC使用的變數 (先建立字串到時候給firebase用)
+    // MARK: DayVC 使用的變數(先建立字串到時候給firebase用)
     var dayString = ""
     var monthString = ""
     
-    // MARK: GroupListVC使用的變數
+    // MARK: GroupListVC 使用的變數
     var userInGroupClassNameArray: [String] = []      // 用來存教室名稱 ["教室1", "教室2"]
     var userInGroupIDNameArray: [String] = []         // 用來存教室ID [ "iqbjs3", "klabc1"]
     
-    // MARK: GroupDetailClass使用的變數
+    // MARK: GroupDetailClassVC 使用的變數
     var classMembersIDArray: [String] = []                      // 空陣列，要接住下方轉換成的 ["成員1ID", "成員2ID"]
     var classMembersTimeSum: Int = 0
     var classMembersTimeDictionary: [String: Int] = [:]         //
     var indexNumber = 0                                         // 獲取名字
     var classMembersNameArray: [String] = []                    // 空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
-    var classMembersImageArray: [String] = []                   // 🍎空陣列
+    var classMembersImageArray: [String] = []                   // 空陣列
     var classMembersIDDictionary: [String: String] = [:]        //
-    var classMembersImageDictionary: [String: String] = [:]     // 🍎
+    var classMembersImageDictionary: [String: String] = [:]     //
+    
+    // MARK: ProfileVC 使用的變數
+    var profileVCImageUrl: URL = URL(string: "https://example.com/image.png")!
+    var profileVCPassString = ""
     
     // MARK: 把新任務傳至firebase (AddTaskVC)
     func createTask(taskText: String) {
-        // MARK: 把日期功能補在這
         
         let task = ["timer": "0", "user": "包伯"]
+        
         let bobDocumentRef = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
+        
         let nextTaskCollectionRef = bobDocumentRef.collection("\(month).\(day)" ?? "沒輸入")
         
         nextTaskCollectionRef.document(taskText).setData(task) { error in
@@ -210,7 +218,6 @@ class FirebaseManager {
                 print("😎userGroup", userGroup)
                 indexNumber += 1
             }
-            // self.groupListTableView.reloadData()
             self.delegate?.reloadData()
         }
     }
@@ -238,11 +245,10 @@ class FirebaseManager {
         }
     }
     
-    // MARK: 抓取firebase上 有member下的 userID (用自己的ID去 找有沒有這樣的document)
+    // MARK: 抓取firebase上 有member下的 userID (GroupDetailClassVC)
+    // 用自己的ID去 找有沒有這樣的document
     // 拿到 ["成員1的ID", "成員2的ID"]
     func fetchIDAPI(parameterFetchClassID: String) {
-        let db = Firestore.firestore()
-        
         let documentRef = db.collection("group").document(parameterFetchClassID).getDocument { snapshot, error in
             guard let snapshot = snapshot else { return }
             
@@ -252,18 +258,12 @@ class FirebaseManager {
             }
             self.fetchTimeAPI()
             self.fetchNameAPI()                 // 去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
-            // self.groupDetailClassCollectionView.reloadData()
             self.delegate?.reloadData()
         }
     }
     
-    // MARK: userID去拿當日的Timer
+    // MARK: userID去拿當日的Timer (GroupDetailClassVC)
     func fetchTimeAPI() {
-        var today = Date()
-        var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-        var month = dateComponents.month!
-        let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
-        let db = Firestore.firestore()
         
         // MARK: 依據幾個member跑幾次
         for classMemberID in classMembersIDArray {
@@ -280,14 +280,13 @@ class FirebaseManager {
                 
                 // MARK: 加完改變
                 DispatchQueue.main.async {
-                    // self.groupDetailClassCollectionView.reloadData()
                     self.delegate?.reloadData()
                 }
             }
         }
     }
     
-    // MARK: 拿userID陣列去 fetch抓 userName陣列
+    // MARK: 拿userID陣列去 fetch抓 userName陣列 (GroupDetailClassVC)
     // 拿到 ["成員1的Name", "成員2的Name"]
     func fetchNameAPI() {
         // 走2次
@@ -296,7 +295,6 @@ class FirebaseManager {
         classMembersImageArray.removeAll()
         
         for memberID in classMembersIDArray {
-            let db = Firestore.firestore()
             db.collection("users").document("\(classMembersIDArray[indexNumber])").getDocument { snapshot, error in
                 
                 guard let snapshot = snapshot else { return }
@@ -307,12 +305,68 @@ class FirebaseManager {
                 self.classMembersImageDictionary[memberID] = "\(snapshot.data()!["image"]!)"
                 self.classMembersImageArray.append("\(snapshot.data()!["image"]!)")
                 
-                // self.groupDetailClassCollectionView.reloadData()
                 self.delegate?.reloadData()
             }
             self.indexNumber += 1
         }
     }
     
+    // MARK: 名字上傳至firestore database (ProfileVC)
+    func modifyAPIName(paramaterUserName: String) {
+        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").updateData(["name": paramaterUserName]) { error in
+            if let error = error {
+                print("Document 建立失敗")
+            } else {
+                print("Document 建立成功")
+            }
+        }
+    }
+    
+    // MARK: 一進入畫面去抓取firebase圖片 (ProfileVC)
+    // users -> 個人ID -> image: "" 拿資料
+    func fetchMyImage() {
+        let db = Firestore.firestore()
+        db.collection("users").document(UserDefaults.standard.string(forKey: "myUserID")!).getDocument() { snapshot, error in
+             guard let snapshot = snapshot,
+                   let data = snapshot.data() else { return }
+            
+            // 如果裡面有url載入
+            // 如果沒有url，不做事
+            if snapshot.data()!["image"] == nil {
+                return
+            } else {
+                print("👻snapshot.data()!", snapshot.data()!["image"]!)
+
+                if let imageUrlString = snapshot.data()?["image"] as? String,
+                   let imageUrl = URL(string: imageUrlString) {
+                    self.profileVCImageUrl = imageUrl
+                    // self.profileView.profilePhotoImageView.kf.setImage(with: imageUrl)
+                    self.delegate?.kfRenderImg()
+                }
+            }
+
+            if snapshot.data()!["name"] == nil {
+                return
+            } else {
+                // self.profileView.profileNameTextField.text = snapshot.data()?["name"]! as? String
+                self.profileVCPassString = snapshot.data()?["name"]! as? String ?? "nil"
+                self.delegate?.renderText()
+            }
+            
+        }
+    }
+    
+    // 🎃 把url傳到使用者 (ProfileVC)
+    func passUrlToUserFirebaseDataBase(myUrlString: String) {
+        let db = Firestore.firestore()
+        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").updateData(["image": myUrlString]) { error in
+            if let error = error {
+                print("Document 建立失敗")
+            } else {
+                
+                print("Document 建立成功")
+            }
+        }
+    }
     
 }
