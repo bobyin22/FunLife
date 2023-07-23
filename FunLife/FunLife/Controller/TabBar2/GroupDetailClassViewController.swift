@@ -11,35 +11,24 @@ import Kingfisher
 
 class GroupDetailClassViewController: UIViewController {
 
-    let groupDetailClassView = GroupDetailClassView()           // 定義View建立一個變數
+    let groupDetailClassView = GroupDetailClassView()           // 建立自定義View的實體當作變數
     let layout = UICollectionViewFlowLayout()                   // 建立 UICollectionViewFlowLayout
     var groupDetailClassCollectionView: UICollectionView!
     var classNameString: String = ""                            // 讓Label吃到上一頁傳來的教室名稱
-    var classMembersIDArray: [String] = []                      // 空陣列，要接住下方轉換成的 ["成員1ID", "成員2ID"]
-    var classMembersNameArray: [String] = []                    // 空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
-    var classMembersImageArray: [String] = []                   // 🍎空陣列
-    var classMembersTimeSum: Int = 0
-    var classMembersIDDictionary: [String: String] = [:]        //
-    var classMembersTimeDictionary: [String: Int] = [:]         //
-    var classMembersImageDictionary: [String: String] = [:]     // 🍎
-    var indexNumber = 0                                         // 獲取名字
-    
-    var fetchClassID = String()                                      // 接住上一頁GroupList傳來要進入的教室
+    var fetchClassID = String()                                 // 接住上一頁GroupList傳來要進入的教室
+    let firebaseManager = FirebaseManager()                     // 建立Manager的實體當作變數
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // fetchIDAPI()
-        // view.backgroundColor = .white
         setupGroupDetailClassView()                                      // 呼叫畫出自定義View函式
         setupGroupDetailClassCollectionView()                            // 呼叫畫出自定義CollectionView函式
-        
+        firebaseManager.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("😎接到fetchClassID是", fetchClassID)
-        fetchIDAPI()
+        firebaseManager.fetchIDAPI(parameterFetchClassID: fetchClassID)
         groupDetailClassView.groupDetailNameLabel.text = classNameString // 讓Label吃到上一頁傳來的教室名稱
     }
     
@@ -80,24 +69,6 @@ class GroupDetailClassViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    // MARK: 抓取firebase上 有member下的 userID (用自己的ID去 找有沒有這樣的document)
-    // 拿到 ["成員1的ID", "成員2的ID"]
-    func fetchIDAPI() {
-        let db = Firestore.firestore()
-        
-        let documentRef = db.collection("group").document(fetchClassID).getDocument { snapshot, error in
-            guard let snapshot = snapshot else { return }
-            
-            let memberNSArray = snapshot.data()!
-            if let members = memberNSArray["members"] as? [String] {
-                self.classMembersIDArray = members
-            }
-            self.fetchTimeAPI()
-            self.fetchNameAPI()                 // 去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
-            self.groupDetailClassCollectionView.reloadData()
-        }
-    }
-    
     // MARK: 畫出自定義CollectionView
     func setupGroupDetailClassCollectionView() {
         // let layout = UICollectionViewFlowLayout()   // 建立 UICollectionViewFlowLayout
@@ -128,62 +99,6 @@ class GroupDetailClassViewController: UIViewController {
         groupDetailClassCollectionView.delegate = self
         groupDetailClassCollectionView.dataSource = self
     }
-    
-    // MARK: userID去拿當日的Timer
-    func fetchTimeAPI() {
-        var today = Date()
-        var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-        var month = dateComponents.month!
-        let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
-        let db = Firestore.firestore()
-        
-        // MARK: 依據幾個member跑幾次
-        for classMemberID in classMembersIDArray {
-            let documentRef = db.collection("users").document(classMemberID).collection("\(month).\(day)").addSnapshotListener { snapshot, error in
-                guard let snapshot = snapshot else { return }
-                
-                self.classMembersTimeSum = 0   // 換人時間歸零
-                // MARK: 依據單一member，任務有幾個跑幾次
-                for document in snapshot.documents {
-                    guard let eachTaskTimer = document.data()["timer"] as? String else { return }    // 轉型成String
-                    self.classMembersTimeSum += Int(eachTaskTimer)!
-                }
-                self.classMembersTimeDictionary[classMemberID] = self.classMembersTimeSum
-                
-                // MARK: 加完改變
-                DispatchQueue.main.async {
-                    self.groupDetailClassCollectionView.reloadData()
-                }
-            }
-        }
-    }
-    
-    // MARK: 拿userID陣列去 fetch抓 userName陣列
-    // 拿到 ["成員1的Name", "成員2的Name"]
-    func fetchNameAPI() {
-        // 走2次
-        indexNumber = 0
-        classMembersNameArray.removeAll()
-        classMembersImageArray.removeAll()
-        
-        for memberID in classMembersIDArray {
-            let db = Firestore.firestore()
-            db.collection("users").document("\(classMembersIDArray[indexNumber])").getDocument { snapshot, error in
-                
-                guard let snapshot = snapshot else { return }
-                // 名字
-                self.classMembersIDDictionary[memberID] = "\(snapshot.data()!["name"]!)"
-                self.classMembersNameArray.append("\(snapshot.data()!["name"]!)")
-                // 照片
-                self.classMembersImageDictionary[memberID] = "\(snapshot.data()!["image"]!)"
-                self.classMembersImageArray.append("\(snapshot.data()!["image"]!)")
-                
-                self.groupDetailClassCollectionView.reloadData()
-            }
-            self.indexNumber += 1
-        }
-    }
-    
 }
 
 // MARK: 接受要認做的事情
@@ -195,7 +110,8 @@ extension GroupDetailClassViewController: UICollectionViewDelegate {
 extension GroupDetailClassViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        classMembersNameArray.count
+        // classMembersNameArray.count
+        firebaseManager.classMembersNameArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -206,16 +122,16 @@ extension GroupDetailClassViewController: UICollectionViewDataSource {
         }
         
         // 姓名
-        cell.personNameLabel.text = classMembersIDDictionary[classMembersIDArray[indexPath.row]]
+        cell.personNameLabel.text = firebaseManager.classMembersIDDictionary[firebaseManager.classMembersIDArray[indexPath.row]]
         
         // 頭像        
-        if let urlString = classMembersImageDictionary[classMembersIDArray[indexPath.row]],
+        if let urlString = firebaseManager.classMembersImageDictionary[firebaseManager.classMembersIDArray[indexPath.row]],
             let url = URL(string: urlString) {
             cell.personIconBtn.kf.setImage(with: url, for: .normal)
         }
 
         // 時間
-        if let time = classMembersTimeDictionary[classMembersIDArray[indexPath.row]] {
+        if let time = firebaseManager.classMembersTimeDictionary[firebaseManager.classMembersIDArray[indexPath.row]] {
             
             let hours = Int(time) / 3600
             let minutes = (Int(time) % 3600) / 60
@@ -228,12 +144,12 @@ extension GroupDetailClassViewController: UICollectionViewDataSource {
             cell.personTimerLabel.text = nil
         }
         
-        print("1️⃣classMembersNameArray", classMembersNameArray)
-        print("2️⃣classMembersIDArray", classMembersIDArray)
-        print("📸classMembersImageArray", classMembersImageArray)
-        print("3️⃣classMembersTimeDictionary", classMembersTimeDictionary)
-        print("4️⃣classMembersIDDictionary", classMembersIDDictionary)
-        print("📸classMembersImageDictionary", classMembersImageDictionary)
+        print("1️⃣classMembersNameArray", firebaseManager.classMembersNameArray)
+        print("2️⃣classMembersIDArray", firebaseManager.classMembersIDArray)
+        print("📸classMembersImageArray", firebaseManager.classMembersImageArray)
+        print("3️⃣classMembersTimeDictionary", firebaseManager.classMembersTimeDictionary)
+        print("4️⃣classMembersIDDictionary", firebaseManager.classMembersIDDictionary)
+        print("📸classMembersImageDictionary", firebaseManager.classMembersImageDictionary)
         
         return cell
     }
@@ -244,42 +160,10 @@ extension GroupDetailClassViewController: UICollectionViewDataSource {
 extension GroupDetailClassViewController: UICollectionViewDelegateFlowLayout {
     
     // item水平間距 min Interitem spacing
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        
-//        if section == 0 {
-//            return 20
-//        } else {
-//            return 40 //40
-//        }
-        
-        return 40
-        
-    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat { return 40 }
     
     // 格子與格子row間距 min line spacing
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        
-        return 140
-    }
-    
-    //❌
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        // 檢查是否為第三個 item
-//        if indexPath.item == 3 {
-//            // 在這裡設定換行的寬度和高度
-//            let itemWidth: CGFloat = collectionView.bounds.width // 設定為整個 collectionView 的寬度
-//            let itemHeight: CGFloat = 30 // 自訂換行後的高度
-//
-//            return CGSize(width: itemWidth, height: itemHeight)
-//        }
-//
-//        // 非第三個 item 的大小
-//        let itemWidth: CGFloat = 30 // 自訂寬度
-//        let itemHeight: CGFloat = 30 // 自訂高度
-//
-//        return CGSize(width: itemWidth, height: itemHeight)
-//    }
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat { return 140 }
     
     // collection格子與collection Header距離 (section垂直間距，section的inset，相當於是内容的margin)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -295,5 +179,11 @@ extension GroupDetailClassViewController: UICollectionViewDelegateFlowLayout {
     // header的高度
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 10)
+    }
+}
+
+extension GroupDetailClassViewController: FirebaseManagerDelegate {
+    func reloadData() {
+        self.groupDetailClassCollectionView.reloadData()
     }
 }

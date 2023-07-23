@@ -38,11 +38,19 @@ class FirebaseManager {
     var dayString = ""
     var monthString = ""
     
-    
     // MARK: GroupListVC使用的變數
     var userInGroupClassNameArray: [String] = []      // 用來存教室名稱 ["教室1", "教室2"]
     var userInGroupIDNameArray: [String] = []         // 用來存教室ID [ "iqbjs3", "klabc1"]
     
+    // MARK: GroupDetailClass使用的變數
+    var classMembersIDArray: [String] = []                      // 空陣列，要接住下方轉換成的 ["成員1ID", "成員2ID"]
+    var classMembersTimeSum: Int = 0
+    var classMembersTimeDictionary: [String: Int] = [:]         //
+    var indexNumber = 0                                         // 獲取名字
+    var classMembersNameArray: [String] = []                    // 空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
+    var classMembersImageArray: [String] = []                   // 🍎空陣列
+    var classMembersIDDictionary: [String: String] = [:]        //
+    var classMembersImageDictionary: [String: String] = [:]     // 🍎
     
     // MARK: 把新任務傳至firebase (AddTaskVC)
     func createTask(taskText: String) {
@@ -208,7 +216,7 @@ class FirebaseManager {
     }
     
     // MARK: 建立firebase群組 (CreateGroupVC)
-    func postGroupAPI(groupName: String) {
+    func postNewGroupAPI(groupName: String) {
         let db = Firestore.firestore()
         let newDocumentGroupID = db.collection("group").document()      // firebase建立一個亂數DocumentID
         let documentID = newDocumentGroupID.documentID                  // firebase建立一個亂數DocumentID 並賦值給變數
@@ -230,6 +238,81 @@ class FirebaseManager {
         }
     }
     
+    // MARK: 抓取firebase上 有member下的 userID (用自己的ID去 找有沒有這樣的document)
+    // 拿到 ["成員1的ID", "成員2的ID"]
+    func fetchIDAPI(parameterFetchClassID: String) {
+        let db = Firestore.firestore()
+        
+        let documentRef = db.collection("group").document(parameterFetchClassID).getDocument { snapshot, error in
+            guard let snapshot = snapshot else { return }
+            
+            let memberNSArray = snapshot.data()!
+            if let members = memberNSArray["members"] as? [String] {
+                self.classMembersIDArray = members
+            }
+            self.fetchTimeAPI()
+            self.fetchNameAPI()                 // 去呼叫另外函式 轉拿 ["成員1的Name", "成員2的Name"]
+            // self.groupDetailClassCollectionView.reloadData()
+            self.delegate?.reloadData()
+        }
+    }
+    
+    // MARK: userID去拿當日的Timer
+    func fetchTimeAPI() {
+        var today = Date()
+        var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
+        var month = dateComponents.month!
+        let day = dateComponents.day! < 10 ? "0\(dateComponents.day!)" : "\(dateComponents.day!)"
+        let db = Firestore.firestore()
+        
+        // MARK: 依據幾個member跑幾次
+        for classMemberID in classMembersIDArray {
+            let documentRef = db.collection("users").document(classMemberID).collection("\(month).\(day)").addSnapshotListener { snapshot, error in
+                guard let snapshot = snapshot else { return }
+                
+                self.classMembersTimeSum = 0   // 換人時間歸零
+                // MARK: 依據單一member，任務有幾個跑幾次
+                for document in snapshot.documents {
+                    guard let eachTaskTimer = document.data()["timer"] as? String else { return }    // 轉型成String
+                    self.classMembersTimeSum += Int(eachTaskTimer)!
+                }
+                self.classMembersTimeDictionary[classMemberID] = self.classMembersTimeSum
+                
+                // MARK: 加完改變
+                DispatchQueue.main.async {
+                    // self.groupDetailClassCollectionView.reloadData()
+                    self.delegate?.reloadData()
+                }
+            }
+        }
+    }
+    
+    // MARK: 拿userID陣列去 fetch抓 userName陣列
+    // 拿到 ["成員1的Name", "成員2的Name"]
+    func fetchNameAPI() {
+        // 走2次
+        indexNumber = 0
+        classMembersNameArray.removeAll()
+        classMembersImageArray.removeAll()
+        
+        for memberID in classMembersIDArray {
+            let db = Firestore.firestore()
+            db.collection("users").document("\(classMembersIDArray[indexNumber])").getDocument { snapshot, error in
+                
+                guard let snapshot = snapshot else { return }
+                // 名字
+                self.classMembersIDDictionary[memberID] = "\(snapshot.data()!["name"]!)"
+                self.classMembersNameArray.append("\(snapshot.data()!["name"]!)")
+                // 照片
+                self.classMembersImageDictionary[memberID] = "\(snapshot.data()!["image"]!)"
+                self.classMembersImageArray.append("\(snapshot.data()!["image"]!)")
+                
+                // self.groupDetailClassCollectionView.reloadData()
+                self.delegate?.reloadData()
+            }
+            self.indexNumber += 1
+        }
+    }
     
     
 }

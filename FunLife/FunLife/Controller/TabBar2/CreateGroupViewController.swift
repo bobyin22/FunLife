@@ -60,7 +60,7 @@ class CreateGroupViewController: UIViewController {
         guard let cell = createGroupView.createGroupTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? CreateGroupTableViewCell else { return }
         
         // 從Manager去執行建立群組傳上firebase
-        firebaseManager.postGroupAPI(groupName: cell.createGroupTextField.text!)
+        firebaseManager.postNewGroupAPI(groupName: cell.createGroupTextField.text!)
         
         // 點擊按鈕發生的事   跳轉回群組List頁
         self.navigationController?.popViewController(animated: true)
