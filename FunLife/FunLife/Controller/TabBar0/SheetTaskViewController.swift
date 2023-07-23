@@ -113,13 +113,10 @@ extension SheetTaskViewController: UITableViewDataSource {
     
 }
 
-
 extension SheetTaskViewController: FirebaseManagerDelegate {
     func renderText() {}
     
-    
     func kfRenderImg() {}
-    
     
     // 實作 FirebaseManagerDelegate 協議的方法，當 FirebaseManager 完成任務獲取後，通知重新載入數據
     func reloadData() {

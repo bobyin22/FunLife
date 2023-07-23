@@ -27,7 +27,7 @@ struct Group: Codable, Identifiable {
     var members: [String]
 }
 
-//struct Members: Codable { // , Identifiable
+// struct Members: Codable { // , Identifiable
 //    // @DocumentID var id: String?
 //    let member: String
-//}
+// }

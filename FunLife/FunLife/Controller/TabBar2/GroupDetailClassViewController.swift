@@ -91,9 +91,9 @@ class GroupDetailClassViewController: UIViewController {
         groupDetailClassCollectionView.register(GroupDetailClassCollectionViewCell.self,forCellWithReuseIdentifier: "GroupDetailClassCollectionViewCell")
 
         // 註冊 section 的 header 跟 footer 以供後續重複使用
-        //groupDetailClassCollectionView.register(UICollectionReusableView.self,forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
+        // groupDetailClassCollectionView.register(UICollectionReusableView.self,forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
         
-        //groupDetailClassCollectionView.register(UICollectionReusableView.self,forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "Footer")
+        // groupDetailClassCollectionView.register(UICollectionReusableView.self,forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "Footer")
 
         // 設置委任對象
         groupDetailClassCollectionView.delegate = self
@@ -158,13 +158,19 @@ extension GroupDetailClassViewController: UICollectionViewDataSource {
 extension GroupDetailClassViewController: UICollectionViewDelegateFlowLayout {
     
     // item水平間距 min Interitem spacing
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat { return 40 }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat { return 40 }
     
     // 格子與格子row間距 min line spacing
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat { return 140 }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat { return 140 }
     
     // collection格子與collection Header距離 (section垂直間距，section的inset，相當於是内容的margin)
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
         
         // return UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
         if section == 0 {
@@ -182,7 +188,6 @@ extension GroupDetailClassViewController: UICollectionViewDelegateFlowLayout {
 
 extension GroupDetailClassViewController: FirebaseManagerDelegate {
     func renderText() {}
-    
     
     func kfRenderImg() {}
     

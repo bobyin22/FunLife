@@ -12,10 +12,9 @@ import FirebaseFirestoreSwift
 
 // MARK: Manager抓抓完今日任務資料要通知SheetTaskVC (SheetTaskVC)
 protocol FirebaseManagerDelegate: AnyObject {
-    func reloadData()
-    
-    func kfRenderImg()
-    func renderText()
+    func reloadData()       // 讓VC的tableView或CollectionView重新更新畫面
+    func kfRenderImg()      // ProfileVC載入圖
+    func renderText()       // ProfileVC載入字
 }
 
 class FirebaseManager {
@@ -63,9 +62,7 @@ class FirebaseManager {
     func createTask(taskText: String) {
         
         let task = ["timer": "0", "user": "包伯"]
-        
         let bobDocumentRef = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
-        
         let nextTaskCollectionRef = bobDocumentRef.collection("\(month).\(day)" ?? "沒輸入")
         
         nextTaskCollectionRef.document(taskText).setData(task) { error in
@@ -104,7 +101,7 @@ class FirebaseManager {
         
         documentReference.getDocument { document, error in
             guard let document, document.exists,
-                  var user = try? document.data(as: Users.self) else {  // // MARK: 這裡就有用到自定義的struct資料結構
+                  var user = try? document.data(as: Users.self) else {  // 這裡用到自定義的struct資料結構
                 return
             }
             
@@ -136,7 +133,6 @@ class FirebaseManager {
                 self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
                 indexNumber += 1
             }
-            
             self.delegate?.reloadData()
         }
     }
@@ -356,7 +352,7 @@ class FirebaseManager {
         }
     }
     
-    // 🎃 把url傳到使用者 (ProfileVC)
+    // MARK: 把url傳到使用者 (ProfileVC)
     func passUrlToUserFirebaseDataBase(myUrlString: String) {
         let db = Firestore.firestore()
         db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").updateData(["image": myUrlString]) { error in

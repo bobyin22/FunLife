@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class CreateGroupView: UIView {
     
     // MARK: 建立一個UI TableView
@@ -56,7 +55,7 @@ class CreateGroupView: UIView {
         NSLayoutConstraint.activate([
             cancelGroupBtn.topAnchor.constraint(equalTo: self.bottomAnchor, constant: -80),
             cancelGroupBtn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            //cancelGroupBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -200),
+            // cancelGroupBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -200),
             cancelGroupBtn.widthAnchor.constraint(equalToConstant: 150),
             cancelGroupBtn.heightAnchor.constraint(equalToConstant: 50),
         ])
@@ -115,7 +114,7 @@ extension CreateGroupView: UITableViewDataSource {
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.textColor = UIColor(red: 185/255, green: 131/255, blue: 69/255, alpha: 1)// UIColor.orange
         header.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        //header.textLabel?.frame = header.frame
+        // header.textLabel?.frame = header.frame
         header.textLabel?.translatesAutoresizingMaskIntoConstraints = false
         
         // 設定左邊距約束
@@ -128,9 +127,9 @@ extension CreateGroupView: UITableViewDataSource {
             header.contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             header.contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             header.contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            //myTableView.heightAnchor.constraint(equalToConstant: 300)
+            // myTableView.heightAnchor.constraint(equalToConstant: 300)
         ])
-        //header.textLabel?.backgroundColor = .blue
+        // header.textLabel?.backgroundColor = .blue
         header.textLabel?.textAlignment = .left
     }
     

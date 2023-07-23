@@ -31,7 +31,7 @@ class CreateGroupViewController: UIViewController {
             vcNavBarColorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             vcNavBarColorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             vcNavBarColorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            //vcNavBarColorView.heightAnchor.constraint(equalToConstant: 300)
+            // vcNavBarColorView.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
     

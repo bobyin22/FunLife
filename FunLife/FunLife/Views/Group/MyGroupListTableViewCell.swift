@@ -27,7 +27,7 @@ class MyGroupListTableViewCell: UITableViewCell {
             groupOutsideView.translatesAutoresizingMaskIntoConstraints = false
             groupOutsideView.layer.cornerRadius = 20 // 設定圓角半徑
             groupOutsideView.layer.borderWidth = 1 // 設定邊框寬度
-        groupOutsideView.layer.borderColor = UIColor(red: 70/255, green: 70/255, blue: 70/255, alpha: 1).cgColor//UIColor.lightGray.cgColor // 設定邊框顏色
+        groupOutsideView.layer.borderColor = UIColor(red: 70/255, green: 70/255, blue: 70/255, alpha: 1).cgColor // UIColor.lightGray.cgColor // 設定邊框顏色
             groupOutsideView.clipsToBounds = true // 裁剪超出範圍的內容
             
             NSLayoutConstraint.activate([
@@ -57,14 +57,14 @@ class MyGroupListTableViewCell: UITableViewCell {
         groupPhotoImageView.contentMode = .scaleToFill
         groupPhotoImageView.layer.cornerRadius = 20 // 設定圓角半徑
         groupPhotoImageView.clipsToBounds = true // 裁剪超出範圍的內容
-        //groupPhotoImageView.backgroundColor = .systemGreen
+        // groupPhotoImageView.backgroundColor = .systemGreen
         contentView.addSubview(groupPhotoImageView)
         groupPhotoImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             groupPhotoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             groupPhotoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             groupPhotoImageView.widthAnchor.constraint(equalToConstant: 190),
-            //groupPhotoImageView.heightAnchor.constraint(equalToConstant: 90),
+            // groupPhotoImageView.heightAnchor.constraint(equalToConstant: 90),
             groupPhotoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
         ])
     }

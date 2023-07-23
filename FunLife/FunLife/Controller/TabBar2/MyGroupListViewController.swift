@@ -112,7 +112,7 @@ extension MyGroupListViewController: UITableViewDataSource {
                                                         for: indexPath) as? MyGroupListTableViewCell
         else { return }
         
-        let selectedGroupID = firebaseManager.userInGroupClassNameArray[indexPath.row]             // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
+        let selectedGroupID = firebaseManager.userInGroupClassNameArray[indexPath.row]             // 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
         
         // 如果firebase image && name 有值，通知
         let db = Firestore.firestore()
@@ -125,7 +125,7 @@ extension MyGroupListViewController: UITableViewDataSource {
                 // return
                 self.alertMsg()
             } else {
-                self.groupDetailClassVC.classNameString = selectedGroupID                            // MARK: 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
+                self.groupDetailClassVC.classNameString = selectedGroupID                            // 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
                 self.groupDetailClassVC.fetchClassID = self.firebaseManager.userInGroupIDNameArray[indexPath.row]
                 print("🎃indexPath.row是", indexPath.row)
                 print("🎉self.userInGroupIDNameArray[indexPath.row]是", self.groupDetailClassVC.fetchClassID, self.firebaseManager.userInGroupIDNameArray[indexPath.row])
@@ -162,7 +162,6 @@ extension MyGroupListViewController: UITableViewDataSource {
 
 extension MyGroupListViewController: FirebaseManagerDelegate {
     func renderText() {}
-    
     
     func kfRenderImg() {}
     

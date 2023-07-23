@@ -79,7 +79,9 @@ class HomeViewController: UIViewController {
     // MARK: 頁面出現後開啟Notification
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged),
+                                               name: UIDevice.orientationDidChangeNotification,
+                                               object: nil)
     }
     
     // MARK: 頁面要消失的時候關掉Notification
@@ -143,7 +145,6 @@ class HomeViewController: UIViewController {
         }
     }
     
-
     // MARK: 點擊任務按鈕會發生的事
     @objc func clickTaskBtn() {
         // 5️⃣ 當作是自己

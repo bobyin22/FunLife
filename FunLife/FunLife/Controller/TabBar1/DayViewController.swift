@@ -211,7 +211,6 @@ extension DayViewController: UITableViewDataSource {
 extension DayViewController: FirebaseManagerDelegate {
     func renderText() {}
     
-    
     func kfRenderImg() {}
     
     // 設定tableView資料源後調用的方法

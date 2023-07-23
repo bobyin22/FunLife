@@ -28,7 +28,7 @@ class GroupDetailView: UIView {
     // MARK: 教室名稱
     let groupDetailNameLabel: UILabel = {
         let groupDetailNameLabel = UILabel()
-        //groupDetailNameLabel.backgroundColor = .systemBlue
+        // groupDetailNameLabel.backgroundColor = .systemBlue
         return groupDetailNameLabel
     }()
     
@@ -52,7 +52,7 @@ class GroupDetailView: UIView {
             // groupDetailNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             groupDetailNameLabel.widthAnchor.constraint(equalToConstant: 100),
             groupDetailNameLabel.heightAnchor.constraint(equalToConstant: 50),
-            //groupDetailNameLabel.bottomAnchor.constraint(equalTo: self.topAnchor, constant: 150),
+            // groupDetailNameLabel.bottomAnchor.constraint(equalTo: self.topAnchor, constant: 150),
         ])
     }
     
@@ -66,9 +66,9 @@ class GroupDetailView: UIView {
             groupDetailImageView.topAnchor.constraint(equalTo: groupDetailNameLabel.bottomAnchor, constant: 10),
             groupDetailImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             groupDetailImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            //groupDetailImageView.widthAnchor.constraint(equalToConstant: 150),
+            // groupDetailImageView.widthAnchor.constraint(equalToConstant: 150),
             groupDetailImageView.heightAnchor.constraint(equalToConstant: 120),
-            //groupDetailImageView.bottomAnchor.constraint(equalTo: self.topAnchor, constant: 150),
+            // groupDetailImageView.bottomAnchor.constraint(equalTo: self.topAnchor, constant: 150),
         ])
     }
     

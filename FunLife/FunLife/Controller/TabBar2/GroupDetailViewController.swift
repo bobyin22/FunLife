@@ -26,7 +26,7 @@ class GroupDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        //view.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        // view.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         fetchIDAPI()
         
         setupGroupDetailView()
@@ -181,13 +181,13 @@ extension GroupDetailViewController: UITableViewDelegate {
 // MARK: DataSource
 extension GroupDetailViewController: UITableViewDataSource {
     
-    //分组头即将要显示
+    // 分组头即将要显示
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView,
                    forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.textColor = UIColor.orange
         header.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        //header.textLabel?.frame = header.frame
+        // header.textLabel?.frame = header.frame
         header.textLabel?.translatesAutoresizingMaskIntoConstraints = false
         header.contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -195,9 +195,9 @@ extension GroupDetailViewController: UITableViewDataSource {
             header.contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
             header.contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             header.contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            //myTableView.heightAnchor.constraint(equalToConstant: 300)
+            // myTableView.heightAnchor.constraint(equalToConstant: 300)
         ])
-        //header.textLabel?.backgroundColor = .blue
+        // header.textLabel?.backgroundColor = .blue
         header.textLabel?.textAlignment = .center
     }
     
@@ -221,11 +221,11 @@ extension GroupDetailViewController: UITableViewDataSource {
         }
         cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         
-        //頭像
+        // 頭像
         cell.personIconBtn.setImage(UIImage(named: "person1.png"), for: .normal)
-        //姓名
+        // 姓名
         cell.personNameLabel.text = classMembersIDDictionary[classMembersIDArray[indexPath.row]]
-        //時間
+        // 時間
         if let time = classMembersTimeDictionary[classMembersIDArray[indexPath.row]] {
             
             let hours = Int(time) / 3600

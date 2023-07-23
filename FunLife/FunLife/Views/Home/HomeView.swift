@@ -51,7 +51,7 @@ class HomeView: UIView {
     
     // MARK: UI建立圓形View
     func setupCircleUI() {
-        circleView.backgroundColor = .black //UIColor(red: 107/255, green: 142/255, blue: 35/255, alpha: 1)
+        circleView.backgroundColor = .black // UIColor(red: 107/255, green: 142/255, blue: 35/255, alpha: 1)
         addSubview(circleView)
         circleView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -112,8 +112,8 @@ class HomeView: UIView {
         circleTaskButton.titleLabel?.font = UIFont(name: "Helvetica", size: 20)
         circleTaskButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            //circleTaskButton.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
-            //circleTaskButton.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -65)
+            // circleTaskButton.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
+            // circleTaskButton.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -65)
             // 水平置中
             circleTaskButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             // 垂直置中
@@ -132,8 +132,8 @@ class HomeView: UIView {
     
     @objc func btnTouchUpInside() {
         circleTaskButton.setTitleColor(UIColor.black, for: .normal)
-        //circleTaskButton.tintColor = .black
-        //saveProfileBtn.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        // circleTaskButton.tintColor = .black
+        // saveProfileBtn.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
     }
     
     // MARK: UI建立日期Label
@@ -174,8 +174,8 @@ class HomeView: UIView {
         
         label.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            //label.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
-            //label.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -65)
+            // label.topAnchor.constraint(equalTo: circleTimerLabel.bottomAnchor, constant: 20),
+            // label.leadingAnchor.constraint(equalTo: circleTimerLabel.centerXAnchor, constant: -65)
             // 水平置中
             label.centerXAnchor.constraint(equalTo: centerXAnchor),
             // 垂直置中

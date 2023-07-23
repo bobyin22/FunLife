@@ -58,8 +58,8 @@ class GroupDetailClassView: UIView {
         inviteGroupBtn.setTitle("邀請", for: .normal)
         inviteGroupBtn.setTitleColor(.white, for: .normal)    //
         inviteGroupBtn.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 0.6) //UIColor(red: 81/255, green: 88/255, blue: 104/255, alpha: 1)
-        //inviteGroupBtn.layer.borderColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1).cgColor
-        //inviteGroupBtn.layer.borderWidth = 2.0
+        // inviteGroupBtn.layer.borderColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1).cgColor
+        // inviteGroupBtn.layer.borderWidth = 2.0
 
         addSubview(inviteGroupBtn)
         inviteGroupBtn.clipsToBounds = true

@@ -47,7 +47,6 @@ class AddTaskViewController: UIViewController {
         ])
         
         addTaskView.cancelTaskButton.addTarget(self, action: #selector(cancelTaskToFirebase), for: .touchUpInside)
-        
         addTaskView.saveTaskButton.addTarget(self, action: #selector(saveTaskToFirebase), for: .touchUpInside)
     }
     
