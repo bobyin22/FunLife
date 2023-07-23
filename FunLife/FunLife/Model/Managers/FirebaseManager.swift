@@ -58,6 +58,7 @@ class FirebaseManager {
     var profileVCImageUrl: URL = URL(string: "https://example.com/image.png")!
     var profileVCPassString = ""
     
+    
     // MARK: 把新任務傳至firebase (AddTaskVC)
     func createTask(taskText: String) {
         
