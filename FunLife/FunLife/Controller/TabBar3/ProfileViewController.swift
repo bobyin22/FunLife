@@ -35,7 +35,6 @@ class ProfileViewController: UIViewController {
             profileVCNavBarColorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             profileVCNavBarColorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             profileVCNavBarColorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            // profileVCNavBarColorView.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
     
@@ -65,21 +64,16 @@ class ProfileViewController: UIViewController {
         // 顯示彈跳視窗 相機或是相簿
         for name in names {
             let action = UIAlertAction(title: name, style: .default) { action in
-                // print(action.title)
                 if action.title == "Camera" {                       // 如果選到是相機
-                    
-                    let myController = UIImagePickerController()    // 5️⃣建立實體
+                    let myController = UIImagePickerController()
                     myController.sourceType = .camera
-                    myController.delegate = self                    // 6️⃣當作是自己
+                    myController.delegate = self
                     self.present(myController, animated: true)
-                    
                 } else {                                            // 如果選到是相簿
-                    
-                    let myController = UIImagePickerController()    // 5️⃣建立實體
+                    let myController = UIImagePickerController()
                     myController.sourceType = .photoLibrary
-                    myController.delegate = self                    // 6️⃣當作是自己
+                    myController.delegate = self
                     self.present(myController, animated: true)
-                    
                 }
             }
             controller.addAction(action)
@@ -94,7 +88,6 @@ class ProfileViewController: UIViewController {
     // 點擊儲存按鈕
     @objc func clickSaveProfileBtn() {
         firebaseManager.modifyAPIName(paramaterUserName: profileView.profileNameTextField.text ?? "nil")     // 把名字打入cloud firestore database
-        // profileView.saveProfileBtn.adjustsImageWhenHighlighted = true
     }
 }
 
@@ -148,11 +141,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 }
 
-/*
- 1. 上傳image 檔案
- 2. 拿到下載url
- 3. 存url到 userDefault
- */
 
 extension ProfileViewController: FirebaseManagerDelegate {
     

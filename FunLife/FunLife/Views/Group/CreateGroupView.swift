@@ -12,7 +12,6 @@ class CreateGroupView: UIView {
     // MARK: 建立一個UI TableView
     let createGroupTableView: UITableView = {
         let createGroupTableView = UITableView()
-        // createGroupTableView.backgroundColor = .systemGreen
         return createGroupTableView
     }()
     
@@ -55,7 +54,6 @@ class CreateGroupView: UIView {
         NSLayoutConstraint.activate([
             cancelGroupBtn.topAnchor.constraint(equalTo: self.bottomAnchor, constant: -80),
             cancelGroupBtn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            // cancelGroupBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -200),
             cancelGroupBtn.widthAnchor.constraint(equalToConstant: 150),
             cancelGroupBtn.heightAnchor.constraint(equalToConstant: 50),
         ])
@@ -72,7 +70,6 @@ class CreateGroupView: UIView {
         saveGroupBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             saveGroupBtn.topAnchor.constraint(equalTo: self.bottomAnchor, constant: -80),
-            // saveGroupBtn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             saveGroupBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             saveGroupBtn.widthAnchor.constraint(equalToConstant: 150),
             saveGroupBtn.heightAnchor.constraint(equalToConstant: 50),
@@ -114,22 +111,18 @@ extension CreateGroupView: UITableViewDataSource {
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.textColor = UIColor(red: 185/255, green: 131/255, blue: 69/255, alpha: 1)// UIColor.orange
         header.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        // header.textLabel?.frame = header.frame
         header.textLabel?.translatesAutoresizingMaskIntoConstraints = false
         
         // 設定左邊距約束
         let leadingConstraint = header.textLabel?.leadingAnchor.constraint(equalTo: header.contentView.leadingAnchor, constant: 10)
         leadingConstraint?.isActive = true
-        // header.contentView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             header.contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             header.contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             header.contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             header.contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            // myTableView.heightAnchor.constraint(equalToConstant: 300)
         ])
-        // header.textLabel?.backgroundColor = .blue
         header.textLabel?.textAlignment = .left
     }
     
@@ -153,8 +146,7 @@ extension CreateGroupView: UITableViewDataSource {
         }
         
         cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 38/255)
-        cell.createGroupTextField.placeholder = "輸入輸入"
-        // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
+        cell.createGroupTextField.placeholder = "請輸入群組名稱"
         return cell
     }
 

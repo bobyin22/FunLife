@@ -11,15 +11,13 @@ import FirebaseFirestore
 class MyGroupListViewController: UIViewController {
     
     let groupListTableView = UITableView()
-    
     let firebaseManager = FirebaseManager()
     
     // MARK: 點擊進入各自的下一頁
-    let groupDetailClassVC = GroupDetailClassViewController()                       // MARK: 🍀新collection改從這進入
+    let groupDetailClassVC = GroupDetailClassViewController()                       // 新collection改從這進入
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // view.backgroundColor = .white
         setupGroupListTableView()
         setupAddGroupBtn()
         
@@ -61,7 +59,6 @@ class MyGroupListViewController: UIViewController {
             groupListTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             groupListTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             groupListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            // groupListTableView.heightAnchor.constraint(equalToConstant: 430)
         ])
         groupListTableView.separatorStyle = .none
 
@@ -69,7 +66,7 @@ class MyGroupListViewController: UIViewController {
     // MARK: 建立UI 方形按鈕
     func setupAddGroupBtn() {
         let addGroupBtn = UIButton()
-        addGroupBtn.setImage(UIImage(named: "plus3.png"), for: .normal)
+        addGroupBtn.setImage(UIImage(named: "plus.png"), for: .normal)
         view.addSubview(addGroupBtn)
         addGroupBtn.addTarget(self, action: #selector(clickBtn), for: .touchUpInside)
         
@@ -112,7 +109,7 @@ extension MyGroupListViewController: UITableViewDataSource {
                                                         for: indexPath) as? MyGroupListTableViewCell
         else { return }
         
-        let selectedGroupID = firebaseManager.userInGroupClassNameArray[indexPath.row]             // 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
+        let selectedGroupID = firebaseManager.userInGroupClassNameArray[indexPath.row]                  // 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
         
         // 如果firebase image && name 有值，通知
         let db = Firestore.firestore()
@@ -127,10 +124,7 @@ extension MyGroupListViewController: UITableViewDataSource {
             } else {
                 self.groupDetailClassVC.classNameString = selectedGroupID                            // 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
                 self.groupDetailClassVC.fetchClassID = self.firebaseManager.userInGroupIDNameArray[indexPath.row]
-                print("🎃indexPath.row是", indexPath.row)
-                print("🎉self.userInGroupIDNameArray[indexPath.row]是", self.groupDetailClassVC.fetchClassID, self.firebaseManager.userInGroupIDNameArray[indexPath.row])
                 self.navigationController?.pushViewController(self.groupDetailClassVC, animated: true)
-                
             }
         }
     }
@@ -154,7 +148,6 @@ extension MyGroupListViewController: UITableViewDataSource {
         
         cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 38/255)
         cell.groupNameLabel.text = firebaseManager.userInGroupClassNameArray[indexPath.row]   // List的教室名稱🍀
-        // cell.settingIcon.setImage(UIImage(systemName: settingIconArray[indexPath.row]), for: .normal)
         return cell
     }
     

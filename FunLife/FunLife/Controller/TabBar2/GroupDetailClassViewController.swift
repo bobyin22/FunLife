@@ -27,7 +27,6 @@ class GroupDetailClassViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("😎接到fetchClassID是", fetchClassID)
         firebaseManager.fetchIDAPI(parameterFetchClassID: fetchClassID)
         groupDetailClassView.groupDetailNameLabel.text = classNameString // 讓Label吃到上一頁傳來的教室名稱
     }
@@ -71,8 +70,6 @@ class GroupDetailClassViewController: UIViewController {
     
     // MARK: 畫出自定義CollectionView
     func setupGroupDetailClassCollectionView() {
-        // let layout = UICollectionViewFlowLayout()   // 建立 UICollectionViewFlowLayout
-        // let groupDetailClassCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         let layout = UICollectionViewFlowLayout()
         groupDetailClassCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -89,11 +86,6 @@ class GroupDetailClassViewController: UIViewController {
         
         // 註冊 cell 以供後續重複使用
         groupDetailClassCollectionView.register(GroupDetailClassCollectionViewCell.self,forCellWithReuseIdentifier: "GroupDetailClassCollectionViewCell")
-
-        // 註冊 section 的 header 跟 footer 以供後續重複使用
-        // groupDetailClassCollectionView.register(UICollectionReusableView.self,forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
-        
-        // groupDetailClassCollectionView.register(UICollectionReusableView.self,forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "Footer")
 
         // 設置委任對象
         groupDetailClassCollectionView.delegate = self
@@ -142,13 +134,6 @@ extension GroupDetailClassViewController: UICollectionViewDataSource {
             cell.personTimerLabel.text = nil
         }
         
-        print("1️⃣classMembersNameArray", firebaseManager.classMembersNameArray)
-        print("2️⃣classMembersIDArray", firebaseManager.classMembersIDArray)
-        print("📸classMembersImageArray", firebaseManager.classMembersImageArray)
-        print("3️⃣classMembersTimeDictionary", firebaseManager.classMembersTimeDictionary)
-        print("4️⃣classMembersIDDictionary", firebaseManager.classMembersIDDictionary)
-        print("📸classMembersImageDictionary", firebaseManager.classMembersImageDictionary)
-        
         return cell
     }
     
@@ -171,13 +156,8 @@ extension GroupDetailClassViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        
-        // return UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
-        if section == 0 {
-            return UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
-        } else {
-            return UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
-        }
+                
+        return UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
     }
     
     // header的高度

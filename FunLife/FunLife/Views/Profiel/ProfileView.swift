@@ -39,7 +39,6 @@ class ProfileView: UIView {
         return profileNameTextField
     }()
     
-
     // MARK: 初始init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,46 +51,25 @@ class ProfileView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         let arcHeight: CGFloat = 50 // 半弧形的高度
-        
-        // 创建半弧形的路径
-//        let arcPath = UIBezierPath()
-//        arcPath.move(to: CGPoint(x: 0, y: 0))
-//        arcPath.addLine(to: CGPoint(x: bounds.width, y: 0))
-//        arcPath.addLine(to: CGPoint(x: bounds.width, y: 160))
-//        arcPath.addLine(to: CGPoint(x: bounds.width/2, y: 160))
-//        arcPath.addLine(to: CGPoint(x: 0, y: 160))
-        
         let aDegree = CGFloat.pi / 180
         let myPath = UIBezierPath(arcCenter: CGPoint(x: bounds.width/2, y: 00), radius: 330, startAngle: aDegree * 0, endAngle: aDegree * 180, clockwise: true)
-        
-        
-        // 创建半弧形的图层
-        // let arcLayer = CAShapeLayer()
-        //arcLayer.path = arcPath.cgPath
-        
         let myArcLayer = CAShapeLayer()
         myArcLayer.path = myPath.cgPath
         
-        // 设置半弧形的样式
-        // arcLayer.fillColor = UIColor(red: 255/255, green: 164/255, blue: 27/255, alpha: 0.9).cgColor // 设置填充颜色
+        // 設置半弧形的樣式
         myArcLayer.fillColor = UIColor(red: 185/255, green: 131/255, blue: 69/255, alpha: 1).cgColor // 设置填充颜色
         
-        // 将半弧形的图层添加到视图的顶部
-        // layer.insertSublayer(arcLayer, at: 0)
+        // 半弧形的圖層添加到視圖的頂部
         layer.insertSublayer(myArcLayer, at: 0)
 
     }
     
     // MARK: 照片Image AutoLayout
     func setupPhotoImageView() {
-        profilePhotoImageView.image = UIImage(named: "person1")//UIImage(systemName: "person")
-        //profilePhotoImageView.tintColor = .systemGray2
-        
+        profilePhotoImageView.image = UIImage(named: "person")
         profilePhotoImageView.contentMode = .scaleAspectFill
-        
-        profilePhotoImageView.backgroundColor = .white//UIColor(red: 174/255, green: 174/255, blue: 178/255, alpha: 1)//.systemYellow
+        profilePhotoImageView.backgroundColor = .white
         addSubview(profilePhotoImageView)
         profilePhotoImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -113,17 +91,14 @@ class ProfileView: UIView {
     
     // MARK: 照相Button AutoLayout
     func setupCameraBtn() {
-        profileCameraBtn.setImage(UIImage(named: "camera2"), for: .normal)
-        //profileCameraBtn.backgroundColor = .systemMint
+        profileCameraBtn.setImage(UIImage(named: "camera"), for: .normal)
         addSubview(profileCameraBtn)
         profileCameraBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             profileCameraBtn.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: -26),
             profileCameraBtn.leadingAnchor.constraint(equalTo: profilePhotoImageView.trailingAnchor, constant: -28),
-            //profileCameraBtn.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             profileCameraBtn.widthAnchor.constraint(equalToConstant: 30),
             profileCameraBtn.heightAnchor.constraint(equalToConstant: 30),
-            //profileCameraBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
         ])
     }
     
@@ -132,16 +107,12 @@ class ProfileView: UIView {
         userTitleLabel.text = "姓名"
         userTitleLabel.textColor = .white
         addSubview(userTitleLabel)
-        //userTitleLabel.backgroundColor = .white
-        
         userTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             userTitleLabel.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: 120),
             userTitleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            //userTitleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             userTitleLabel.widthAnchor.constraint(equalToConstant: 50),
             userTitleLabel.heightAnchor.constraint(equalToConstant: 50),
-            //userTitleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
         ])
     }
     
@@ -152,19 +123,15 @@ class ProfileView: UIView {
         saveProfileBtn.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         saveProfileBtn.layer.borderColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1).cgColor
         saveProfileBtn.layer.borderWidth = 2.0
-        
         saveProfileBtn.clipsToBounds = true
         saveProfileBtn.layer.cornerRadius = 8
-        saveProfileBtn.contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20) // 调整上下左右内边距
-        
+        saveProfileBtn.contentEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20) // 调整上下左右内邊距
         saveProfileBtn.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             saveProfileBtn.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: 120),
-            //saveProfileBtn.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
             saveProfileBtn.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             saveProfileBtn.widthAnchor.constraint(equalToConstant: 90),
             saveProfileBtn.heightAnchor.constraint(equalToConstant: 40),
-            //saveProfileBtn.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
         ])
         saveProfileBtn.addTarget(self, action: #selector(btnTouchDown), for: .touchDown)
         saveProfileBtn.addTarget(self, action: #selector(btnTouchUpInside), for: .touchUpInside)

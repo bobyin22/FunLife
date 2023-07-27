@@ -30,7 +30,6 @@ class CreateGroupTableViewCell: UITableViewCell {
             createGroupTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             createGroupTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             createGroupTextField.heightAnchor.constraint(equalToConstant: 50),
-            // createGroupTextField.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
     

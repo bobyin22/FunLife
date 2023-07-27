@@ -41,18 +41,18 @@ class FirebaseManager {
     var monthString = ""
     
     // MARK: GroupListVC 使用的變數
-    var userInGroupClassNameArray: [String] = []      // 用來存教室名稱 ["教室1", "教室2"]
-    var userInGroupIDNameArray: [String] = []         // 用來存教室ID [ "iqbjs3", "klabc1"]
+    var userInGroupClassNameArray: [String] = []                // 用來存教室名稱 ["教室1", "教室2"]
+    var userInGroupIDNameArray: [String] = []                   // 用來存教室ID [ "iqbjs3", "klabc1"]
     
     // MARK: GroupDetailClassVC 使用的變數
     var classMembersIDArray: [String] = []                      // 空陣列，要接住下方轉換成的 ["成員1ID", "成員2ID"]
     var classMembersTimeSum: Int = 0
-    var classMembersTimeDictionary: [String: Int] = [:]         //
+    var classMembersTimeDictionary: [String: Int] = [:]
     var indexNumber = 0                                         // 獲取名字
     var classMembersNameArray: [String] = []                    // 空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
     var classMembersImageArray: [String] = []                   // 空陣列
-    var classMembersIDDictionary: [String: String] = [:]        //
-    var classMembersImageDictionary: [String: String] = [:]     //
+    var classMembersIDDictionary: [String: String] = [:]
+    var classMembersImageDictionary: [String: String] = [:]
     
     // MARK: ProfileVC 使用的變數
     var profileVCImageUrl: URL = URL(string: "https://example.com/image.png")!
@@ -208,12 +208,7 @@ class FirebaseManager {
             // MARK: 取得教室名稱 userGroupArray
             for index in userGroup {
                 self.userInGroupClassNameArray.append(userGroup[indexNumber].roomName)
-                print("🥵userGroupArray", self.userInGroupClassNameArray)
-                print("🥵userGroup", userGroup)
-                
                 self.userInGroupIDNameArray.append(userGroup[indexNumber].groupID)
-                print("😎userGroupArray", self.userInGroupIDNameArray)
-                print("😎userGroup", userGroup)
                 indexNumber += 1
             }
             self.delegate?.reloadData()
@@ -333,12 +328,11 @@ class FirebaseManager {
             if snapshot.data()!["image"] == nil {
                 return
             } else {
-                print("👻snapshot.data()!", snapshot.data()!["image"]!)
+                print("snapshot.data()!", snapshot.data()!["image"]!)
 
                 if let imageUrlString = snapshot.data()?["image"] as? String,
                    let imageUrl = URL(string: imageUrlString) {
                     self.profileVCImageUrl = imageUrl
-                    // self.profileView.profilePhotoImageView.kf.setImage(with: imageUrl)
                     self.delegate?.kfRenderImg()
                 }
             }
@@ -346,7 +340,6 @@ class FirebaseManager {
             if snapshot.data()!["name"] == nil {
                 return
             } else {
-                // self.profileView.profileNameTextField.text = snapshot.data()?["name"]! as? String
                 self.profileVCPassString = snapshot.data()?["name"]! as? String ?? "nil"
                 self.delegate?.renderText()
             }
@@ -361,7 +354,6 @@ class FirebaseManager {
             if let error = error {
                 print("Document 建立失敗")
             } else {
-                
                 print("Document 建立成功")
             }
         }

@@ -22,7 +22,6 @@ class HomeViewController: UIViewController {
     
     let soundID = SystemSoundID(kSystemSoundID_Vibrate)     // 震動
     
-    // 5️⃣建立實體
     let addTaskVC = AddTaskViewController()                 // 把VC變數拉出來，讓後面可以 .點
     var documentID = ""                                     // myUserID格式是一個字串
     
@@ -39,7 +38,6 @@ class HomeViewController: UIViewController {
                                                selector: #selector(orientationChanged),
                                                name: UIDevice.orientationDidChangeNotification,
                                                object: nil)
-        // 6️⃣當作是自己
         addTaskVC.delegate = self
         print("函式執行後", UserDefaults.standard.dictionaryRepresentation())
 
@@ -88,26 +86,14 @@ class HomeViewController: UIViewController {
     
     // MARK: 建立UI NavBar +按鈕 與 設定按鈕
     func setupNavigation() {
-//        settingButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
-//                                            target: self,
-//                                            action: #selector(navToSettingVC))
-//        settingButtonItem.tintColor = UIColor.white
-        
         addTaskButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                             target: self,
                                             action: #selector(navToAddTaskVC))
-        addTaskButtonItem.tintColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1) // UIColor.white
+        addTaskButtonItem.tintColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)
         
-        // navigationItem.rightBarButtonItems = [settingButtonItem, addTaskButtonItem]    // 兩個按鈕
-        navigationItem.rightBarButtonItems = [addTaskButtonItem]    // 兩個按鈕
+        navigationItem.rightBarButtonItems = [addTaskButtonItem]    // 一個按鈕
     }
-    
-    // MARK: 跳轉頁 點擊Nav進入跳轉設定頁面VC
-    @objc func navToSettingVC() {
-        let settingVC = SettingViewController()
-        navigationController?.pushViewController(settingVC, animated: true)
-    }
-    
+        
     // MARK: 跳轉頁 點擊Nav進入跳轉新增任務頁面VC
     @objc func navToAddTaskVC() {
         navigationController?.pushViewController(addTaskVC, animated: true)
@@ -125,7 +111,6 @@ class HomeViewController: UIViewController {
         ])
         
         homeView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
-        // homeView.backgroundColor = UIColor(red: 160/255, green: 191/255, blue: 224/255, alpha: 1)
         homeView.circleTaskButton.addTarget(self, action: #selector(clickTaskBtn), for: .touchUpInside)
     }
     
@@ -135,7 +120,6 @@ class HomeViewController: UIViewController {
           print("有我建立的myUserID")
         } else {
             print("沒有我建立myUserID，所以我要建立一個")
-            // createANewUserIDDocument()
             let firebaseManager = FirebaseManager()
             firebaseManager.createANewUserIDDocument()
         }
@@ -155,11 +139,6 @@ class HomeViewController: UIViewController {
         present(sheetTaskVC, animated: true)
     }
     
-//    let orientation = UIDevice.current.orientation
-    // let device: UIDevice
-    // 目前沒有字
-    
-
     var oriString: String = ""
     
     // MARK: 偵測目前翻面狀態
@@ -167,8 +146,6 @@ class HomeViewController: UIViewController {
         
         // orientationChanged 方法中，獲取當前裝置的方向 orientation
         let orientation = UIDevice.current.orientation
-        //let orientation = device.orientation
-        //var oriString: String = ""
         
         switch orientation {
         case .landscapeLeft:
@@ -223,12 +200,9 @@ class HomeViewController: UIViewController {
     
     // MARK: 開始計時
     func startTimer() {
-        
         if timer == nil {
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateCircleTimerLabel), userInfo: nil, repeats: true)
         }
-        print("timer是", timer)
-        print("counter是", counter)
     }
     
     @objc func updateCircleTimerLabel() {
@@ -241,8 +215,6 @@ class HomeViewController: UIViewController {
             let seconds = counter % 60
             let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
             homeView.circleTimerLabel.text = formattedTime
-            print("timer是", timer)
-            print("counter是", counter)
             
             if counter % 1500 == 0 {
                 playMusic()
@@ -261,7 +233,6 @@ class HomeViewController: UIViewController {
             if counter % 1500 == 0 {
                 playMusic()
             }
-            
         }
     }
 
@@ -270,7 +241,7 @@ class HomeViewController: UIViewController {
     }
 }
 
-// 4️⃣遵從我們自定義的protocol
+
 extension HomeViewController: AddTaskViewControllerDelegate {
     
     func passTask(parameter: String) {
@@ -284,19 +255,16 @@ extension HomeViewController: AddTaskViewControllerDelegate {
     }
 }
 
-// 4️⃣遵從我們自定義的protocol
+
 extension HomeViewController: SheetTaskViewControllerDelegate {
-    // 7️⃣ MARK: Delegate傳值
+    // MARK: Delegate傳值
     func passValue(_ VC: SheetTaskViewController, parameter: String) {
         print("傳出來的String Task是", parameter)
         homeView.circleTaskButton.setTitle(parameter, for: .normal)
     }
     
-    // 7️⃣ MARK: Delegate傳值
+    // MARK: Delegate傳值
     func passValueTime(_ VC: SheetTaskViewController, parameterTime: String) {
-        // print("傳出來的String Time是", parameterTime)
-        // homeView.circleTimerLabel.text = parameterTime
-        
         let hours = Int(parameterTime)! / 3600
         let minutes = (Int(parameterTime)! % 3600) / 60
         let seconds = Int(parameterTime)! % 60

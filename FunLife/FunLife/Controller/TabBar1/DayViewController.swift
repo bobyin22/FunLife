@@ -20,9 +20,6 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCalendar()
-        // view.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
-        
-        // calendar.dataSource = self
         calendar.delegate = self
         
         setupMyTableView()
@@ -32,7 +29,6 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         
         myTableView.rowHeight = UITableView.automaticDimension
         myTableView.estimatedRowHeight = UITableView.automaticDimension
-        // fetchDayAPI()
         
         navbarAndtabbarsetup()
         setupDayVCNavBarColor()
@@ -52,11 +48,6 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
         
-        // 設置 TabBar 的外觀
-//        tabBarController?.tabBar.backgroundImage = UIImage()
-//        tabBarController?.tabBar.shadowImage = UIImage()
-//        tabBarController?.tabBar.isTranslucent = true
-        
         tabBarController?.tabBar.barTintColor = UIColor(red: 42/255, green: 42/255, blue: 42/255, alpha: 1.0)
         tabBarController?.tabBar.shadowImage = UIImage()
         tabBarController?.tabBar.isTranslucent = false
@@ -64,7 +55,6 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     
     // MARK: 設定第三方套件日曆View尺寸
     func setupCalendar() {
-        // calendar = FSCalendar(frame: CGRect(x: 0.0, y:60.0, width: self.view.frame.size.width, height: 300.0))
         calendar = FSCalendar(frame: CGRect.zero)
         calendar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(calendar)
@@ -84,8 +74,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         calendar.scope = .month
         calendar.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         
-        calendar.appearance.headerTitleColor = UIColor(red: 185/255, green: 131/255, blue: 69/255, alpha: 1) // .systemOrange
-        // calendar.today = nil
+        calendar.appearance.headerTitleColor = UIColor(red: 185/255, green: 131/255, blue: 69/255, alpha: 1)
         calendar.appearance.selectionColor = .blue
         calendar.appearance.weekdayTextColor = .white
         calendar.appearance.titleDefaultColor = .white
@@ -100,13 +89,9 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd" // 顯示日期的格式，只保留日
         firebaseManager.dayString = formatter.string(from: date)
-        // dayString = formatter.string(from: date)
         
         formatter.dateFormat = "M" // 顯示月份的格式，只保留月
         firebaseManager.monthString = formatter.string(from: date)
-        // monthString = formatter.string(from: date)
-        
-        // self.fetchDayAPI()
         firebaseManager.fetchDayAPI()
     }
     
@@ -120,7 +105,6 @@ class DayViewController: UIViewController, FSCalendarDelegate {
             dayVCNavBarColorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             dayVCNavBarColorView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             dayVCNavBarColorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            // dayVCNavBarColorView.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
     
@@ -134,7 +118,6 @@ class DayViewController: UIViewController, FSCalendarDelegate {
             myTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             myTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             myTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            // myTableView.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
 }
@@ -153,7 +136,6 @@ extension DayViewController: UITableViewDataSource {
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.textColor = UIColor(red: 185/255, green: 131/255, blue: 69/255, alpha: 1) // UIColor.orange
         header.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        // header.textLabel?.frame = header.frame
         header.textLabel?.translatesAutoresizingMaskIntoConstraints = false
         
         // 設定左邊距約束
@@ -166,9 +148,7 @@ extension DayViewController: UITableViewDataSource {
             header.contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             header.contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             header.contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            // myTableView.heightAnchor.constraint(equalToConstant: 300)
         ])
-        // header.textLabel?.backgroundColor = .blue
         header.textLabel?.textAlignment = .left
     }
     
@@ -200,7 +180,6 @@ extension DayViewController: UITableViewDataSource {
         let minutes = (Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 3600) / 60
         let seconds = Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 60
         let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-        // homeView.circleTimerLabel.text = formattedTime
         cell.settingTime.text = formattedTime
         
         return cell

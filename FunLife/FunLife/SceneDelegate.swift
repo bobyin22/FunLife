@@ -56,19 +56,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     // MARK: 從別地方切換回這個App會呼叫
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        print("SceneDelegate是","\(URLContexts)")
+        print("SceneDelegate:","\(URLContexts)")
         
         if let url = URLContexts.first?.url {
-            print("URL 是", url)
+            print("URL :", url)
             
-            // 🍎 MARK: 從 URL 中取得相關資訊 (我要的)
+            // MARK: 從 URL 中取得相關資訊 (我要的)
             if let scheme = url.scheme {
-                print("URL Scheme 是", scheme)
+                print("URL Scheme:", scheme)
             }
             
-            // 🍎 MARK: 拿到 5Qmy7teqRWTJdWjbtbLy
+            // MARK: 拿到 5Qmy7teqRWTJdWjbtbLy
             if let host = url.host {
-                print("URL Host 是", host)
+                print("URL Host:", host)
                 
                 // 把別人的GroupID存到UserDefault
                 UserDefaults.standard.set(host, forKey: "FriendGroupID")      // 把亂數DocumentID 塞在 App的UserDefault裡
@@ -90,7 +90,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     do {
                         // 把使用者ID加入到群組
                         try documentReference.setData(from: group)
-                        // 🍀alert寫在這
+                        // alert
                         if let rootViewController = self.window?.rootViewController {
                             let alert = UIAlertController(title: "恭喜加入群組成功",
                                                           message: "朋友已經在教室等你了喔",
