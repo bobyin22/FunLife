@@ -53,7 +53,7 @@ struct HomeWidgetEntryView: View {
                 
                 Button(action: {
                     print("印出專注！")
-                    // 添加 "專注" 按钮点击的操作
+                    // 添加 "專注" 按鈕點擊的操作
                 }) {
                     VStack {
                         Image(systemName: "figure.mind.and.body")
@@ -77,46 +77,6 @@ struct HomeWidgetEntryView: View {
     }
 }
 
-
-
-
-
-
-
-
-//struct HomeWidgetEntryView : View {
-//    var entry: Provider.Entry
-//
-//    var body: some View {
-//        // Text(entry.date, style: .time)
-//        ZStack {
-//
-//            GeometryReader { geo in
-//
-//                Image("background")
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fill)
-//                    .frame(width: geo.size.width,
-//                           height: geo.size.height,
-//                           alignment: .center)
-//                    .clipped()
-//            }
-//
-//            VStack {
-//                HStack {
-//                    Text("☘️開始專注吧！！")
-//                        .foregroundColor(Color.white)
-//                }
-//            }
-//
-////            Text(entry.date, style: .time)
-////                .font(Font.system(size: 24,
-////                                  weight: .semibold,
-////                                  design: .default))
-////                .foregroundColor(Color.white)
-//        }
-//    }
-//}
 
 struct HomeWidget: Widget {
     let kind: String = "HomeWidget"
