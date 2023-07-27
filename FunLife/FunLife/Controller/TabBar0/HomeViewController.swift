@@ -61,10 +61,6 @@ class HomeViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = true
         
         // 設置 TabBar 的外觀
-//        tabBarController?.tabBar.backgroundImage = UIImage()
-//        tabBarController?.tabBar.shadowImage = UIImage()
-//        tabBarController?.tabBar.isTranslucent = true
-        
         tabBarController?.tabBar.backgroundColor = UIColor(red: 42/255, green: 42/255, blue: 42/255, alpha: 1.0)
         tabBarController?.tabBar.barTintColor = UIColor(red: 42/255, green: 42/255, blue: 42/255, alpha: 1.0)
         tabBarController?.tabBar.shadowImage = UIImage()
@@ -122,7 +118,7 @@ class HomeViewController: UIViewController {
         view.addSubview(homeView)
         homeView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            homeView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),    // view.safeAreaLayoutGuide.topAnchor
+            homeView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             homeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             homeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)   // view.safeAreaLayoutGuide.bottomAnchor
@@ -159,14 +155,20 @@ class HomeViewController: UIViewController {
         present(sheetTaskVC, animated: true)
     }
     
+//    let orientation = UIDevice.current.orientation
+    // let device: UIDevice
+    // 目前沒有字
+    
+
+    var oriString: String = ""
+    
     // MARK: 偵測目前翻面狀態
     @objc func orientationChanged() {
         
         // orientationChanged 方法中，獲取當前裝置的方向 orientation
         let orientation = UIDevice.current.orientation
-        
-        // 目前沒有字
-        var oriString: String = ""
+        //let orientation = device.orientation
+        //var oriString: String = ""
         
         switch orientation {
         case .landscapeLeft:
@@ -177,10 +179,8 @@ class HomeViewController: UIViewController {
             stopTimer()
         case .faceUp:
             oriString = "FaceUp"
-            print("現在是正面")
             stopTimer()
             alertMsg()
-            
             // MARK: 更新firebase資料   counter: counter
             let firebaseManager = FirebaseManager()
             firebaseManager.modifyUser(counter: String(counter) ?? "nil",
@@ -188,7 +188,6 @@ class HomeViewController: UIViewController {
             )
         case .faceDown:
             oriString = "FaceDown"
-            print("現在是反面")
             startTimer()
             AudioServicesPlaySystemSound(soundID)
         case .portrait:

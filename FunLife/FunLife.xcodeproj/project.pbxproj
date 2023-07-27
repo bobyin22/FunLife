@@ -57,6 +57,7 @@
 		A8D7F9582A661EAC00DE4CFA /* HomeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A8D7F9482A661EAA00DE4CFA /* HomeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A8D7F9B42A6D191700DE4CFA /* FunLifeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9B32A6D191700DE4CFA /* FunLifeTests.swift */; };
 		A8D7F9BB2A6D237600DE4CFA /* FirebaseManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9BA2A6D237600DE4CFA /* FirebaseManagerTests.swift */; };
+		A8D7F9BD2A6D4D1700DE4CFA /* HomeViewControllerTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9BC2A6D4D1700DE4CFA /* HomeViewControllerTexts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +146,7 @@
 		A8D7F9B12A6D191700DE4CFA /* FunLifeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunLifeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8D7F9B32A6D191700DE4CFA /* FunLifeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunLifeTests.swift; sourceTree = "<group>"; };
 		A8D7F9BA2A6D237600DE4CFA /* FirebaseManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManagerTests.swift; sourceTree = "<group>"; };
+		A8D7F9BC2A6D4D1700DE4CFA /* HomeViewControllerTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerTexts.swift; sourceTree = "<group>"; };
 		DDD65060761FD46356DD5941 /* Pods_FunLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -376,6 +378,7 @@
 			children = (
 				A8D7F9B32A6D191700DE4CFA /* FunLifeTests.swift */,
 				A8D7F9BA2A6D237600DE4CFA /* FirebaseManagerTests.swift */,
+				A8D7F9BC2A6D4D1700DE4CFA /* HomeViewControllerTexts.swift */,
 			);
 			path = FunLifeTests;
 			sourceTree = "<group>";
@@ -660,6 +663,7 @@
 			files = (
 				A8D7F9BB2A6D237600DE4CFA /* FirebaseManagerTests.swift in Sources */,
 				A8D7F9B42A6D191700DE4CFA /* FunLifeTests.swift in Sources */,
+				A8D7F9BD2A6D4D1700DE4CFA /* HomeViewControllerTexts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

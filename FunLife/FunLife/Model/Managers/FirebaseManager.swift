@@ -58,9 +58,8 @@ class FirebaseManager {
     var profileVCImageUrl: URL = URL(string: "https://example.com/image.png")!
     var profileVCPassString = ""
     
-    
     // MARK: 把新任務傳至firebase (AddTaskVC)
-    func createTask(taskText: String) {
+    func createTask(taskText: String) -> String {
         
         let task = ["timer": "0", "user": "包伯"]
         let bobDocumentRef = db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
@@ -73,6 +72,8 @@ class FirebaseManager {
                 print("Task textField文字有成功存至cloud firebase")
             }
         }
+        
+        return taskText
     }
     
     // MARK: firebase成功拿到創建的獨一無二的ID (HomeVC)

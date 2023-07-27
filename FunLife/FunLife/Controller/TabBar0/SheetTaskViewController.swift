@@ -114,6 +114,7 @@ extension SheetTaskViewController: UITableViewDataSource {
 }
 
 extension SheetTaskViewController: FirebaseManagerDelegate {
+    
     func renderText() {}
     
     func kfRenderImg() {}
