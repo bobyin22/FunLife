@@ -1,12 +1,17 @@
 <h1 align="center">翻Life (FunLife) </h1>
 
 <p align="center">
-<img src="https://github.com/bobyin22/FunLife/blob/main/FunLife/ScreenShot/Fun%20Life.png?raw=true" width="300" height="300"/>
+<img src="https://github.com/bobyin22/FunLife/blob/main/FunLife/ScreenShot/FunLife.png?raw=true" width="300" height="300"/>
 </p>
 <p align="center">
     <img src="https://img.shields.io/badge/platform-iOS-lightgray">
     <img src="https://img.shields.io/badge/release-v1.1.0-green">
     <img src="https://img.shields.io/badge/license-MIT-blue">
+</p>
+
+<p align="center">
+    <a href="https://apps.apple.com/tw/app/funlife/id6450445182">
+    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"></a>
 </p>
 
 ## About
