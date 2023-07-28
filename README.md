@@ -64,14 +64,14 @@
 
 ## Technical Highlights 使用技術
 
-- Utilized the UIDevice API to detect phone flipping for implementing the Pomodoro Timer functionality.
-- Import the third-party library FSCalendar switch between different days and achieve timing functionality through DateComponent and DateFormatter.
-- Incorporated NotificationCenter to constantly monitor the phone's orientation, triggering corresponding timing and pause actions when the status changes.
-- Developed a Widget feature for the app, enhancing the user experience with photo and text components.
-- Designed the app's data structure and utilized Firebase to store user data by using Firebase Firestore and converting user photos into URLs stored in Firebase Storage.
-- Implemented URL scheme to enable different users to navigate back to the app from other applications. Interacted with Firebase to facilitate group joining functionality for different users.
-- Used UIImagePickerController to allow users to pick photos from their phone's gallery or take pictures with the camera. Employed Git Flow for version control during development.
-- Implemented UI AutoLayout programmatically.
+- Utilized the `UIDevice API` to detect phone flipping for implementing the Pomodoro Timer functionality.
+- Import the third-party library `FSCalendar` switch between different days and achieve timing functionality through DateComponent and DateFormatter.
+- Incorporated `NotificationCenter` to constantly monitor the phone's orientation, triggering corresponding timing and pause actions when the status changes.
+- Developed a `Widget` feature for the app, enhancing the user experience with photo and text components.
+- Designed the app's data structure and utilized Firebase to store user data by using `Firebase Firestore` and converting user photos into URLs stored in `Firebase Storage`.
+- Implemented `URL scheme` to enable different users to navigate back to the app from other applications. Interacted with Firebase to facilitate group joining functionality for different users.
+- Used `UIImagePickerController` to allow users to pick photos from their phone's gallery or take pictures with the camera. Employed `Git Flow` for version control during development.
+- Implemented UI `AutoLayout` programmatically.
 - Completed the entire project independently, from conceptualization, schedule planning, and interface design, to coding, and successfully published it on the App Store.
 
 ## Libraries 第三方套件
