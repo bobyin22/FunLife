@@ -5,7 +5,7 @@
 </p>
 <p align="center">
     <img src="https://img.shields.io/badge/platform-iOS-lightgray">
-    <img src="https://img.shields.io/badge/release-v1.0.2-green">
+    <img src="https://img.shields.io/badge/release-v1.1.0-green">
     <img src="https://img.shields.io/badge/license-MIT-blue">
 </p>
 
@@ -79,8 +79,7 @@
 
 ## Requirement 需求
 
-- Xcode 13.0
-- Swift 5.0
+- Xcode 14.0
 - iOS 15.0
 
 ## ReleaseNotes 版本
