@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  FunLife
 //
-//  Created by 邱慧珊 on 2023/6/14.
+//  Created by 尹周舶 on 2023/6/14.
 //
 
 import UIKit
@@ -61,7 +61,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let url = URLContexts.first?.url {
             print("URL :", url)
             
-            // MARK: 從 URL 中取得相關資訊 (我要的)
+            // MARK: 從 URL 中取得相關資訊
             if let scheme = url.scheme {
                 print("URL Scheme:", scheme)
             }

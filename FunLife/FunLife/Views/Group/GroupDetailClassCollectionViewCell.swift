@@ -2,7 +2,7 @@
 //  GroupDetailClassCollectionViewCell.swift
 //  FunLife
 //
-//  Created by 邱慧珊 on 2023/7/8.
+//  Created by 尹周舶 on 2023/7/8.
 //
 
 import UIKit

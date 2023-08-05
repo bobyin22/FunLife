@@ -2,7 +2,7 @@
 //  FirebaseManager.swift
 //  FunLife
 //
-//  Created by 邱慧珊 on 2023/7/16.
+//  Created by 尹周舶 on 2023/7/16.
 //
 
 import UIKit
@@ -41,8 +41,8 @@ class FirebaseManager {
     var monthString = ""
     
     // MARK: GroupListVC 使用的變數
-    var userInGroupClassNameArray: [String] = []                // 用來存教室名稱 ["教室1", "教室2"]
-    var userInGroupIDNameArray: [String] = []                   // 用來存教室ID [ "iqbjs3", "klabc1"]
+    var userInGroupClassNameArray: [String] = []                // 存教室名稱 ["教室1", "教室2"]
+    var userInGroupIDNameArray: [String] = []                   // 存教室ID [ "iqbjs3", "klabc1"]
     
     // MARK: GroupDetailClassVC 使用的變數
     var classMembersIDArray: [String] = []                      // 空陣列，要接住下方轉換成的 ["成員1ID", "成員2ID"]
@@ -50,7 +50,7 @@ class FirebaseManager {
     var classMembersTimeDictionary: [String: Int] = [:]
     var indexNumber = 0                                         // 獲取名字
     var classMembersNameArray: [String] = []                    // 空陣列，要接住下方從 ["成員1ID", "成員2ID"] -> ["成員1Name", "成員2Name"]
-    var classMembersImageArray: [String] = []                   // 空陣列
+    var classMembersImageArray: [String] = []
     var classMembersIDDictionary: [String: String] = [:]
     var classMembersImageDictionary: [String: String] = [:]
     
@@ -78,7 +78,6 @@ class FirebaseManager {
     
     // MARK: firebase成功拿到創建的獨一無二的ID (HomeVC)
     func createANewUserIDDocument() {
-        // let task = ["timer": "0", "user": "包伯"]
         let newDocumentID = db.collection("users").document()               // firebase建立一個亂數DocumentID
         self.documentID = newDocumentID.documentID                          // firebase建立一個亂數DocumentID 並賦值給變數
         UserDefaults.standard.set(self.documentID, forKey: "myUserID")      // 把亂數DocumentID 塞在 App的UserDefault裡
@@ -99,7 +98,7 @@ class FirebaseManager {
         let documentReference = db.collection("users")
             .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
             .collection("\(month).\(day)")
-            .document(taskText)         // // MARK: 傳上 00:00:12
+            .document(taskText)                                         // MARK: 傳上 00:00:12
         
         documentReference.getDocument { document, error in
             guard let document, document.exists,
@@ -282,7 +281,6 @@ class FirebaseManager {
     // MARK: 拿userID陣列去 fetch抓 userName陣列 (GroupDetailClassVC)
     // 拿到 ["成員1的Name", "成員2的Name"]
     func fetchNameAPI() {
-        // 走2次
         indexNumber = 0
         classMembersNameArray.removeAll()
         classMembersImageArray.removeAll()

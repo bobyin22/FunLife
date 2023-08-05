@@ -2,7 +2,7 @@
 //  SettingTableViewCell.swift
 //  FunLife
 //
-//  Created by 邱慧珊 on 2023/6/16.
+//  Created by 尹周舶 on 2023/6/16.
 //
 
 import UIKit
@@ -46,7 +46,6 @@ class SettingTableViewCell: UITableViewCell {
         
     }
     
-    // MARK: 需要寫上
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

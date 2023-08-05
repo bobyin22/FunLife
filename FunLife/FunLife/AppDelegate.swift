@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  FunLife
 //
-//  Created by 邱慧珊 on 2023/6/14.
+//  Created by 尹周舶 on 2023/6/14.
 //
 
 import UIKit
@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()                         // MARK: 加入第三方套件Firebase
         IQKeyboardManager.shared().isEnabled = true     // MARK: 加入第三方套件IQKeyboard
         
-        // MARK: 這是目前存在UserDefaults的資料  然後我要取得UUID
+        // MARK: 這是目前存在UserDefaults的資料  然後要取得UUID
         return true
     }
 

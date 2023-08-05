@@ -2,13 +2,12 @@
 //  Users.swift
 //  FunLife
 //
-//  Created by 邱慧珊 on 2023/6/16.
+//  Created by 尹周舶 on 2023/6/16.
 //
 
 import Foundation
 import UIKit
 import FirebaseFirestoreSwift
-
 
 // MARK: 自定義類別 在建立任務時會顯示
 struct Users: Codable, Identifiable {
@@ -24,5 +23,4 @@ struct Group: Codable, Identifiable {
     let roomName: String
     var members: [String]
 }
-
 

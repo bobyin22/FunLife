@@ -2,7 +2,7 @@
 //  GroupDetailClassView.swift
 //  FunLife
 //
-//  Created by 邱慧珊 on 2023/7/7.
+//  Created by 尹周舶 on 2023/7/7.
 //
 
 import UIKit
@@ -81,7 +81,6 @@ class GroupDetailClassView: UIView {
         ])
     }
     
-    // MARK: 需要寫上
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

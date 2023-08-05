@@ -2,7 +2,7 @@
 //  CreateGroupTableViewCell.swift
 //  FunLife
 //
-//  Created by 邱慧珊 on 2023/6/23.
+//  Created by 尹周舶 on 2023/6/23.
 //
 
 import UIKit
@@ -33,7 +33,6 @@ class CreateGroupTableViewCell: UITableViewCell {
         ])
     }
     
-    // MARK: 必需要寫上
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

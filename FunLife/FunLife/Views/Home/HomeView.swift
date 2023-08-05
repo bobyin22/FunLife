@@ -2,7 +2,7 @@
 //  HomeView.swift
 //  FunLife
 //
-//  Created by 邱慧珊 on 2023/7/1.
+//  Created by 尹周舶 on 2023/7/1.
 //
 
 import UIKit
@@ -183,7 +183,6 @@ class HomeView: UIView {
         ])
     }
     
-    // MARK: 需要寫上
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

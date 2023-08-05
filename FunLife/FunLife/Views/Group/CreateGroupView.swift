@@ -2,7 +2,7 @@
 //  CreateGroupView.swift
 //  FunLife
 //
-//  Created by 邱慧珊 on 2023/6/23.
+//  Created by 尹周舶 on 2023/6/23.
 //
 
 import UIKit

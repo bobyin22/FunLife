@@ -2,14 +2,13 @@
 //  AddTaskViewController.swift
 //  FunLife
 //
-//  Created by 邱慧珊 on 2023/6/16.
+//  Created by 尹周舶 on 2023/6/16.
 //
 
 import UIKit
 import IQKeyboardManager
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-
 
 protocol AddTaskViewControllerDelegate: AnyObject {
     func passTask(parameter: String)
@@ -19,7 +18,6 @@ protocol AddTaskViewControllerDelegate: AnyObject {
 class AddTaskViewController: UIViewController {
     let addTaskView = AddTaskView()
     var titleTaskLabel = UILabel()          // 用來接住輸入的textField，給HomeVC顯示用
-    
     
     weak var delegate: AddTaskViewControllerDelegate?
     

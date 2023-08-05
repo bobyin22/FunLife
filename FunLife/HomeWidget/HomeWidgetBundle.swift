@@ -2,7 +2,7 @@
 //  HomeWidgetBundle.swift
 //  HomeWidget
 //
-//  Created by 邱慧珊 on 2023/7/18.
+//  Created by 尹周舶 on 2023/7/18.
 //
 
 import WidgetKit

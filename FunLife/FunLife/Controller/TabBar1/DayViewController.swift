@@ -2,7 +2,7 @@
 //  DayViewController.swift
 //  FunLife
 //
-//  Created by 邱慧珊 on 2023/6/17.
+//  Created by 尹周舶 on 2023/6/17.
 //
 
 import UIKit
