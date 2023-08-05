@@ -25,13 +25,17 @@
 
 ## How To Use App 如何使用
 
-- Enable screen lock. App can notify user with a vibration when the phone is flipped, then start the countdown.
-- 打開螢幕鎖定，翻蓋時震動通知使用者，開始讀秒
+### Enable screen lock 解除螢幕鎖定
 
-<p float="left">
-  <img src="https://github.com/bobyin22/FunLife/blob/main/FunLife/ScreenShot/HowToUseAppIntro1.gif" width="220" style="margin-right: 200px;">
-  <img src="https://github.com/bobyin22/FunLife/blob/main/FunLife/ScreenShot/HowToUseAppIntro2.gif" width="220">
-</p>
+- Enable screen lock. App can notify user with a vibration when the phone is flipped, then start the countdown.
+- 打開螢幕鎖定，翻蓋時震動通知使用者
+  <img src="https://github.com/bobyin22/FunLife/blob/main/FunLife/ScreenShot/HowToUseAppIntro1.gif" width="220"/>
+
+### Add Task and flip then start count down 建立任務，翻轉，開始讀秒
+
+- Add Task completed, flip the phone to the back, and start the countdown.
+- 建立完成任務，翻轉手機至背面，開始讀秒
+  <img src="https://github.com/bobyin22/FunLife/blob/main/FunLife/ScreenShot/HowToUseAppIntro2.gif" width="220"/>
 
 ## Features 功能
 
