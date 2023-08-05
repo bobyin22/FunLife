@@ -14,7 +14,7 @@
     <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"></a>
 </p>
 
-## About
+## About 簡介
 
 <h4 align="center">Discover a whole new level of focus with ease! Our Pomodoro Timer feature allows you to concentrate effortlessly by flipping your phone, breaking free from phone addiction. Stay connected and inspired with our Group Feature, connecting you with friends anytime, anywhere. Together, let's become the best version of ourselves!<br>
   <br>
@@ -23,7 +23,13 @@
   </p>
 <br>
 
-## Features
+## How To Use App 如何使用
+
+- Enable screen lock. App can notify user with a vibration when the phone is flipped, then start the countdown.
+- 打開螢幕鎖定，翻蓋時震動通知使用者，開始讀秒
+  <image src="https://user-images.githubusercontent.com/98409685/207793752-3c1189c3-989f-4a88-8187-ee11e95c3355.gif" width="220"/><image src="https://user-images.githubusercontent.com/98409685/207794425-e002d63a-1a9d-4b18-9174-b22cc5d94da8.gif" width="220"/>
+
+## Features 功能
 
 ### Timer 計時頁
 
