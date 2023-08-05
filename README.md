@@ -23,12 +23,12 @@
   </p>
 <br>
 
-## How To Use App 如何使用
+## How To Use App 如何使用 App
 
 ### Enable screen lock 解除螢幕鎖定
 
-- Enable screen lock. App can notify user with a vibration when the phone is flipped, then start the countdown.
-- 打開螢幕鎖定，翻蓋時震動通知使用者
+- Disable screen lock. App can notify user with a vibration when the phone is flipped, then start the countdown.
+- 解除螢幕鎖定，翻蓋時震動通知使用者
 
 <img src="https://github.com/bobyin22/FunLife/blob/main/FunLife/ScreenShot/HowToUseAppIntro1.gif" width="220"/>
 
