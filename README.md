@@ -25,7 +25,7 @@
 
 ## How To Use App 如何使用 App
 
-### Enable screen lock 解除螢幕鎖定
+### Disable screen lock 解除螢幕鎖定
 
 - Disable screen lock. App can notify user with a vibration when the phone is flipped, then start the countdown.
 - 解除螢幕鎖定，翻蓋時震動通知使用者
