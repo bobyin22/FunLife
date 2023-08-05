@@ -27,7 +27,7 @@
 
 - Enable screen lock. App can notify user with a vibration when the phone is flipped, then start the countdown.
 - 打開螢幕鎖定，翻蓋時震動通知使用者，開始讀秒
-- <image src="https://github.com/bobyin22/FunLife/blob/main/FunLife/ScreenShot/HowToUseAppIntro.gif" width="220"/><image src="https://github.com/bobyin22/FunLife/blob/main/FunLife/ScreenShot/HowToUseAppIntro2.gif" width="220"/>
+  <image src="https://github.com/bobyin22/FunLife/blob/main/FunLife/ScreenShot/HowToUseAppIntro.gif" width="220"/><image src="https://github.com/bobyin22/FunLife/blob/main/FunLife/ScreenShot/HowToUseAppIntro2.gif" width="220"/>
 
 ## Features 功能
 
