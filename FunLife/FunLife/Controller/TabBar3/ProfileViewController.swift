@@ -141,7 +141,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 }
 
-
 extension ProfileViewController: FirebaseManagerDelegate {
     
     func reloadData() {}
