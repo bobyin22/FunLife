@@ -26,6 +26,7 @@ class SheetTaskTableViewCell: UITableViewCell {
     func setupSettingTime() {
         contentView.addSubview(settingTime)
         settingTime.text = "X秒"
+        settingTime.textColor = .white
         settingTime.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             settingTime.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -39,6 +40,7 @@ class SheetTaskTableViewCell: UITableViewCell {
     func setupSettingIcon() {
         contentView.addSubview(settingIcon)
         settingIcon.setImage(UIImage(systemName: "doc.plaintext"), for: .normal)
+        settingIcon.tintColor = UIColor(red: 185/255, green: 131/255, blue: 69/255, alpha: 1)
         settingIcon.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             settingIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
@@ -52,6 +54,7 @@ class SheetTaskTableViewCell: UITableViewCell {
     func setupSettingInfo() {
         contentView.addSubview(settingInfo)
         settingInfo.text = "XXX"
+        settingInfo.textColor = .white
         settingInfo.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             settingInfo.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),

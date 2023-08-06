@@ -17,6 +17,8 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     let myTableView = UITableView()
     let firebaseManager = FirebaseManager()
     
+    let selectedBackgroundView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCalendar()
@@ -33,6 +35,8 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         navbarAndtabbarsetup()
         setupDayVCNavBarColor()
         firebaseManager.delegate = self
+        
+        selectedBackgroundView.backgroundColor = UIColor(red: 58/255, green: 58/255, blue: 60/255, alpha: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,6 +116,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     func setupMyTableView() {
         view.addSubview(myTableView)
         myTableView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        myTableView.separatorStyle = .none
         myTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             myTableView.topAnchor.constraint(equalTo: calendar.bottomAnchor, constant: 0),
@@ -129,6 +134,7 @@ extension DayViewController: UITableViewDelegate {
 
 // MARK: 寫入自定義tableView的資料
 extension DayViewController: UITableViewDataSource {
+    
     
     // 分组头即将要显示
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView,
@@ -175,6 +181,7 @@ extension DayViewController: UITableViewDataSource {
         }
         cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         cell.settingInfo.text = firebaseManager.taskFirebaseArray[indexPath.row]
+        cell.selectedBackgroundView = selectedBackgroundView
         
         let hours = Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! / 3600
         let minutes = (Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 3600) / 60

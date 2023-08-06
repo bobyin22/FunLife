@@ -8,7 +8,6 @@
 import UIKit
 import FirebaseFirestore
 
-
 protocol SheetTaskViewControllerDelegate: AnyObject {
     func passValue(_ VC: SheetTaskViewController, parameter: String)
     func passValueTime(_ VC: SheetTaskViewController, parameterTime: String)
@@ -68,7 +67,7 @@ extension SheetTaskViewController: UITableViewDataSource {
         }
         
         cell.settingInfo.text = firebaseManager.taskFirebaseArray[indexPath.row]
-        
+        cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
         let hours = Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! / 3600
         let minutes = (Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 3600) / 60
         let seconds = Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 60

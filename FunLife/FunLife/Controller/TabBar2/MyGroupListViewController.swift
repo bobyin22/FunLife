@@ -16,6 +16,8 @@ class MyGroupListViewController: UIViewController {
     // MARK: 點擊進入各自的下一頁
     let groupDetailClassVC = GroupDetailClassViewController()                       // 新collection改從這進入
     
+    let selectedBackgroundView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGroupListTableView()
@@ -27,6 +29,8 @@ class MyGroupListViewController: UIViewController {
         navbarAndtabbarsetup()
         
         firebaseManager.delegate = self
+        
+        selectedBackgroundView.backgroundColor = UIColor(red: 58/255, green: 58/255, blue: 60/255, alpha: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -147,7 +151,8 @@ extension MyGroupListViewController: UITableViewDataSource {
         }
         
         cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 38/255)
-        cell.groupNameLabel.text = firebaseManager.userInGroupClassNameArray[indexPath.row]   // List的教室名稱🍀
+        cell.groupNameLabel.text = firebaseManager.userInGroupClassNameArray[indexPath.row]   // List的教室名稱
+        cell.selectedBackgroundView = selectedBackgroundView
         return cell
     }
     

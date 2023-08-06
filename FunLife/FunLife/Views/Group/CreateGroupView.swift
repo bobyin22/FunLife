@@ -80,6 +80,7 @@ class CreateGroupView: UIView {
     func setupCreateGroupTableView() {
         addSubview(createGroupTableView)
         createGroupTableView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
+        createGroupTableView.separatorStyle = .none
         // 設定View的邊界
         createGroupTableView.translatesAutoresizingMaskIntoConstraints = false
 
