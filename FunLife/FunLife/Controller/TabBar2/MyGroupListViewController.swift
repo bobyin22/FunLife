@@ -109,11 +109,16 @@ extension MyGroupListViewController: UITableViewDelegate {
 extension MyGroupListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell =  tableView.dequeueReusableCell(withIdentifier: "MyGroupListTableViewCell",
-                                                        for: indexPath) as? MyGroupListTableViewCell
-        else { return }
         
-        let selectedGroupID = firebaseManager.userInGroupClassNameArray[indexPath.row]                  // 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
+        //原本寫法
+//        guard let cell =  tableView.dequeueReusableCell(withIdentifier: "MyGroupListTableViewCell",
+//                                                        for: indexPath) as? MyGroupListTableViewCell
+//        else { return }
+        
+        //更正後寫法
+        guard let cell = tableView.cellForRow(at: indexPath) as? MyGroupListTableViewCell else { return }
+
+        let selectedGroupID = firebaseManager.userInGroupClassNameArray[indexPath.row] // 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
         
         // 如果firebase image && name 有值，通知
         let db = Firestore.firestore()
@@ -126,7 +131,7 @@ extension MyGroupListViewController: UITableViewDataSource {
                 // return
                 self.alertMsg()
             } else {
-                self.groupDetailClassVC.classNameString = selectedGroupID                            // 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
+                self.groupDetailClassVC.classNameString = selectedGroupID  // 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
                 self.groupDetailClassVC.fetchClassID = self.firebaseManager.userInGroupIDNameArray[indexPath.row]
                 self.navigationController?.pushViewController(self.groupDetailClassVC, animated: true)
             }

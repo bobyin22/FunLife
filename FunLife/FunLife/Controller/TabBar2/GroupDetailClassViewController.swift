@@ -57,7 +57,6 @@ class GroupDetailClassViewController: UIViewController {
             let shareSheertVC = UIActivityViewController( activityItems: [url], applicationActivities: nil )
             present(shareSheertVC, animated: true)
         }
-        
     }
     
     func alertMsg() {

@@ -61,12 +61,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let url = URLContexts.first?.url {
             print("URL :", url)
             
-            // MARK: 從 URL 中取得相關資訊
+            // 從 URL 中取得相關資訊
             if let scheme = url.scheme {
                 print("URL Scheme:", scheme)
             }
             
-            // MARK: 拿到 5Qmy7teqRWTJdWjbtbLy
+            // 拿到生成的亂碼 舉例：5Qmy7teqRWTJdWjbtbLy
             if let host = url.host {
                 print("URL Host:", host)
                 

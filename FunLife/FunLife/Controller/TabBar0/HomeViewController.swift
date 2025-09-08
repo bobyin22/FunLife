@@ -160,7 +160,7 @@ class HomeViewController: UIViewController {
             alertMsg()
             // MARK: 更新firebase資料   counter: counter
             let firebaseManager = FirebaseManager()
-            firebaseManager.modifyUser(counter: String(counter) ?? "nil",
+            firebaseManager.modifyUser(counter: String(counter),
                                        taskText: homeView.circleTaskButton.currentTitle ?? "nil"
             )
         case .faceDown:
@@ -227,7 +227,7 @@ class HomeViewController: UIViewController {
             let seconds = counter % 60
             let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
             homeView.circleTimerLabel.text = formattedTime
-            print("timer是", timer)
+            print("timer是", timer as Any)
             print("counter是", counter)
             
             if counter % 1500 == 0 {
