@@ -23,4 +23,3 @@ struct Group: Codable, Identifiable {
     let roomName: String
     var members: [String]
 }
-

@@ -103,7 +103,7 @@ class HomeView: UIView {
     // MARK: UI建立任務Label
     func setupTask() {
         addSubview(circleTaskButton)
-        circleTaskButton.setTitle("今日任務", for: .normal)
+        circleTaskButton.setTitle("", for: .normal)
         circleTaskButton.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)//UIColor(red: 175/255, green: 238/255, blue: 238/255, alpha: 1)
         circleTaskButton.clipsToBounds = true
         circleTaskButton.layer.cornerRadius = 8

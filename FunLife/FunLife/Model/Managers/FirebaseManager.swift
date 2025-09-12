@@ -17,7 +17,13 @@ protocol FirebaseManagerDelegate: AnyObject {
     func renderText()       // ProfileVC載入字
 }
 
-class FirebaseManager {
+protocol FirebaseServiceProtocol: AnyObject {
+    func createTask(taskText: String) -> String
+    func modifyUser(counter: String, taskText: String)
+    func createANewUserIDDocument()
+}
+
+class FirebaseManager: FirebaseServiceProtocol {
     
     // MARK: 各個函式都會用到
     let db = Firestore.firestore()
