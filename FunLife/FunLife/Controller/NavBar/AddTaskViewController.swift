@@ -11,16 +11,9 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Combine
 
-protocol AddTaskViewControllerDelegate: AnyObject {
-    func passTask(parameter: String)
-    func passTaskStartTime(parameter: String)
-}
-
 class AddTaskViewController: UIViewController {
     let addTaskView = AddTaskView()
     var titleTaskLabel = UILabel()          // 用來接住輸入的textField，給HomeVC顯示用
-
-    weak var delegate: AddTaskViewControllerDelegate?
 
     let viewModel: AddTaskViewModel
     private var cancellables = Set<AnyCancellable>()

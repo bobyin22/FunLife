@@ -73,7 +73,7 @@ class HomeViewController: UIViewController {
 
         viewModel.$currentTaskText
             .sink { [weak self] name in
-                self?.homeView.circleTaskButton.setTitle(name, for: .normal)  // UI 從 ViewModel 取得
+                self?.homeView.circleTaskButton.setTitle(name, for: .normal)
             }
             .store(in: &cancellables)
 
@@ -90,8 +90,8 @@ class HomeViewController: UIViewController {
             .sink { [weak self] shouldShow in
                 if shouldShow {
                     if let content = self?.viewModel.alertContent {
-                        self?.alertMsg(title: content.title, mssage:
-                                            content.message)
+                        self?.alertMsg(title: content.title,
+                                       mssage: content.message)
                     }
                     self?.viewModel.shouldShowAlert = false
                 }
@@ -120,12 +120,10 @@ class HomeViewController: UIViewController {
 
     // MARK: 設定nav tab 底色與字顏色
     func navbarAndtabbarsetup() {
-        // 設置 NavigationBar 的外觀
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
 
-        // 設置 TabBar 的外觀
         tabBarController?.tabBar.backgroundColor = UIColor(red: 42/255, green: 42/255, blue: 42/255, alpha: 1.0)
         tabBarController?.tabBar.barTintColor = UIColor(red: 42/255, green: 42/255, blue: 42/255, alpha: 1.0)
         tabBarController?.tabBar.shadowImage = UIImage()
@@ -156,9 +154,10 @@ class HomeViewController: UIViewController {
         addTaskButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                             target: self,
                                             action: #selector(navToAddTaskVC))
+
         addTaskButtonItem.tintColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)
 
-        navigationItem.rightBarButtonItems = [addTaskButtonItem]    // 一個按鈕
+        navigationItem.rightBarButtonItems = [addTaskButtonItem]
     }
 
     // MARK: 跳轉頁 點擊Nav進入跳轉新增任務頁面VC
@@ -174,7 +173,7 @@ class HomeViewController: UIViewController {
             homeView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             homeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             homeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)   // view.safeAreaLayoutGuide.bottomAnchor
+            homeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
 
         homeView.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
@@ -183,15 +182,38 @@ class HomeViewController: UIViewController {
 
     // MARK: 點擊任務按鈕會發生的事
     @objc func clickTaskBtn() {
-        // 5️⃣ 當作是自己
-        let sheetTaskVC = SheetTaskViewController()
+        let sheetTaskVM = SheetTaskViewModel(firebaseService: FirebaseManager())
+        let sheetTaskVC = SheetTaskViewController(viewModel: sheetTaskVM)
+
+        sheetTaskVM.$shouldDismiss
+            .sink { [weak self] shouldDismiss in
+                if shouldDismiss {
+                    self?.dismiss(animated: true)
+                }
+            }
+            .store(in: &cancellables)
+
+        sheetTaskVM.$selectedTask
+            .sink { [weak self] task in
+                if !task.isEmpty {
+                    self?.viewModel.currentTaskText = task
+                }
+            }
+            .store(in: &cancellables)
+
+        sheetTaskVM.$selectedTime
+            .sink { [weak self] time in
+                if !time.isEmpty {
+                    self?.viewModel.updateTimeFromSelection(time)
+                }
+            }
+            .store(in: &cancellables)
+
         if let sheetPresentationController = sheetTaskVC.sheetPresentationController {
             sheetPresentationController.detents = [.medium()]
             sheetPresentationController.preferredCornerRadius = 60
         }
 
-        // 6️⃣
-        sheetTaskVC.delegate = self
         present(sheetTaskVC, animated: true)
     }
 
@@ -211,16 +233,5 @@ class HomeViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-}
-
-extension HomeViewController: SheetTaskViewControllerDelegate {
-    func passValueTime(_ VC: SheetTaskViewController, parameterTime: String) {
-    }
-
-    // MARK: Delegate傳值
-    func passValue(_ VC: SheetTaskViewController, parameter: String) {
-//        print("傳出來的String Task是", parameter)
-//        homeView.circleTaskButton.setTitle(parameter, for: .normal)
     }
 }

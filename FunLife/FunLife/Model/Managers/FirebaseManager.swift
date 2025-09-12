@@ -21,6 +21,9 @@ protocol FirebaseServiceProtocol: AnyObject {
     func createTask(taskText: String) -> String
     func modifyUser(counter: String, taskText: String)
     func createANewUserIDDocument()
+    func fetchTodayTasks()
+    var taskFirebaseArray: [String] { get }
+    var taskFirebaseTimeArray: [String] { get }
 }
 
 class FirebaseManager: FirebaseServiceProtocol {

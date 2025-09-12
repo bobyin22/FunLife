@@ -28,7 +28,13 @@ class HomeViewModel: ObservableObject {
     @Published var currentOrientation: String = "Unknown"
     @Published var shouldVibrate: Bool = false
     @Published var shouldShowAlert: Bool = false
-    @Published var currentTaskText: String = ""
+    @Published var currentTaskText: String = ""{
+        didSet {
+            if !currentTaskText.isEmpty && currentTaskText != oldValue {
+                resetTimer()
+            }
+        }
+    }
     @Published var shouldPlayMusic: Bool = false
     private let player = AVPlayer()
     @Published var alertContent: AlertContent?
@@ -48,16 +54,9 @@ class HomeViewModel: ObservableObject {
         if timer == nil {
             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
                 self.counter += 1
-                self.formattedTime = self.formatTime(self.counter)
+                self.formattedTime = self.counter.toTimeString()
             })
         }
-    }
-
-    private func formatTime(_ seconds: Int) -> String {
-        let hours = seconds / 3600
-        let minutes = (seconds % 3600) / 60
-        let secs = seconds % 60
-        return String(format: "%02d:%02d:%02d", hours, minutes, secs)
     }
 
     func handleOrientationChange(_ orientation: UIDeviceOrientation) {
@@ -111,4 +110,15 @@ class HomeViewModel: ObservableObject {
     func triggerAddTaskNavigation() {
         shouldNavigateToAddTask = true
     }
+
+    func resetTimer() {
+          stopTimer()
+          counter = 0
+          formattedTime = "00:00:00"
+      }
+
+    func updateTimeFromSelection(_ timeString: String) {
+          formattedTime = timeString
+        counter = timeString.toTimeSeconds()
+      }
 }
