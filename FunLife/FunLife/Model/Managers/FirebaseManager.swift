@@ -21,9 +21,15 @@ protocol FirebaseServiceProtocol: AnyObject {
     func createTask(taskText: String) -> String
     func modifyUser(counter: String, taskText: String)
     func createANewUserIDDocument()
+    func fetchTodayTasks(completion: @escaping () -> Void)
+    func deleteTodayTask(deleteIndex: IndexPath)
+    var taskFirebaseArray: [String] { get }
+    var taskFirebaseTimeArray: [String] { get }
+    
 }
 
 class FirebaseManager: FirebaseServiceProtocol {
+
     
     // MARK: 各個函式都會用到
     let db = Firestore.firestore()
@@ -122,7 +128,7 @@ class FirebaseManager: FirebaseServiceProtocol {
     }
     
     // MARK: 點擊任務 半截VC要fetch的任務資料 (SheetTaskVC)
-    func fetchTodayTasks() {
+    func fetchTodayTasks(completion: @escaping () -> Void = {}) {
         sumTime = 0
         taskFirebaseArray.removeAll()
         taskFirebaseTimeArray.removeAll()
@@ -141,6 +147,7 @@ class FirebaseManager: FirebaseServiceProtocol {
                 indexNumber += 1
             }
             self.delegate?.reloadData()
+            completion()
         }
     }
     

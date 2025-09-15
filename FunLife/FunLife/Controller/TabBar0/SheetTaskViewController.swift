@@ -6,19 +6,24 @@
 //
 
 import UIKit
+import Combine
 import FirebaseFirestore
 
-protocol SheetTaskViewControllerDelegate: AnyObject {
-    func passValue(_ VC: SheetTaskViewController, parameter: String)
-    func passValueTime(_ VC: SheetTaskViewController, parameterTime: String)
-}
-
 class SheetTaskViewController: UIViewController {
-    
+
+    let viewModel: SheetTaskViewModel
     let myTaskTableView = UITableView()
-    let firebaseManager = FirebaseManager()
-    weak var delegate: SheetTaskViewControllerDelegate?
-    
+    private var cancellables = Set<AnyCancellable>()
+
+    init(viewModel: SheetTaskViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 186/255, green: 129/255, blue: 71/255, alpha: 1)
@@ -26,11 +31,17 @@ class SheetTaskViewController: UIViewController {
         myTaskTableView.delegate = self
         myTaskTableView.dataSource = self
         setupTableView()
-        
-        firebaseManager.delegate = self
-        firebaseManager.fetchTodayTasks()
+
+        viewModel.loadTasks()
+
+        viewModel.$tasks
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.myTaskTableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
-    
+
     // MARK: 建立半截VC的tableView
     func setupTableView() {
         view.addSubview(myTaskTableView)
@@ -51,64 +62,37 @@ extension SheetTaskViewController: UITableViewDelegate {
 
 // MARK: 寫入自定義tableView的資料
 extension SheetTaskViewController: UITableViewDataSource {
-    
+
     // MARK: 幾個row
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        firebaseManager.taskFirebaseArray.count
+        viewModel.tasks.count
     }
-    
+
     // MARK: 每個Cell內要顯示的資料
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SheetTaskTableViewCell", for: indexPath) as? SheetTaskTableViewCell
         else {
             // 處理轉換失敗的情況，例如創建一個預設的 UITableViewCell
             return UITableViewCell()
         }
-        
-        cell.settingInfo.text = firebaseManager.taskFirebaseArray[indexPath.row]
+
+        cell.settingInfo.text = viewModel.getTask(at: indexPath.row)
+        cell.settingTime.text = viewModel.getTaskTime(at: indexPath.row)
         cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
-        let hours = Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! / 3600
-        let minutes = (Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 3600) / 60
-        let seconds = Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 60
-        let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-        cell.settingTime.text = formattedTime
-        
         return cell
     }
-    
+
     // MARK: 點選Cell執行的動作
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        delegate?.passValue(self, parameter: firebaseManager.taskFirebaseArray[indexPath.row])
-        delegate?.passValueTime(self, parameterTime: firebaseManager.taskFirebaseTimeArray[indexPath.row])
-        
+        viewModel.selectTask(at: indexPath.row)
         dismiss(animated: true, completion: nil)
     }
-    
+
     // MARK: Row Deleting
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        // 若編輯模式為.delete --> 可執行刪除
         if editingStyle == .delete {
-            firebaseManager.deleteTodayTask(deleteIndex: indexPath)
-            // 執行刪除操作，例如從資料源中刪除對應的資料
-            firebaseManager.taskFirebaseArray.remove(at: indexPath.row)         // indexPath.row --> 我們點擊的row
-            firebaseManager.taskFirebaseTimeArray.remove(at: indexPath.row)     // indexPath.row --> 我們點擊的row
-            tableView.deleteRows(at: [indexPath], with: .fade)                  // [indexPath]--> 我們點擊的row (ex.[(section0, row5)])
+            viewModel.deleteTask(at: indexPath.row)
         }
     }
-    
-}
-
-extension SheetTaskViewController: FirebaseManagerDelegate {
-    
-    func renderText() {}
-    
-    func kfRenderImg() {}
-    
-    // 實作 FirebaseManagerDelegate 協議的方法，當 FirebaseManager 完成任務獲取後，通知重新載入數據
-    func reloadData() {
-        self.myTaskTableView.reloadData()
-    }
-    
 }

@@ -23,4 +23,12 @@ final class AddTaskViewModel: ObservableObject {
         self.editingTaskText = taskText
         shouldDismiss = true
     }
+
+    func cancelTask() {
+        shouldDismiss = true
+    }
+
+    func resetInput() {
+        editingTaskText = ""
+    }
 }

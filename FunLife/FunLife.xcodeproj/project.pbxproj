@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		4F052A2E2E711A3B001DE4FC /* AddTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F052A2C2E711A3B001DE4FC /* AddTaskViewModel.swift */; };
 		4F052A2F2E711A3B001DE4FC /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F052A2D2E711A3B001DE4FC /* HomeViewModel.swift */; };
+		4F052A362E73C857001DE4FC /* SheetTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F052A352E73C842001DE4FC /* SheetTaskViewModel.swift */; };
+		4F052A392E74151A001DE4FC /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F052A382E74150E001DE4FC /* String+Extension.swift */; };
+		4F052A3B2E74156D001DE4FC /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F052A3A2E741566001DE4FC /* Int+Extension.swift */; };
 		8E3D8D20EE631C81AEAC6530 /* Pods_FunLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDD65060761FD46356DD5941 /* Pods_FunLife.framework */; };
 		A808A9082A39CCC300237AD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9072A39CCC300237AD7 /* AppDelegate.swift */; };
 		A808A90A2A39CCC300237AD7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A808A9092A39CCC300237AD7 /* SceneDelegate.swift */; };
@@ -92,6 +95,9 @@
 /* Begin PBXFileReference section */
 		4F052A2C2E711A3B001DE4FC /* AddTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewModel.swift; sourceTree = "<group>"; };
 		4F052A2D2E711A3B001DE4FC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		4F052A352E73C842001DE4FC /* SheetTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetTaskViewModel.swift; sourceTree = "<group>"; };
+		4F052A382E74150E001DE4FC /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		4F052A3A2E741566001DE4FC /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		54458245F1A42E52319D0FA9 /* Pods-FunLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunLife.debug.xcconfig"; path = "Target Support Files/Pods-FunLife/Pods-FunLife.debug.xcconfig"; sourceTree = "<group>"; };
 		725D3A52CF6B4BF808496703 /* Pods-FunLife.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FunLife.release.xcconfig"; path = "Target Support Files/Pods-FunLife/Pods-FunLife.release.xcconfig"; sourceTree = "<group>"; };
 		A808A9042A39CCC300237AD7 /* FunLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,10 +193,20 @@
 		4F052A342E71763F001DE4FC /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				4F052A352E73C842001DE4FC /* SheetTaskViewModel.swift */,
 				4F052A2C2E711A3B001DE4FC /* AddTaskViewModel.swift */,
 				4F052A2D2E711A3B001DE4FC /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4F052A372E7414C3001DE4FC /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				4F052A3A2E741566001DE4FC /* Int+Extension.swift */,
+				4F052A382E74150E001DE4FC /* String+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		A808A8FB2A39CCC300237AD7 = {
@@ -218,6 +234,7 @@
 		A808A9062A39CCC300237AD7 /* FunLife */ = {
 			isa = PBXGroup;
 			children = (
+				4F052A372E7414C3001DE4FC /* Extension */,
 				A808A9072A39CCC300237AD7 /* AppDelegate.swift */,
 				A808A9092A39CCC300237AD7 /* SceneDelegate.swift */,
 				A808A9212A3AC31700237AD7 /* Model */,
@@ -626,6 +643,7 @@
 				A8D7F8EC2A58048300DE4CFA /* AddTaskView.swift in Sources */,
 				A887B2502A458392003AD6E3 /* CreateGroupTableViewCell.swift in Sources */,
 				A85E55AA2A500DB00090A15E /* HomeView.swift in Sources */,
+				4F052A392E74151A001DE4FC /* String+Extension.swift in Sources */,
 				A808A92A2A3BD14A00237AD7 /* SettingTableViewCell.swift in Sources */,
 				A808A95C2A3D9DC900237AD7 /* DayTableViewCell.swift in Sources */,
 				A894F97D2A45708100550196 /* CreateGroupViewController.swift in Sources */,
@@ -637,9 +655,11 @@
 				A894F9822A45724F00550196 /* MyGroupListTableViewCell.swift in Sources */,
 				A808A90A2A39CCC300237AD7 /* SceneDelegate.swift in Sources */,
 				A887B24E2A458003003AD6E3 /* CreateGroupView.swift in Sources */,
+				4F052A3B2E74156D001DE4FC /* Int+Extension.swift in Sources */,
 				A808A92C2A3C0FDA00237AD7 /* AddTaskViewController.swift in Sources */,
 				A887B25A2A48319C003AD6E3 /* ProfileView.swift in Sources */,
 				A8D7F9552A661EAC00DE4CFA /* HomeWidget.intentdefinition in Sources */,
+				4F052A362E73C857001DE4FC /* SheetTaskViewModel.swift in Sources */,
 				4F052A2E2E711A3B001DE4FC /* AddTaskViewModel.swift in Sources */,
 				4F052A2F2E711A3B001DE4FC /* HomeViewModel.swift in Sources */,
 				A8D7F8F02A58256B00DE4CFA /* GroupDetailClassView.swift in Sources */,

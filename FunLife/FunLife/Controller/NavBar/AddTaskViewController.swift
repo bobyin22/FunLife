@@ -11,16 +11,8 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Combine
 
-protocol AddTaskViewControllerDelegate: AnyObject {
-    func passTask(parameter: String)
-    func passTaskStartTime(parameter: String)
-}
-
 class AddTaskViewController: UIViewController {
     let addTaskView = AddTaskView()
-    var titleTaskLabel = UILabel()          // 用來接住輸入的textField，給HomeVC顯示用
-
-    weak var delegate: AddTaskViewControllerDelegate?
 
     let viewModel: AddTaskViewModel
     private var cancellables = Set<AnyCancellable>()
@@ -44,7 +36,7 @@ class AddTaskViewController: UIViewController {
     // MARK: 切回Tab時顯示
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        addTaskView.addTaskTextField.text = ""
+        viewModel.resetInput()
     }
 
     func setupBinding() {
@@ -53,6 +45,12 @@ class AddTaskViewController: UIViewController {
                 if shouldDismiss {
                     self?.navigationController?.popViewController(animated: true)
                 }
+            }
+            .store(in: &cancellables)
+
+        viewModel.$editingTaskText
+            .sink { [weak self] text in
+                self?.addTaskView.addTaskTextField.text = text
             }
             .store(in: &cancellables)
     }
@@ -72,7 +70,7 @@ class AddTaskViewController: UIViewController {
     }
 
     @objc func cancelTaskToFirebase() {
-        self.navigationController?.popViewController(animated: true)
+        viewModel.cancelTask()
     }
 
     // MARK: UI儲存按鈕的objc要執行的事情(讓HomeVC知道新增任務)
