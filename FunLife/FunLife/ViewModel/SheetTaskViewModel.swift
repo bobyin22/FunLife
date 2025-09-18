@@ -22,8 +22,12 @@ class SheetTaskViewModel: ObservableObject {
     @Published var tasks: [String] = []
     @Published var taskTimes: [String] = []
 
+    var taskCount: Int {
+        firebaseService.taskFirebaseArray.count
+    }
+
     func loadTasks() {
-        firebaseService.fetchTodayTasks() { [weak self] in
+        firebaseService.fetchDayTasks() { [weak self] in
             guard let self else { return }
             DispatchQueue.main.async {
                 self.tasks = self.firebaseService.taskFirebaseArray
@@ -36,10 +40,6 @@ class SheetTaskViewModel: ObservableObject {
         selectedTask = firebaseService.taskFirebaseArray[index]
         selectedTime = Int(firebaseService.taskFirebaseTimeArray[index])?.toTimeString() ?? "00:00:00"
         shouldDismiss = true
-    }
-
-    var taskCount: Int {
-        firebaseService.taskFirebaseArray.count
     }
 
     func getTask(at index: Int) -> String {

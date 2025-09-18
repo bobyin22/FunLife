@@ -21,11 +21,12 @@ protocol FirebaseServiceProtocol: AnyObject {
     func createTask(taskText: String) -> String
     func modifyUser(counter: String, taskText: String)
     func createANewUserIDDocument()
-    func fetchTodayTasks(completion: @escaping () -> Void)
+    func fetchDayTasks(completion: @escaping () -> Void)
     func deleteTodayTask(deleteIndex: IndexPath)
     var taskFirebaseArray: [String] { get }
     var taskFirebaseTimeArray: [String] { get }
-    
+    func setSelectedDate(day: String, month: String)
+
 }
 
 class FirebaseManager: FirebaseServiceProtocol {
@@ -127,48 +128,7 @@ class FirebaseManager: FirebaseServiceProtocol {
         }
     }
     
-    // MARK: 點擊任務 半截VC要fetch的任務資料 (SheetTaskVC)
-    func fetchTodayTasks(completion: @escaping () -> Void = {}) {
-        sumTime = 0
-        taskFirebaseArray.removeAll()
-        taskFirebaseTimeArray.removeAll()
-        
-        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").collection("\(month).\(day)").getDocuments { snapshot, error in
-            guard let snapshot else {
-                return
-            }
-            
-            let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
-            var indexNumber = 0
-            
-            for index in userDayTask {
-                self.taskFirebaseArray.append(userDayTask[indexNumber].id!) // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
-                self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
-                indexNumber += 1
-            }
-            self.delegate?.reloadData()
-            completion()
-        }
-    }
-    
-    // MARK: 左滑可以刪除任務 (SheetTaskVC)
-    func deleteTodayTask(deleteIndex: IndexPath) {
-        // 把firebase當日任務刪除
-        let documentID = taskFirebaseArray[deleteIndex.row] // 要刪除的文檔的 ID
-        let documentRef = db.collection("users")
-            .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
-            .collection("\(month).\(day)").document(documentID)
-        documentRef.delete { error in
-            if let error = error {
-                print("Error removing document: \(error)")
-            } else {
-                print("Document successfully removed!")
-            }
-        }
-    }
-    
-    // MARK: 載入日期firebase任務與時間 (DayVC)
-    func fetchDayAPI() {
+    func fetchDayTasks(completion: @escaping () -> Void = {}) {
         sumTime = 0
         taskFirebaseArray.removeAll()
         taskFirebaseTimeArray.removeAll()
@@ -184,23 +144,44 @@ class FirebaseManager: FirebaseServiceProtocol {
             .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
             .collection(collectionPath)
             .getDocuments { snapshot, error in
-                guard let snapshot = snapshot else {
-                    return
-                }
-                let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self) }
-                var indexNumber = 0
-                
-                for index in userDayTask {
-                    self.taskFirebaseArray.append(userDayTask[indexNumber].id!) // MARK: 把firebase任務塞進我的taskFirebaseArray陣列
-                    self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer) // MARK: 把firebase任務塞進我的taskFirebaseTimeArray陣列
-                    self.sumTime += Int(userDayTask[indexNumber].timer) ?? 0
-                    indexNumber += 1
-                }
-
-                self.delegate?.reloadData()
+            guard let snapshot else {
+                return
             }
+
+            let userDayTask = snapshot.documents.compactMap { snapshot in try? snapshot.data(as: Users.self)}
+            var indexNumber = 0
+
+            for index in userDayTask {
+                self.taskFirebaseArray.append(userDayTask[indexNumber].id!)
+                self.taskFirebaseTimeArray.append(userDayTask[indexNumber].timer)
+                self.sumTime += Int(userDayTask[indexNumber].timer) ?? 0
+                indexNumber += 1
+            }
+            completion()
+        }
     }
-    
+
+    func setSelectedDate(day: String, month: String) {
+        self.dayString = day
+        self.monthString = month
+    }
+
+    // MARK: 左滑可以刪除任務 (SheetTaskVC)
+    func deleteTodayTask(deleteIndex: IndexPath) {
+        // 把firebase當日任務刪除
+        let documentID = taskFirebaseArray[deleteIndex.row] // 要刪除的文檔的 ID
+        let documentRef = db.collection("users")
+            .document("\(UserDefaults.standard.string(forKey: "myUserID")!)")
+            .collection("\(month).\(day)").document(documentID)
+        documentRef.delete { error in
+            if let error = error {
+                print("Error removing document: \(error)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
+
     // MARK: 抓取firebase上的資料 (MyGroupListVC)
     func fetchGroupListAPI() {
                 
@@ -369,5 +350,4 @@ class FirebaseManager: FirebaseServiceProtocol {
             }
         }
     }
-    
 }

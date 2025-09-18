@@ -6,18 +6,24 @@
 //
 
 import UIKit
+import Combine
 import FSCalendar
-import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 class DayViewController: UIViewController, FSCalendarDelegate {
-    
+
+    let viewModel: DayViewModel
+
     var calendar: FSCalendar!
-    var formatter = DateFormatter()
     let myTableView = UITableView()
-    let firebaseManager = FirebaseManager()
     
     let selectedBackgroundView = UIView()
+    private var cancellables = Set<AnyCancellable>()
+
+    required init?(coder: NSCoder) {
+        let firebaseManager = FirebaseManager()
+        self.viewModel = DayViewModel(firebaseService: firebaseManager)
+        super.init(coder: coder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,17 +40,27 @@ class DayViewController: UIViewController, FSCalendarDelegate {
         
         navbarAndtabbarsetup()
         setupDayVCNavBarColor()
-        firebaseManager.delegate = self
         
         selectedBackgroundView.backgroundColor = UIColor(red: 58/255, green: 58/255, blue: 60/255, alpha: 1)
+
+        biding()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        firebaseManager.fetchDayAPI()
+        viewModel.fetch()
         self.myTableView.reloadData()
     }
-    
+
+    func biding() {
+        viewModel.$tasks
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.myTableView.reloadData()
+            }
+            .store(in: &cancellables)
+    }
+
     // MARK: 設定nav tab 底色與字顏色
     func navbarAndtabbarsetup() {
         // 設置 NavigationBar 的外觀
@@ -87,16 +103,7 @@ class DayViewController: UIViewController, FSCalendarDelegate {
     // MARK: - Delegate
     // MARK: 點擊日，會印出當日日期
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        formatter.dateFormat = "dd-MMM-yyyy"
-        print("Date Selected == \(formatter.string(from: date))")
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd" // 顯示日期的格式，只保留日
-        firebaseManager.dayString = formatter.string(from: date)
-        
-        formatter.dateFormat = "M" // 顯示月份的格式，只保留月
-        firebaseManager.monthString = formatter.string(from: date)
-        firebaseManager.fetchDayAPI()
+        viewModel.selectDate(date)
     }
     
     func setupDayVCNavBarColor() {
@@ -134,9 +141,9 @@ extension DayViewController: UITableViewDelegate {
 
 // MARK: 寫入自定義tableView的資料
 extension DayViewController: UITableViewDataSource {
-    
-    // 分组头即将要显示
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView,
+
+    func tableView(_ tableView: UITableView,
+                   willDisplayHeaderView view: UIView,
                    forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.textColor = UIColor(red: 185/255, green: 131/255, blue: 69/255, alpha: 1) // UIColor.orange
@@ -158,16 +165,11 @@ extension DayViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        let hours = firebaseManager.sumTime / 3600
-        let minutes = firebaseManager.sumTime % 3600 / 60
-        let seconds = firebaseManager.sumTime % 60
-        let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-        return "本日專注累計\(formattedTime)"
+        return viewModel.headTitle
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return firebaseManager.taskFirebaseArray.count
+        return viewModel.taskCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -179,27 +181,12 @@ extension DayViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 1)
-        cell.settingInfo.text = firebaseManager.taskFirebaseArray[indexPath.row]
+        cell.settingInfo.text = viewModel.getTask(at: indexPath.row)
         cell.selectedBackgroundView = selectedBackgroundView
-        
-        let hours = Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! / 3600
-        let minutes = (Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 3600) / 60
-        let seconds = Int(firebaseManager.taskFirebaseTimeArray[indexPath.row])! % 60
-        let formattedTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-        cell.settingTime.text = formattedTime
-        
+
+        let taskTime = Int(viewModel.getTaskTime(at: indexPath.row))
+        cell.settingTime.text = taskTime?.toTimeString()
         return cell
         
     }
-}
-
-extension DayViewController: FirebaseManagerDelegate {
-    func renderText() {}
-    
-    func kfRenderImg() {}
-    
-    // 設定tableView資料源後調用的方法
-        func reloadData() {
-            myTableView.reloadData()
-        }
 }

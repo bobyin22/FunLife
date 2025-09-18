@@ -9,8 +9,6 @@ import UIKit
 import Combine
 import Foundation
 import AVFoundation
-import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 class HomeViewController: UIViewController {
 
@@ -29,12 +27,6 @@ class HomeViewController: UIViewController {
     }()
 
     private var cancellables = Set<AnyCancellable>()
-
-    init(viewModel: HomeViewModel, firebaseService: FirebaseServiceProtocol) {
-        self.viewModel = viewModel
-        self.sharedFirebaseService = firebaseService
-        super.init(nibName: nil, bundle: nil)
-    }
 
     required init?(coder: NSCoder) {
         self.sharedFirebaseService = FirebaseManager()
