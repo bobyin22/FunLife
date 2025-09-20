@@ -6,25 +6,47 @@
 //
 
 import UIKit
-import FirebaseFirestore
-import FirebaseStorage
+import Combine
 import Kingfisher
 
 class ProfileViewController: UIViewController {
+
+    let viewModel: ProfileViewModel
+    private var cancellables = Set<AnyCancellable>()
+
+    required init?(coder: NSCoder) {
+        let firebaseManager = FirebaseManager()
+        self.viewModel = ProfileViewModel(firebaseService: firebaseManager)
+        super.init(coder: coder)
+    }
     
     let profileView = ProfileView()
-    let storage = Storage.storage().reference()
-    var myUrl = ""
     let firebaseManager = FirebaseManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupProfileView()
-        firebaseManager.fetchMyImage()
+        viewModel.fetch()
         setupProfileVCNavBarColor()
-        firebaseManager.delegate = self
+        dataBinding()
     }
-    
+
+    func dataBinding() {
+        viewModel.$profileImage
+            .sink { [weak self] url in
+                guard let self else { return }
+                self.profileView.profilePhotoImageView.kf.setImage(with: url)
+            }
+            .store(in: &cancellables)
+
+        viewModel.$profilename
+            .sink { [weak self] name in
+                guard let self else { return }
+                self.profileView.profileNameTextField.text = name
+            }
+            .store(in: &cancellables)
+    }
+
     func setupProfileVCNavBarColor() {
         let profileVCNavBarColorView = UIView()
         view.addSubview(profileVCNavBarColorView)
@@ -87,7 +109,8 @@ class ProfileViewController: UIViewController {
     
     // 點擊儲存按鈕
     @objc func clickSaveProfileBtn() {
-        firebaseManager.modifyAPIName(paramaterUserName: profileView.profileNameTextField.text ?? "nil")     // 把名字打入cloud firestore database
+        let name = profileView.profileNameTextField.text ?? ""
+        viewModel.saveUserProfile(name)
     }
 }
 
@@ -96,42 +119,13 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     // 選到照片
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        // 路徑 = 亂數 + .jpg
-        func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
-                let fileReference = Storage.storage().reference().child(UUID().uuidString + ".jpg")
-                if let data = image.jpegData(compressionQuality: 0.9) {
-                    
-                    fileReference.putData(data, metadata: nil) { result in
-                        switch result {
-                        case .success:
-                             fileReference.downloadURL(completion: completion)
-                        case .failure(let error):
-                            completion(.failure(error))
-                        }
-                    }
-                }
-        }
-
         // 把選到照片傳上fire storage
-        if let selectedImage = info[.originalImage] as? UIImage { didSelectPhoto(selectedImage) }
-            picker.dismiss(animated: true, completion: nil)
-        
-        // 使用 UIImagePickerController 選擇照片後呼叫的方法
-        func didSelectPhoto(_ photo: UIImage) {
-            uploadPhoto(image: photo) { result in
-                switch result {
-                case .success(let url):
-                    print("上傳成功，下載連結：\(url)")
-                    self.myUrl = url.absoluteString
-                    self.firebaseManager.passUrlToUserFirebaseDataBase(myUrlString: self.myUrl)
-                case .failure(let error):
-                    print("上傳失敗，錯誤訊息：\(error)")
-                }
-            }
+        if let selectedImage = info[.originalImage] as? UIImage {
+            // 立即顯示選中的照片
+            profileView.profilePhotoImageView.image = selectedImage
+            // 背景上傳並更新 URL
+            viewModel.didSelectPhoto(selectedImage)
         }
-
-        // 取得相機拍下的照片  賦值給 我VC的UI照片元件
-        profileView.profilePhotoImageView.image = info[.originalImage] as? UIImage
         picker.dismiss(animated: true, completion: nil)
     }
     
@@ -139,18 +133,4 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-}
-
-extension ProfileViewController: FirebaseManagerDelegate {
-    
-    func reloadData() {}
-    
-    func kfRenderImg() {
-        self.profileView.profilePhotoImageView.kf.setImage(with: firebaseManager.profileVCImageUrl)  // imageUrl
-    }
-    
-    func renderText() {
-        self.profileView.profileNameTextField.text = firebaseManager.profileVCPassString
-    }
-    
 }

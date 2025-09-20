@@ -9,6 +9,7 @@ import UIKit
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseStorage
 
 // MARK: Manager抓抓完今日任務資料要通知SheetTaskVC (SheetTaskVC)
 protocol FirebaseManagerDelegate: AnyObject {
@@ -26,6 +27,10 @@ protocol FirebaseServiceProtocol: AnyObject {
     var taskFirebaseArray: [String] { get }
     var taskFirebaseTimeArray: [String] { get }
     func setSelectedDate(day: String, month: String)
+    func fetchMyImage(completion: @escaping (URL?, String) -> Void)
+    func modifyUserName(_ name: String)
+    func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void)
+    func passUrlToUserFirebaseDataBase(myUrlString: String)
 
 }
 
@@ -297,8 +302,8 @@ class FirebaseManager: FirebaseServiceProtocol {
     }
     
     // MARK: 名字上傳至firestore database (ProfileVC)
-    func modifyAPIName(paramaterUserName: String) {
-        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").updateData(["name": paramaterUserName]) { error in
+    func modifyUserName(_ name: String) {
+        db.collection("users").document("\(UserDefaults.standard.string(forKey: "myUserID")!)").updateData(["name": name]) { error in
             if let error = error {
                 print("Document 建立失敗")
             } else {
@@ -309,34 +314,58 @@ class FirebaseManager: FirebaseServiceProtocol {
     
     // MARK: 一進入畫面去抓取firebase圖片 (ProfileVC)
     // users -> 個人ID -> image: "" 拿資料
-    func fetchMyImage() {
+    func fetchMyImage(completion: @escaping (URL?, String) -> Void) {
         let db = Firestore.firestore()
-        db.collection("users").document(UserDefaults.standard.string(forKey: "myUserID")!).getDocument() { snapshot, error in
-             guard let snapshot = snapshot,
-                   let data = snapshot.data() else { return }
-            
-            // 如果裡面有url載入
-            // 如果沒有url，不做事
-            if snapshot.data()!["image"] == nil {
-                return
-            } else {
-                print("snapshot.data()!", snapshot.data()!["image"]!)
 
-                if let imageUrlString = snapshot.data()?["image"] as? String,
-                   let imageUrl = URL(string: imageUrlString) {
-                    self.profileVCImageUrl = imageUrl
-                    self.delegate?.kfRenderImg()
+        db.collection("users")
+            .document(UserDefaults.standard.string(forKey: "myUserID")!)
+            .getDocument() { snapshot, error in
+                guard let snapshot = snapshot,
+                      let data = snapshot.data() else {
+                    completion(nil, "")
+                    return
+                }
+
+                var finalImageUrl: URL? = nil
+                var finalName: String = ""
+
+                // 如果裡面有url載入
+                // 如果沒有url，不做事
+                if snapshot.data()!["image"] == nil {
+                    return
+                } else {
+                    print("snapshot.data()!", snapshot.data()!["image"]!)
+
+                    if let imageUrlString = snapshot.data()?["image"] as? String,
+                       let imageUrl = URL(string: imageUrlString) {
+                        finalImageUrl = imageUrl
+                    }
+                }
+
+                if snapshot.data()!["name"] == nil {
+                    return
+                } else {
+                    finalName = snapshot.data()?["name"]! as? String ?? "nil"
+                }
+                completion(finalImageUrl, finalName)
+            }
+    }
+    
+    
+    // 路徑 = 亂數 + .jpg
+    func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+            let fileReference = Storage.storage().reference().child(UUID().uuidString + ".jpg")
+            if let data = image.jpegData(compressionQuality: 0.9) {
+                
+                fileReference.putData(data, metadata: nil) { result in
+                    switch result {
+                    case .success:
+                         fileReference.downloadURL(completion: completion)
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
                 }
             }
-
-            if snapshot.data()!["name"] == nil {
-                return
-            } else {
-                self.profileVCPassString = snapshot.data()?["name"]! as? String ?? "nil"
-                self.delegate?.renderText()
-            }
-            
-        }
     }
     
     // MARK: 把url傳到使用者 (ProfileVC)
@@ -350,4 +379,6 @@ class FirebaseManager: FirebaseServiceProtocol {
             }
         }
     }
+    
+    
 }
