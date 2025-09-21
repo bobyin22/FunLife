@@ -31,7 +31,8 @@ protocol FirebaseServiceProtocol: AnyObject {
     func modifyUserName(_ name: String)
     func uploadPhoto(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void)
     func passUrlToUserFirebaseDataBase(myUrlString: String)
-
+    func fetchGroupListAPI(completion: @escaping ([String], [String]) -> Void)
+    func checkUserHaveGroup(completion: @escaping (Bool) -> Void)
 }
 
 class FirebaseManager: FirebaseServiceProtocol {
@@ -188,10 +189,10 @@ class FirebaseManager: FirebaseServiceProtocol {
     }
 
     // MARK: 抓取firebase上的資料 (MyGroupListVC)
-    func fetchGroupListAPI() {
+    func fetchGroupListAPI(completion: @escaping ([String], [String]) -> Void) {
                 
         // MARK: group下document，且 members欄是使用者，才顯示教室
-        db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)").addSnapshotListener { snapshot, error in
+        db.collection("group").whereField("members", arrayContains: "\(UserDefaults.standard.string(forKey: "myUserID")!)").addSnapshotListener { [self] snapshot, error in
             guard let snapshot = snapshot else { return }
             
             let userGroup = snapshot.documents.compactMap { snapshot in
@@ -209,8 +210,24 @@ class FirebaseManager: FirebaseServiceProtocol {
                 self.userInGroupIDNameArray.append(userGroup[indexNumber].groupID)
                 indexNumber += 1
             }
-            self.delegate?.reloadData()
+            completion(self.userInGroupClassNameArray, self.userInGroupIDNameArray)
         }
+    }
+    
+    func checkUserHaveGroup(completion: @escaping (Bool) -> Void) {
+        db.collection("users")
+            .document(UserDefaults.standard.string(forKey: "myUserID")!)
+            .getDocument { snapshot, error in
+                guard let snapshot = snapshot,
+                      let data = snapshot.data() else {
+                    completion(false)
+                    return
+                }
+                
+                let hasImage = data["image"] != nil
+                let hasName = data["name"] != nil
+                completion(hasImage && hasName)
+            }
     }
     
     // MARK: 建立firebase群組 (CreateGroupVC)

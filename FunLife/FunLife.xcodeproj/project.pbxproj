@@ -61,6 +61,7 @@
 		A8D7F9B42A6D191700DE4CFA /* FunLifeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9B32A6D191700DE4CFA /* FunLifeTests.swift */; };
 		A8D7F9BB2A6D237600DE4CFA /* FirebaseManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9BA2A6D237600DE4CFA /* FirebaseManagerTests.swift */; };
 		A8D7F9BD2A6D4D1700DE4CFA /* HomeViewControllerTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7F9BC2A6D4D1700DE4CFA /* HomeViewControllerTexts.swift */; };
+		A8E0C2232E7ECE5600DA331B /* MyGroupListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E0C2222E7ECE4E00DA331B /* MyGroupListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +154,7 @@
 		A8D7F9B32A6D191700DE4CFA /* FunLifeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunLifeTests.swift; sourceTree = "<group>"; };
 		A8D7F9BA2A6D237600DE4CFA /* FirebaseManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManagerTests.swift; sourceTree = "<group>"; };
 		A8D7F9BC2A6D4D1700DE4CFA /* HomeViewControllerTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerTexts.swift; sourceTree = "<group>"; };
+		A8E0C2222E7ECE4E00DA331B /* MyGroupListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGroupListViewModel.swift; sourceTree = "<group>"; };
 		DDD65060761FD46356DD5941 /* Pods_FunLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -197,11 +199,12 @@
 		4F052A342E71763F001DE4FC /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				4FF0B3E02E7BC17000D68FED /* ProfileViewModel.swift */,
 				4F052A2D2E711A3B001DE4FC /* HomeViewModel.swift */,
 				4F052A2C2E711A3B001DE4FC /* AddTaskViewModel.swift */,
 				4F052A352E73C842001DE4FC /* SheetTaskViewModel.swift */,
 				4FF0B27D2E7A50D500D68FED /* DayViewModel.swift */,
+				4FF0B3E02E7BC17000D68FED /* ProfileViewModel.swift */,
+				A8E0C2222E7ECE4E00DA331B /* MyGroupListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -657,6 +660,7 @@
 				A8D7F8EE2A58252900DE4CFA /* GroupDetailClassViewController.swift in Sources */,
 				A808A9262A3AC38000237AD7 /* HomeViewController.swift in Sources */,
 				A808A9082A39CCC300237AD7 /* AppDelegate.swift in Sources */,
+				A8E0C2232E7ECE5600DA331B /* MyGroupListViewModel.swift in Sources */,
 				A84F64102A4151E30064D9FC /* SheetTaskViewController.swift in Sources */,
 				A887B25D2A48349E003AD6E3 /* ProfileViewController.swift in Sources */,
 				4FF0B27E2E7A50DC00D68FED /* DayViewModel.swift in Sources */,

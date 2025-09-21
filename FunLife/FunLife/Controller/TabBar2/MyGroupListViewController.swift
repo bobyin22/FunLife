@@ -6,17 +6,21 @@
 //
 
 import UIKit
-import FirebaseFirestore
+import Combine
 
 class MyGroupListViewController: UIViewController {
     
+    let viewModel: MyGroupListViewModel
+    private var cancellables = Set<AnyCancellable>()
     let groupListTableView = UITableView()
-    let firebaseManager = FirebaseManager()
-    
-    // MARK: 點擊進入各自的下一頁
-    let groupDetailClassVC = GroupDetailClassViewController()                       // 新collection改從這進入
-    
+    let groupDetailClassVC = GroupDetailClassViewController()
     let selectedBackgroundView = UIView()
+    
+    required init?(coder: NSCoder) {
+        let firebaseManager = FirebaseManager()
+        self.viewModel = MyGroupListViewModel(firebaseService: firebaseManager)
+        super.init(coder: coder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,18 +31,46 @@ class MyGroupListViewController: UIViewController {
         groupListTableView.delegate = self
         groupListTableView.dataSource = self
         navbarAndtabbarsetup()
-        
-        firebaseManager.delegate = self
-        
         selectedBackgroundView.backgroundColor = UIColor(red: 58/255, green: 58/255, blue: 60/255, alpha: 1)
+        binding()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        firebaseManager.fetchGroupListAPI()
-        self.groupListTableView.reloadData()
+        viewModel.fetch()
+    }
+    
+    func binding() {
+        viewModel.$groupsName
+            .sink { [weak self] groups in
+                DispatchQueue.main.async {
+                    self?.groupListTableView.reloadData()
+                }
+            }
+            .store(in: &cancellables)
         
-        groupDetailClassVC.fetchClassID = ""
+        viewModel.$shouldNavigateToDetail
+            .sink { [weak self] navigationData in
+                guard let data = navigationData else { return }
+                self?.navigateToGroupDetail(groupName: data.groupName,
+                                            groupID: data.groupID)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$shouldShowAlert
+            .sink { [weak self] shouldShow in
+                if shouldShow {
+                    self?.alertMsg()
+                    self?.viewModel.shouldShowAlert = false
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func navigateToGroupDetail(groupName: String, groupID: String) {
+        groupDetailClassVC.classNameString = groupName
+        groupDetailClassVC.fetchClassID = groupID
+        navigationController?.pushViewController(groupDetailClassVC, animated: true)
     }
     
     // MARK: 設定nav tab 底色與字顏色
@@ -97,7 +129,6 @@ class MyGroupListViewController: UIViewController {
         }))
         self.present(alert, animated: true, completion: nil)
     }
-    
 }
 
 // MARK: 寫入要做的事
@@ -109,33 +140,7 @@ extension MyGroupListViewController: UITableViewDelegate {
 extension MyGroupListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        //原本寫法
-//        guard let cell =  tableView.dequeueReusableCell(withIdentifier: "MyGroupListTableViewCell",
-//                                                        for: indexPath) as? MyGroupListTableViewCell
-//        else { return }
-        
-        //更正後寫法
-        guard let cell = tableView.cellForRow(at: indexPath) as? MyGroupListTableViewCell else { return }
-
-        let selectedGroupID = firebaseManager.userInGroupClassNameArray[indexPath.row] // 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
-        
-        // 如果firebase image && name 有值，通知
-        let db = Firestore.firestore()
-        db.collection("users").document(UserDefaults.standard.string(forKey: "myUserID")!).getDocument() { snapshot, error in
-            guard let snapshot = snapshot else { return }
-            
-            // 如果裡面有url載入
-            // 如果沒有url，不做事
-            if snapshot.data()!["image"] == nil || snapshot.data()!["name"] == nil {
-                // return
-                self.alertMsg()
-            } else {
-                self.groupDetailClassVC.classNameString = selectedGroupID  // 獲取 使用者教室名稱，要讓下一頁Label顯示教室名稱
-                self.groupDetailClassVC.fetchClassID = self.firebaseManager.userInGroupIDNameArray[indexPath.row]
-                self.navigationController?.pushViewController(self.groupDetailClassVC, animated: true)
-            }
-        }
+        viewModel.selectGroup(at: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -143,7 +148,7 @@ extension MyGroupListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        firebaseManager.userInGroupClassNameArray.count
+        viewModel.groupsName.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -151,25 +156,12 @@ extension MyGroupListViewController: UITableViewDataSource {
         guard let cell =  tableView.dequeueReusableCell(withIdentifier: "MyGroupListTableViewCell",
                                                         for: indexPath) as? MyGroupListTableViewCell
         else {
-            // 處理轉換失敗的情況，例如創建一個預設的 UITableViewCell
             return UITableViewCell()
         }
         
         cell.backgroundColor = UIColor(red: 38/255, green: 38/255, blue: 38/255, alpha: 38/255)
-        cell.groupNameLabel.text = firebaseManager.userInGroupClassNameArray[indexPath.row]   // List的教室名稱
+        cell.groupNameLabel.text = viewModel.groupsName[indexPath.row]
         cell.selectedBackgroundView = selectedBackgroundView
         return cell
     }
-    
-}
-
-extension MyGroupListViewController: FirebaseManagerDelegate {
-    func renderText() {}
-    
-    func kfRenderImg() {}
-    
-    // 設定tableView資料源後調用的方法
-        func reloadData() {
-            groupListTableView.reloadData()
-        }
 }
